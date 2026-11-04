@@ -1,0 +1,1342 @@
+$ pnpm check:no-claude-comments && pnpm check:commit-message-line-length && pnpm check:changeset-unwrapped && pnpm format:check && pnpm check:skill-version && pnpm check:no-major-changesets && pnpm check:changeset-ignore && pnpm changeset status --since=origin/main && pnpm lint && pnpm check:dead-code && pnpm typecheck:scripts && pnpm test:scripts && pnpm check:effect-prebundle && pnpm check:ui-subpath-exports && pnpm check:circular-deps && pnpm build && pnpm -r typecheck && pnpm test && bash scripts/run-website-e2e.sh
+$ bash scripts/check-no-claude-comments.sh
+No CLAUDE: comments found.
+$ bash scripts/check-commit-message-line-length.sh
+Commit message line length OK: 6 commits checked against origin/main.
+$ node scripts/check-changeset-unwrapped.ts
+Changeset summaries OK: 2 changesets checked against origin/main.
+$ oxfmt --check
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 7119ms on 2625 files using 4 threads.
+$ bash scripts/check-skill-version.sh
+Plugin version bumped: 0.18.31 → 0.18.32
+$ bash scripts/check-no-major-changesets.sh
+No major changesets found.
+$ node scripts/check-changeset-ignore.mjs
+Changeset ignore list is up to date.
+$ changeset status --since=origin/main
+🦋 changeset v3.0.3
+
+Packages to be bumped:
+- minor
+  - @foldkit/devtools
+  - @foldkit/ui
+  - @foldkit/vite-plugin
+  - foldkit
+$ pnpm build:packages && pnpm --filter @typing-game/shared build && pnpm lint:ci
+$ node scripts/build-public-packages.mjs
+Scope: 9 of 53 workspace projects
+packages/create-foldkit-app build$ pnpm run clean && tsc -b tsconfig.build.json && node scripts/build-templates.mjs
+packages/foldkit build$ pnpm run clean && tsc -b tsconfig.build.json
+packages/oxlint-plugin-foldkit build$ pnpm run clean && rolldown -c rolldown.config.ts && tsc -b tsconfig.build.json && node scripts/generate-presets.mjs
+packages/oxlint-plugin-foldkit build: $ rimraf dist recommended.json all.json *.tsbuildinfo
+packages/create-foldkit-app build: $ rimraf dist *.tsbuildinfo
+packages/foldkit build: $ rimraf dist *.tsbuildinfo
+packages/oxlint-plugin-foldkit build: <DIR>/index.js  chunk │ size: 575.03 kB
+packages/oxlint-plugin-foldkit build: ✔ rolldown v1.2.11 Finished in 562.68 ms
+packages/oxlint-plugin-foldkit build: Done
+packages/create-foldkit-app build: Done
+packages/foldkit build: Done
+packages/markdown build$ pnpm run clean && tsc -b tsconfig.build.json
+packages/node build$ pnpm run clean && tsc -b tsconfig.build.json
+packages/vite-plugin-foldkit build$ pnpm run clean && tsc -b
+packages/markdown build: $ rimraf dist *.tsbuildinfo
+packages/vite-plugin-foldkit build: $ rimraf dist *.tsbuildinfo
+packages/node build: $ rimraf dist *.tsbuildinfo
+packages/markdown build: Done
+packages/vite-plugin-foldkit build: Done
+packages/node build: Done
+packages/devtools-mcp build$ pnpm run clean && tsc -b && pnpm run bundle
+packages/ui build$ pnpm run clean && tsc -b tsconfig.build.json && node scripts/brand-dist.mjs
+packages/ui build: $ rimraf dist *.tsbuildinfo
+packages/devtools-mcp build: $ rimraf dist *.tsbuildinfo
+packages/devtools-mcp build: $ rolldown -c rolldown.config.ts
+packages/devtools-mcp build: <DIR>/server.js  chunk │ size: 1,655.16 kB
+packages/devtools-mcp build: ✔ rolldown v1.2.11 Finished in 394.90 ms
+packages/devtools-mcp build: Done
+packages/ui build: brand-dist(@foldkit/ui): branded 49 files, skipped 38
+packages/ui build: Done
+packages/devtools build$ pnpm run clean && tsc -b tsconfig.build.json && node scripts/brand-dist.mjs
+packages/devtools build: $ rimraf dist *.tsbuildinfo
+packages/devtools build: brand-dist(@foldkit/devtools): branded 2 files, skipped 2
+packages/devtools build: Done
+$ tsc
+$ oxlint --disable-nested-config && pnpm lint:applications && pnpm lint:effect
+$ oxlint --config .oxlintrc.app.json --disable-nested-config examples packages/website/src packages/typing-game/client/src
+$ effect-tsgo patch --no-typescript --oxlint && oxlint --config .oxlintrc.effect.json --disable-nested-config --deny-warnings packages examples scripts
+oxlint skipped because its hash matches the replacement.
+oxlint-dts skipped because its hash matches the replacement.
+oxlint-tsgolint skipped because its hash matches the replacement.
+$ knip --no-progress --include files,dependencies,unlisted,unresolved,binaries,duplicates,catalog --treat-config-hints-as-errors
+$ tsc -p scripts/tsconfig.json --noEmit
+$ bash scripts/run-script-tests.sh
+✔ rejects changed package source omitted from the exact release commit (296.323516ms)
+✔ accepts changed package source versioned by the exact release commit (404.756638ms)
+✔ rejects a package version bump inherited from an earlier commit (270.164782ms)
+✔ rejects an existing current-version tag at a different commit (282.789925ms)
+✔ accepts an existing current-version tag at the exact release commit (477.415476ms)
+✔ matching current tags do not hide unpublished shared inputs (446.455493ms)
+✔ rejects changed shared package inputs without a website package bump (296.084365ms)
+✔ allows changed shared package inputs when no package release is attempted (282.843939ms)
+✔ rejects changed shared package inputs with only one website package bump (431.416778ms)
+✔ accepts changed shared package inputs when every website package is bumped (534.564063ms)
+✔ required workflows check main and integration pull requests and merge groups (2.595824ms)
+✔ changeset status receives trusted pull request context (0.404464ms)
+✔ trusted Version Packages pull requests verify their release commit inputs (0.328878ms)
+✔ the packed SSR consumer runs its critical browser matrix in CI (0.376466ms)
+✔ the website scope runs unit tests and typechecking (0.627801ms)
+✔ peer floor changes run the packed-manifest check before release (0.472437ms)
+✔ stable publication verifies website package inputs before upload (1.155692ms)
+✔ browser-backed scaffold checks install Chromium exactly once (0.417367ms)
+✔ the deployed playground and Monaco workers share an embedder policy (6.450063ms)
+✔ share images stay embeddable from other origins (1.270674ms)
+✔ unknown paths return a real 404 in the format the client asked for (1.176011ms)
+✔ the content API answers unknown paths with a problem document (0.675394ms)
+✔ unknown API versions do not claim to be v1 (0.227417ms)
+✔ the content API rejects write methods with 405 and an Allow header (0.65909ms)
+✔ content API responses expose the headers agents are told to read (0.295983ms)
+✔ the machine-readable documents are readable cross-origin too (0.559943ms)
+✔ the documentation page answers write methods the way the API does (0.271436ms)
+✔ the preflight carries the same policy headers as every other response (0.341335ms)
+✔ content API responses are readable cross-origin and name their version (0.398927ms)
+✔ the versioned base path serves the service index (0.332855ms)
+✔ getPage carries nested page paths in a query parameter (0.294525ms)
+✔ getPageMarkdown carries nested page paths in a query parameter (0.141797ms)
+✔ every response advertises the advisory rate limit policy (0.434727ms)
+✔ markdown negotiation leaves the JSON-only content API alone (0.485412ms)
+✔ every 404 variant tells caches the response depends on Accept (0.317268ms)
+✔ Accept: text/markdown negotiates the markdown variant of a page (0.24846ms)
+✔ HTML page responses carry Vary: Accept so caches keep variants apart (0.147436ms)
+✔ pages without a markdown variant fall back to HTML instead of 404 (0.17619ms)
+✔ a nonexistent .md path answers a browser with HTML, not markdown (0.099674ms)
+✔ /404 never answers 200, whatever format the client asks for (0.126261ms)
+✔ unknown playground slugs still load the shared editor shell (0.089416ms)
+✔ the developer portal path redirects to the AI overview (0.18184ms)
+✔ the old manifesto paths redirect to Why Foldkit (0.21243ms)
+✔ the MCP manifest and OpenAPI description are served as JSON (0.132649ms)
+✔ the homepage advertises the OpenAPI description in its Link header (0.107018ms)
+✔ the rate limit headers match what openapi.json documents (0.0787ms)
+✔ error rewrites name problem documents the content API publishes (0.117606ms)
+✔ the deploy workflow copies dotfiles like .well-known into the Vercel output (0.145491ms)
+✔ only the canary deployment blocks search indexing (0.133694ms)
+✔ production and canary call the shared deployment with separate projects (0.078967ms)
+✔ the canary hostname moves only after its staged deployment passes smoke tests (0.16694ms)
+✔ production deployment requires the complete promoted npm snapshot (0.134915ms)
+✔ stable finalization deploys the exact published website commit (0.151755ms)
+✔ the registry-backed SSG playground build runs only for production (0.116086ms)
+✔ an explicit file list is used verbatim (4.208959ms)
+✔ an explicit file list wins over unresolvable revisions (0.270223ms)
+✔ no revisions is an unknown diff (0.644325ms)
+✔ a missing head revision is an unknown diff (0.208763ms)
+✔ an all-zero base revision is an unknown diff (0.250226ms)
+✔ an all-zero head revision is an unknown diff (0.181297ms)
+✔ a failed git diff is an unknown diff rather than an empty one (8.951747ms)
+✔ a real revision range resolves the files it touched (7.159934ms)
+✔ a diverged base does not leak its own commits into the diff (100.579178ms)
+✔ changeset status decision for the generated release pull request (1.603142ms)
+✔ changeset status decision for an ordinary same-repository pull request (0.211667ms)
+✔ changeset status decision for a same-named fork pull request (0.323779ms)
+✔ changeset status decision for an ordinary fork pull request (1.479494ms)
+✔ changeset status decision for a case-variant same-repository pull request (0.182757ms)
+✔ changeset status decision for a push event (0.145727ms)
+✔ a partial upload retries without republishing completed versions (4.961699ms)
+✔ stable planning uploads only untagged or missing registry versions (0.461676ms)
+✔ a retry rejects an existing version with different bytes (0.539659ms)
+✔ registry verification covers the complete internal dependency graph (4.166246ms)
+✔ registry verification derives internal package names from the release set (0.388523ms)
+✔ registry verification rejects any workspace dependency outside the public snapshot (0.235053ms)
+✔ an artifact mismatch stops before the first publication (0.613896ms)
+✔ a missing packed dependency stops before the first publication (0.408615ms)
+✔ packed artifacts preserve non-workspace dependency specs (0.368671ms)
+✔ a weakened internal range stops before the first publication (0.735027ms)
+✔ packed artifacts use pnpm workspace protocol transformations (0.967431ms)
+✔ packed artifacts reject duplicate planned packages (0.20048ms)
+✔ canary versions and internal references are commit-addressed (0.802084ms)
+✔ canary manifests resolve internal devDependencies before packing (0.39897ms)
+✔ packing manifests resolve workspace dependencies without reordering (0.469053ms)
+✔ stable and canary manifests pack identically across workspace orders (5510.524275ms)
+✔ coherent upload builds workspace manifests and packs resolved manifests (15.223517ms)
+✔ coherent upload restores original manifests after build and pack failures (9.992858ms)
+✔ stable upload output does not use Changesets reserved tag protocol (0.376113ms)
+✔ registry verification requires exact internal canary references (0.219252ms)
+✔ canary upload refuses a package name npm has never published (0.528639ms)
+✔ partial tag promotion resumes idempotently (1.758458ms)
+✔ promotion keeps every intermediate latest snapshot compatible (8.65152ms)
+✔ promotion stops before changing tags when no compatible path exists (0.906976ms)
+✔ promotion refuses every backward tag before changing any tag (0.952979ms)
+✔ promotion waits for each dependency-ordered tag to propagate (10.752212ms)
+✔ tag propagation verification fails after its bounded retries (2.217315ms)
+✔ promotion retries a transient registry read without repeating the tag change (2.177787ms)
+✔ npm registry requests abort when a read never settles (2.611271ms)
+✔ npm tag changes share one OTP without exposing it in arguments (0.742005ms)
+✔ npm tag changes honor a supplied OTP without prompting (0.367642ms)
+✔ GitHub Actions tag changes use npm OIDC without an OTP (0.293545ms)
+✔ GitHub Actions tag changes require an OIDC token permission (0.902261ms)
+✔ interactive npm OTP input is not echoed (6.098963ms)
+✔ release promotion resolves an exact commit from a clean checkout (1.210285ms)
+✔ stable promotion validates the release commit on current main (0.587908ms)
+✔ stable promotion starts only after verified release commit (0.689196ms)
+✔ release notes are the exact matching changelog section (2.505683ms)
+✔ release packages come only from versions changed by the exact commit (3.364482ms)
+✔ release planning can skip commits with unchanged package versions (0.581346ms)
+✔ release package discovery rejects a different checked-out commit (0.441895ms)
+✔ partial tag and Release creation resumes without recreating completed work (4.004265ms)
+✔ a conflicting tag stops the complete plan before any mutation (0.537919ms)
+✔ conflicting Release metadata stops before any mutation (0.884727ms)
+✔ empty release notes stop the complete plan before any mutation (0.661403ms)
+✔ new tags and Releases target the exact published commit (0.400556ms)
+✔ GitHub requests create lightweight tags and Releases at the exact commit (1.942553ms)
+✔ matching tags and Releases are idempotent no-ops (0.894863ms)
+✔ discovers the public release set from workspace manifests (24.677068ms)
+✔ rejects a coherent set that omits a public workspace package (2.501462ms)
+✔ workspace discovery does not expose npm OTP values to pnpm (3.554972ms)
+✔ emits every scope exactly once as a boolean (93.739853ms)
+✔ a documentation-only change selects nothing (77.207845ms)
+✔ a foldkit change reaches the website and the typing game (75.602165ms)
+✔ a markdown change reaches the website (82.252543ms)
+✔ an example or playground build change reaches the website (319.994824ms)
+✔ a create-foldkit-app change selects the smoke test (85.620124ms)
+✔ an oxlint plugin change selects the smoke test (94.563204ms)
+✔ a foldkit change selects the packed consumer externalization gate (272.298471ms)
+✔ a markdown change selects the packed consumer gate (161.719816ms)
+✔ a website-only change leaves the packed consumer gate alone (109.110561ms)
+✔ browser-backed gate manifests select their consumers (185.330076ms)
+✔ peer floor inputs select their packed-manifest gate (688.36951ms)
+✔ a packed consumer fixture change selects only its focused gate (58.700336ms)
+✔ a scaffold or framework change selects the generated-app build gate (760.395542ms)
+✔ an ssr host or framework change selects the host parity gate (326.434643ms)
+✔ a host parity fixture change selects only its focused gate (58.503939ms)
+✔ a typing game change stays out of the website scope (94.79127ms)
+✔ website deployment infrastructure selects the website scope (511.791386ms)
+✔ a lockfile change selects everything, including the typing game (67.216045ms)
+✔ changing the planner forces the conservative fallback (65.863441ms)
+✔ changing the shared diff helper forces the conservative fallback (53.539382ms)
+✔ a workspace-wide change also selects every application scope (189.666452ms)
+✔ an all-zero base revision selects everything (70.415597ms)
+✔ an unresolvable revision range selects everything (94.357473ms)
+✔ a documentation-only change selects no examples (56.687916ms)
+✔ an example change selects only that example (63.83176ms)
+✔ a spec change selects only that example (62.878206ms)
+✔ a Node adapter change selects only the SSR example (59.878215ms)
+✔ a foldkit change selects every example (77.190987ms)
+✔ a markdown change selects every example (57.042712ms)
+✔ an E2E harness change selects every example (59.294251ms)
+✔ changing the shared diff helper selects every example (73.930672ms)
+✔ an all-zero base revision selects every example (63.045651ms)
+✔ an unresolvable revision range selects every example (61.513071ms)
+✔ shards stay bounded and cover each example exactly once (70.757422ms)
+✔ shard sizes stay within one example of each other (62.794321ms)
+✔ fewer examples than the cap produce one shard each (52.626533ms)
+✔ allows a website-only commit after the package set was released (289.266604ms)
+✔ allows test-only package changes after the package set was released (271.011914ms)
+✔ defers a website deploy while package source is unpublished (281.799776ms)
+✔ defers a website deploy when a manifest version has no release tag (270.117282ms)
+✔ defers a website deploy when shared package inputs are unpublished (287.652541ms)
+✔ refuses an older target after a newer website commit exists (249.522663ms)
+✔ allows an exact historical release target during finalization (288.271923ms)
+✔ the real versioner reproduces the missing coordination bump without preparation (670.966017ms)
+✔ coordination patches preserve a requested minor release and satisfy the publication check (640.465859ms)
+✔ unchanged shared inputs preserve a package-specific release plan (613.585943ms)
+✔ preparation includes working-tree shared input changes and is repeatable (278.317243ms)
+✔ missing release tags stop preparation before changing a changeset (168.336207ms)
+✔ preparation includes a newly added shared configuration file (179.723286ms)
+✔ preparation refuses to overwrite different changeset contents (137.791212ms)
+✔ reverted shared changes remove only the unchanged generated changeset (352.175272ms)
+✔ a finalized coordinated release does not schedule the same bumps again (923.141171ms)
+✔ versioning-induced lockfile changes receive coordination bumps (9402.650038ms)
+✔ the coordinator keeps package-specific plans and is repeatable after finalization (12871.105795ms)
+✔ the coordinator rejects dirty files without changing them (734.462481ms)
+✔ the coordinator leaves a missing-tag checkout unchanged (1521.736914ms)
+✔ failed versioning restores consumed changesets and removes new release metadata (2947.538319ms)
+✔ the coordinator refuses an unconsumed generated changeset (2382.249633ms)
+✔ the coordinator reports and preserves changes outside release metadata (2624.773092ms)
+✔ a failed coordinated retry restores the original release plan (6570.38765ms)
+✔ prerelease versioning preserves consumed changesets through coordination replanning (9618.097895ms)
+✔ failed prerelease versioning restores existing nested changesets and removes only new copies (3011.997223ms)
+✔ package changelogs credit pull request authors (3.700237ms)
+✔ version planning coordinates shared inputs using the complete release history (0.546788ms)
+✔ Changesets only versions packages and cannot parse publisher output (1.062276ms)
+✔ stable promotion follows verified uploads and exposes the promoted commit (0.540707ms)
+✔ canaries publish from the trusted release workflow and use exact snapshots (0.861786ms)
+✔ website canaries deploy only after their package snapshot is verified (1.371387ms)
+✔ website deployment waits for a separately verified latest promotion (1.76612ms)
+✔ promotion reports the exact verified release commit (0.392309ms)
+✔ finalization accepts successful promotions and explicit recovery runs (7.910608ms)
+✔ SPA includes its local peers without installing the Node adapter (3.756432ms)
+✔ SSG includes its local peers without installing the Node adapter (0.674422ms)
+✔ SSR includes its declared Node adapter and UI packages (0.494144ms)
+✔ selects runtime dependencies when devDependencies are absent (0.316451ms)
+✔ selects tooling dependencies and their local peers when dependencies are absent (0.326824ms)
+✔ a manifest with no local dependencies selects no tarballs (0.249365ms)
+✔ a declared local dependency without a tarball fails before installation (0.86775ms)
+✔ local peer cycles select each package once in snapshot order (0.247249ms)
+✔ adds truthful alignment notes to an empty generated changelog section (1.155083ms)
+✔ preserves package-specific generated notes (0.199679ms)
+✔ adds alignment notes without changing older release sections (0.128273ms)
+✔ only updates public packages versioned by the current release (1.389621ms)
+ℹ tests 204
+ℹ suites 0
+ℹ pass 204
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 62184.958797
+$ node scripts/check-effect-prebundle.ts
+OK: bare effect and 38 namespaces verified in plugin list.
+$ node scripts/check-ui-subpath-exports.ts
+OK: 29 @foldkit/ui components have a subpath export, a namespace and an example alias.
+$ bash scripts/check-circular-deps.sh
+No new circular dependencies found.
+$ pnpm -r --if-present build
+Scope: 52 of 53 workspace projects
+comparisons/pixel-art-react build$ tsc --noEmit && vite build
+packages/create-foldkit-app build$ pnpm run clean && tsc -b tsconfig.build.json && node scripts/build-templates.mjs
+packages/foldkit build$ pnpm run clean && tsc -b tsconfig.build.json
+packages/oxlint-plugin-foldkit build$ pnpm run clean && rolldown -c rolldown.config.ts && tsc -b tsconfig.build.json && node scripts/generate-presets.mjs
+packages/foldkit build: $ rimraf dist *.tsbuildinfo
+packages/create-foldkit-app build: $ rimraf dist *.tsbuildinfo
+packages/oxlint-plugin-foldkit build: $ rimraf dist recommended.json all.json *.tsbuildinfo
+packages/oxlint-plugin-foldkit build: <DIR>/index.js  chunk │ size: 575.03 kB
+packages/oxlint-plugin-foldkit build: ✔ rolldown v1.2.11 Finished in 948.47 ms
+comparisons/pixel-art-react build: vite v8.3.1 building client environment for production...
+comparisons/pixel-art-react build: transforming...
+comparisons/pixel-art-react build: ✓ 234 modules transformed.
+comparisons/pixel-art-react build: rendering chunks...
+packages/oxlint-plugin-foldkit build: Done
+packages/typing-game/shared build$ tsc
+comparisons/pixel-art-react build: computing gzip size...
+comparisons/pixel-art-react build: dist/index.html                   0.40 kB │ gzip:   0.27 kB
+comparisons/pixel-art-react build: dist/assets/index-CuPFW7qk.css   14.58 kB │ gzip:   3.97 kB
+comparisons/pixel-art-react build: dist/assets/index-ZpfI0hwg.js   360.91 kB │ gzip: 113.70 kB
+comparisons/pixel-art-react build: ✓ built in 776ms
+comparisons/pixel-art-react build: Done
+packages/typing-game/shared build: Done
+packages/create-foldkit-app build: Done
+packages/foldkit build: Done
+packages/markdown build$ pnpm run clean && tsc -b tsconfig.build.json
+packages/typing-game/server build$ tsc
+packages/node build$ pnpm run clean && tsc -b tsconfig.build.json
+packages/vite-plugin-foldkit build$ pnpm run clean && tsc -b
+packages/node build: $ rimraf dist *.tsbuildinfo
+packages/markdown build: $ rimraf dist *.tsbuildinfo
+packages/vite-plugin-foldkit build: $ rimraf dist *.tsbuildinfo
+packages/typing-game/server build: Done
+packages/vite-plugin-foldkit build: Done
+packages/markdown build: Done
+packages/node build: Done
+internal/lustre-benchmark build$ pnpm build:naive && pnpm build:optimised
+packages/devtools-mcp build$ pnpm run clean && tsc -b && pnpm run bundle
+packages/ui build$ pnpm run clean && tsc -b tsconfig.build.json && node scripts/brand-dist.mjs
+packages/ui build: $ rimraf dist *.tsbuildinfo
+packages/devtools-mcp build: $ rimraf dist *.tsbuildinfo
+internal/lustre-benchmark build: $ vite build
+internal/lustre-benchmark build: (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+internal/lustre-benchmark build:   - `__dirname` (vite.config.ts:14:27). Use `import.meta.dirname` instead
+internal/lustre-benchmark build:   - import "../../examples/vite.aliases" without a file extension (vite.config.ts:5:32). Add the file extension
+internal/lustre-benchmark build: Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+internal/lustre-benchmark build: vite v8.3.1 building client environment for production...
+internal/lustre-benchmark build: transforming...
+internal/lustre-benchmark build: <script src="/priv/instrumentation.js"> in "/index.html" can't be bundled without type="module" attribute
+internal/lustre-benchmark build: ✓ 490 modules transformed.
+internal/lustre-benchmark build: rendering chunks...
+internal/lustre-benchmark build: computing gzip size...
+internal/lustre-benchmark build: dist/naive/index.html                  0.67 kB │ gzip:   0.37 kB
+internal/lustre-benchmark build: dist/naive/assets/index-DF6llylr.js  305.58 kB │ gzip: 100.27 kB
+internal/lustre-benchmark build: ✓ built in 1.44s
+packages/devtools-mcp build: $ rolldown -c rolldown.config.ts
+internal/lustre-benchmark build: $ BUILD_VARIANT=optimised vite build && mv dist/optimised/index.optimised.html dist/optimised/index.html
+packages/devtools-mcp build: <DIR>/server.js  chunk │ size: 1,655.16 kB
+packages/devtools-mcp build: ✔ rolldown v1.2.11 Finished in 494.63 ms
+packages/ui build: brand-dist(@foldkit/ui): branded 49 files, skipped 38
+packages/devtools-mcp build: Done
+packages/ui build: Done
+internal/lustre-benchmark build: (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+internal/lustre-benchmark build:   - `__dirname` (vite.config.ts:14:27). Use `import.meta.dirname` instead
+internal/lustre-benchmark build:   - import "../../examples/vite.aliases" without a file extension (vite.config.ts:5:32). Add the file extension
+internal/lustre-benchmark build: Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+internal/lustre-benchmark build: vite v8.3.1 building client environment for production...
+internal/lustre-benchmark build: transforming...
+internal/lustre-benchmark build: <script src="/priv/instrumentation.js"> in "/index.optimised.html" can't be bundled without type="module" attribute
+internal/lustre-benchmark build: ✓ 491 modules transformed.
+internal/lustre-benchmark build: rendering chunks...
+internal/lustre-benchmark build: computing gzip size...
+internal/lustre-benchmark build: dist/optimised/index.optimised.html                  0.70 kB │ gzip:   0.39 kB
+internal/lustre-benchmark build: dist/optimised/assets/index.optimised-C-3l6eut.js  307.99 kB │ gzip: 100.99 kB
+internal/lustre-benchmark build: ✓ built in 463ms
+internal/lustre-benchmark build: Done
+packages/devtools build$ pnpm run clean && tsc -b tsconfig.build.json && node scripts/brand-dist.mjs
+packages/devtools build: $ rimraf dist *.tsbuildinfo
+packages/devtools build: brand-dist(@foldkit/devtools): branded 2 files, skipped 2
+packages/devtools build: Done
+examples/ssg build$ vite build
+examples/ssr build$ vite build
+packages/typing-game/client build$ vite build
+packages/website prebuild$ node ../../internal/api-reference-generator/generate.mjs
+examples/ssg build: (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+examples/ssg build:   - `__dirname` (vite.config.ts:21:27). Use `import.meta.dirname` instead
+examples/ssg build:   - import "../vite.aliases" without a file extension (vite.config.ts:6:32). Add the file extension
+examples/ssg build: Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+examples/ssg build: (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+examples/ssg build:   - `__dirname` (vite.config.ts:21:27). Use `import.meta.dirname` instead
+examples/ssg build:   - import "../vite.aliases" without a file extension (vite.config.ts:6:32). Add the file extension
+examples/ssg build: Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+examples/ssg build: (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+examples/ssg build:   - `__dirname` (vite.config.ts:21:27). Use `import.meta.dirname` instead
+examples/ssg build:   - import "../vite.aliases" without a file extension (vite.config.ts:6:32). Add the file extension
+examples/ssg build: Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+examples/ssg build: vite v8.3.1 building client environment for production...
+examples/ssr build: (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+examples/ssr build:   - `__dirname` (vite.config.ts:21:27). Use `import.meta.dirname` instead
+examples/ssr build:   - import "../vite.aliases" without a file extension (vite.config.ts:6:32). Add the file extension
+examples/ssr build: Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+examples/ssg build: transforming...
+examples/ssr build: (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+examples/ssr build:   - `__dirname` (vite.config.ts:21:27). Use `import.meta.dirname` instead
+examples/ssr build:   - import "../vite.aliases" without a file extension (vite.config.ts:6:32). Add the file extension
+examples/ssr build: Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+examples/ssr build: (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+examples/ssr build:   - `__dirname` (vite.config.ts:21:27). Use `import.meta.dirname` instead
+examples/ssr build:   - import "../vite.aliases" without a file extension (vite.config.ts:6:32). Add the file extension
+examples/ssr build: Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+examples/ssr build: vite v8.3.1 building client environment for production...
+examples/ssr build: transforming...
+packages/typing-game/client build: vite v8.3.1 building client environment for production...
+examples/ssg build: ✓ 492 modules transformed.
+packages/typing-game/client build: transforming...
+examples/ssg build: rendering chunks...
+packages/typing-game/client build: ✓ 560 modules transformed.
+examples/ssr build: ✓ 582 modules transformed.
+examples/ssg build: computing gzip size...
+examples/ssg build: dist/client/assets/app-DVlPhq3P.css    5.60 kB │ gzip:   1.89 kB
+examples/ssg build: dist/client/assets/app-D4-2o_F1.js   305.84 kB │ gzip: 100.78 kB
+examples/ssg build: ✓ built in 1.78s
+examples/ssg build: vite v8.3.1 building ssr environment for production...
+examples/ssg build: transforming...
+packages/typing-game/client build: rendering chunks...
+examples/ssr build: rendering chunks...
+examples/ssg build: ✓ 213 modules transformed.
+examples/ssg build: rendering chunks...
+examples/ssg build: computing gzip size...
+examples/ssr build: computing gzip size...
+examples/ssg build: dist/server/fetch.js  559.45 kB │ gzip: 135.86 kB
+examples/ssg build: ✓ built in 285ms
+examples/ssr build: dist/client/assets/app-zrqEursg.css    6.99 kB │ gzip:   2.28 kB
+examples/ssr build: dist/client/assets/app-BD0Hxc9u.js   303.78 kB │ gzip: 100.10 kB
+examples/ssr build: ✓ built in 1.70s
+examples/ssr build: vite v8.3.1 building ssr environment for production...
+examples/ssr build: transforming...
+examples/ssg build:   generated /
+examples/ssg build:   generated /about
+examples/ssg build:   wrote foldkit.build.json
+packages/typing-game/client build: computing gzip size...
+packages/typing-game/client build: dist/index.html                   1.45 kB │ gzip:   0.51 kB
+packages/typing-game/client build: dist/assets/index-C7EusqTb.css    9.78 kB │ gzip:   2.91 kB
+packages/typing-game/client build: dist/assets/index-MzHqoLy6.js   412.87 kB │ gzip: 131.00 kB
+packages/typing-game/client build: ✓ built in 1.62s
+examples/ssg build: Done
+packages/typing-game/client build: Done
+examples/ssr build: ✓ 303 modules transformed.
+examples/ssr build: rendering chunks...
+examples/ssr build: computing gzip size...
+examples/ssr build: dist/server/fetch.js  554.95 kB │ gzip: 134.71 kB
+examples/ssr build: ✓ built in 435ms
+examples/ssr build:   wrote foldkit.build.json
+examples/ssr build: Done
+packages/website prebuild: [warning] KeyedQueryModel, defined in foldkit/src/experimental/query/keyedQuery.ts, is referenced by Experimental.Query.KeyedQuery.reset.__type but not included in the documentation
+packages/website prebuild: [warning] KeyedQueryMessage, defined in foldkit/src/experimental/query/keyedQuery.ts, is referenced by Experimental.Query.KeyedQuery.reset.__type but not included in the documentation
+packages/website prebuild: [warning] QueryModel, defined in foldkit/src/experimental/query/query.ts, is referenced by Experimental.Query.Query.loadIfMissing.__type but not included in the documentation
+packages/website prebuild: [warning] QueryMessage, defined in foldkit/src/experimental/query/query.ts, is referenced by Experimental.Query.Query.loadIfMissing.__type but not included in the documentation
+packages/website prebuild: [warning] KeyedArgs, defined in foldkit/src/experimental/query/internal.ts, is referenced by Experimental.Query.KeyedQuery.read.__type.args but not included in the documentation
+packages/website prebuild: [warning] Return, defined in foldkit/src/submodel/module.ts, is referenced by Submodel.eager.__type.enter.__type but not included in the documentation
+packages/website prebuild: [warning] EntryWithKeepAlive, defined in foldkit/src/subscription/subscription.ts, is referenced by Submodel.eager.__type.subscriptions.__type.__type.__index but not included in the documentation
+packages/website prebuild: [warning] The following symbols were marked as intentionally not exported, but were either not referenced in the documentation, or were exported:
+packages/website prebuild: 	makeKeyedQueryMessage
+packages/website prebuild: 	makeKeyedQueryModel
+packages/website prebuild: 	makeQueryMessage
+packages/website prebuild: 	makeQueryModel
+packages/website prebuild: [warning] The comment for Submodel.LoadError.make links to "BottomWithoutNew.makeOption" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.makeOption": "#" }} to the externalSymbolLinkMappings option
+packages/website prebuild: [warning] The comment for Submodel.LoadError.make links to "BottomWithoutNew.makeEffect" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.makeEffect": "#" }} to the externalSymbolLinkMappings option
+packages/website prebuild: [warning] The comment for Submodel.LoadError.makeOption links to "BottomWithoutNew.make" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.make": "#" }} to the externalSymbolLinkMappings option
+packages/website prebuild: [warning] The comment for Submodel.LoadError.makeOption links to "BottomWithoutNew.makeEffect" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.makeEffect": "#" }} to the externalSymbolLinkMappings option
+packages/website prebuild: [warning] The comment for Submodel.LoadError.makeEffect links to "BottomWithoutNew.make" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.make": "#" }} to the externalSymbolLinkMappings option
+packages/website prebuild: [warning] The comment for Submodel.LoadError.makeEffect links to "withConstructorDefault" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "withConstructorDefault": "#" }} to the externalSymbolLinkMappings option
+packages/website prebuild: [warning] The comment for Submodel.LoadError.makeEffect links to "BottomWithoutNew.make" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.make": "#" }} to the externalSymbolLinkMappings option
+packages/website prebuild: [warning] The comment for Submodel.LoadError.makeEffect links to "BottomWithoutNew.makeOption" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.makeOption": "#" }} to the externalSymbolLinkMappings option
+packages/website prebuild: [info] json generated at /workspace/foldkit/packages/website/src/generated/api.json
+packages/website prebuild: [warning] Found 0 errors and 16 warnings
+packages/website prebuild: [info] json generated at /workspace/foldkit/packages/website/src/generated/api-ui.json
+packages/website prebuild: Done
+packages/website build$ export FOLDKIT_BUILD_ID="${FOLDKIT_BUILD_ID:-$(git rev-parse HEAD 2>/dev/null)}"; vite build
+packages/website build: vite v8.3.1 building client environment for production...
+packages/website build: transforming...
+packages/website build: ✓ 3219 modules transformed.
+packages/website build: rendering chunks...
+packages/website build: computing gzip size...
+packages/website build: dist/index.html                                       4.03 kB │ gzip:     1.13 kB
+packages/website build: dist/assets/codicon-Brq4_Ui5.ttf                    140.95 kB
+packages/website build: dist/assets/json.worker-2CEmYLij.js                 430.43 kB
+packages/website build: dist/monacoworkers/editor.worker.bundle.js          598.88 kB
+packages/website build: dist/assets/html.worker-ChWxMUlM.js                 740.68 kB
+packages/website build: dist/monacoworkers/json.worker.bundle.js            879.84 kB
+packages/website build: dist/assets/css.worker-CR6cVwG0.js                1,075.63 kB
+packages/website build: dist/monacoworkers/html.worker.bundle.js          1,237.87 kB
+packages/website build: dist/monacoworkers/css.worker.bundle.js           1,735.78 kB
+packages/website build: dist/assets/ts.worker-BSZ_obF4.js                 6,926.00 kB
+packages/website build: dist/monacoworkers/ts.worker.bundle.js           11,614.49 kB
+packages/website build: dist/assets/editor-8AbsNvUX.css                      79.50 kB │ gzip:    12.28 kB
+packages/website build: dist/assets/vs--ixms01u.css                          82.32 kB │ gzip:    12.97 kB
+packages/website build: dist/assets/index-CGD0_N5m.css                      125.09 kB │ gzip:    19.40 kB
+packages/website build: dist/assets/javascript-DdTSHZac.js                    0.68 kB │ gzip:     0.41 kB
+packages/website build: dist/assets/azcli-Bc_sGQ0U.js                         0.70 kB │ gzip:     0.28 kB
+packages/website build: dist/assets/ini-sBoK_t0W.js                           0.96 kB │ gzip:     0.49 kB
+packages/website build: dist/assets/workers-5Nx27qeO.js                       1.24 kB │ gzip:     0.58 kB
+packages/website build: dist/assets/csp-bTuwJoIa.js                           1.27 kB │ gzip:     0.48 kB
+packages/website build: dist/assets/pla-CopQ2nXW.js                           1.54 kB │ gzip:     0.60 kB
+packages/website build: dist/assets/scheme-BeGwcela.js                        1.62 kB │ gzip:     0.77 kB
+packages/website build: dist/assets/flow9-C5_-GSwl.js                         1.66 kB │ gzip:     0.80 kB
+packages/website build: dist/assets/sb-CcwsVR0C.js                            1.68 kB │ gzip:     0.78 kB
+packages/website build: dist/assets/bat-i0X4ZdIN.js                           1.69 kB │ gzip:     0.82 kB
+packages/website build: dist/assets/dockerfile-DZFCIeNp.js                    1.72 kB │ gzip:     0.63 kB
+packages/website build: dist/assets/pascaligo-D-ptJ9y-.js                     1.85 kB │ gzip:     0.86 kB
+packages/website build: dist/assets/xml-D7Te2QKf.js                           1.92 kB │ gzip:     0.73 kB
+packages/website build: dist/assets/cameligo-DMUM7wLl.js                      1.97 kB │ gzip:     0.91 kB
+packages/website build: dist/assets/lua-CsQS60Ue.js                           1.98 kB │ gzip:     0.88 kB
+packages/website build: dist/assets/objective-c-FvmIjYaQ.js                   2.10 kB │ gzip:     1.01 kB
+packages/website build: dist/assets/graphql-fmXr3nnJ.js                       2.11 kB │ gzip:     0.99 kB
+packages/website build: dist/assets/sparql-D_Lu-MrJ.js                        2.21 kB │ gzip:     1.10 kB
+packages/website build: dist/assets/lexon-CfSJPG6W.js                         2.28 kB │ gzip:     0.88 kB
+packages/website build: dist/assets/mips-CIPQ_RoX.js                          2.32 kB │ gzip:     1.02 kB
+packages/website build: dist/assets/go-C-y9NEjX.js                            2.35 kB │ gzip:     1.11 kB
+packages/website build: dist/assets/bicep-B5-_aFwp.js                         2.36 kB │ gzip:     0.91 kB
+packages/website build: dist/assets/sophia-CRfGWb83.js                        2.48 kB │ gzip:     1.15 kB
+packages/website build: dist/assets/m3-D-oSqn_W.js                            2.52 kB │ gzip:     1.29 kB
+packages/website build: dist/assets/typespec-B8J7ngcE.js                      2.62 kB │ gzip:     1.01 kB
+packages/website build: dist/assets/pascal-DrH0SRf2.js                        2.63 kB │ gzip:     1.35 kB
+packages/website build: dist/assets/fsharp-C8Ef5oNN.js                        2.65 kB │ gzip:     1.27 kB
+packages/website build: dist/assets/qsharp-DkqhCAOL.js                        2.72 kB │ gzip:     1.37 kB
+packages/website build: dist/assets/shell-CC2rA5mh.js                         2.81 kB │ gzip:     1.16 kB
+packages/website build: dist/assets/r-BwWrilGY.js                             2.83 kB │ gzip:     1.25 kB
+packages/website build: dist/assets/java-BEtHBSE6.js                          2.90 kB │ gzip:     1.34 kB
+packages/website build: dist/assets/cssMode-n18f_GTS.js                       2.95 kB │ gzip:     1.13 kB
+packages/website build: dist/assets/redis-ClamHrr6.js                         3.03 kB │ gzip:     1.41 kB
+packages/website build: dist/assets/kotlin-BOotOW0E.js                        3.04 kB │ gzip:     1.41 kB
+packages/website build: dist/assets/cypher-CVaqCwHa.js                        3.04 kB │ gzip:     1.40 kB
+packages/website build: dist/assets/powershell-DmHpPYUd.js                    3.05 kB │ gzip:     1.33 kB
+packages/website build: dist/assets/tcl-DISqw1ZD.js                           3.27 kB │ gzip:     1.32 kB
+packages/website build: dist/assets/liquid-DV88xH74.js                        3.34 kB │ gzip:     1.42 kB
+packages/website build: dist/assets/coffee-Ba7i2nA0.js                        3.36 kB │ gzip:     1.24 kB
+packages/website build: dist/assets/htmlMode-Dnj2LlIa.js                      3.40 kB │ gzip:     1.24 kB
+packages/website build: dist/assets/hcl-CpzslTdj.js                           3.44 kB │ gzip:     1.45 kB
+packages/website build: dist/assets/python-CT09s_xW.js                        3.45 kB │ gzip:     1.42 kB
+packages/website build: dist/assets/apex-BWPQTe0t.js                          3.46 kB │ gzip:     1.70 kB
+packages/website build: dist/assets/yaml-DGklqgkU.js                          3.54 kB │ gzip:     1.29 kB
+packages/website build: dist/assets/markdown-Cimd5fb3.js                      3.63 kB │ gzip:     1.34 kB
+packages/website build: dist/assets/rust-DdL9SqIa.js                          3.66 kB │ gzip:     1.80 kB
+packages/website build: dist/assets/restructuredtext-BYgofb2h.js              3.74 kB │ gzip:     1.32 kB
+packages/website build: dist/assets/less-B9JPFI3C.js                          3.74 kB │ gzip:     1.36 kB
+packages/website build: dist/assets/dart-onAF5SnQ.js                          3.93 kB │ gzip:     1.60 kB
+packages/website build: dist/assets/csharp-BKxtCVv1.js                        4.11 kB │ gzip:     1.66 kB
+packages/website build: dist/assets/msdax-DauUninz.js                         4.27 kB │ gzip:     1.87 kB
+packages/website build: dist/assets/mdx-BHrBigmG.js                           4.31 kB │ gzip:     1.21 kB
+packages/website build: dist/assets/css-DIMkf-bt.js                           4.36 kB │ gzip:     1.33 kB
+packages/website build: dist/assets/pug-Z5eAx3Zn.js                           4.46 kB │ gzip:     1.60 kB
+packages/website build: dist/assets/swift-Bxkupp3x.js                         4.48 kB │ gzip:     1.99 kB
+packages/website build: dist/assets/html-BMZSM1Ij.js                          4.51 kB │ gzip:     1.15 kB
+packages/website build: dist/assets/ecl-D05T4iGw.js                           4.62 kB │ gzip:     2.19 kB
+packages/website build: dist/assets/typescript-C3RREqeQ.js                    4.67 kB │ gzip:     1.94 kB
+packages/website build: dist/assets/cpp-C7h46wYY.js                           4.74 kB │ gzip:     2.02 kB
+packages/website build: dist/assets/vb-DV3o63ZY.js                            5.30 kB │ gzip:     2.01 kB
+packages/website build: dist/assets/twig-De2hgUGE.js                          5.78 kB │ gzip:     1.48 kB
+packages/website build: dist/assets/scss-gp-XZpBa.js                          6.26 kB │ gzip:     1.70 kB
+packages/website build: dist/assets/handlebars-D85BZCSL.js                    6.28 kB │ gzip:     1.37 kB
+packages/website build: dist/assets/julia-Bri6UV-V.js                         6.50 kB │ gzip:     2.64 kB
+packages/website build: dist/assets/systemverilog-Bz4Y3fRF.js                 6.85 kB │ gzip:     2.72 kB
+packages/website build: dist/assets/st-DbInun42.js                            6.94 kB │ gzip:     2.24 kB
+packages/website build: dist/assets/scala-DHpiXF5c.js                         7.11 kB │ gzip:     2.07 kB
+packages/website build: dist/assets/wgsl-DpFanUEy.js                          7.18 kB │ gzip:     2.73 kB
+packages/website build: dist/assets/perl-oz_6vUea.js                          7.35 kB │ gzip:     3.10 kB
+packages/website build: dist/assets/postiats-43DmfD33.js                      7.36 kB │ gzip:     2.39 kB
+packages/website build: dist/assets/php-nr791fC2.js                           7.74 kB │ gzip:     2.03 kB
+packages/website build: dist/assets/razor-CDXOUWl5.js                         8.11 kB │ gzip:     2.05 kB
+packages/website build: dist/assets/clojure-Cm7r79vr.js                       8.21 kB │ gzip:     3.49 kB
+packages/website build: dist/assets/ruby-DezsRK8O.js                          8.21 kB │ gzip:     2.55 kB
+packages/website build: dist/assets/sql-NEE52Syq.js                           8.84 kB │ gzip:     3.73 kB
+packages/website build: dist/assets/protobuf-C531GsRP.js                      8.89 kB │ gzip:     2.04 kB
+packages/website build: dist/assets/mysql-SOo6toE5.js                         9.65 kB │ gzip:     3.98 kB
+packages/website build: dist/assets/elixir-6RTg0lbw.js                       10.11 kB │ gzip:     2.50 kB
+packages/website build: dist/assets/redshift-DT7zqm-g.js                     10.33 kB │ gzip:     4.24 kB
+packages/website build: dist/assets/abap-08VXUWAP.js                         11.69 kB │ gzip:     5.15 kB
+packages/website build: dist/assets/pgsql-DTj74zXo.js                        11.91 kB │ gzip:     4.42 kB
+packages/website build: dist/assets/jsonMode-BYQq7zQM.js                     12.18 kB │ gzip:     4.45 kB
+packages/website build: dist/assets/powerquery-D3hlyOfw.js                   15.34 kB │ gzip:     4.73 kB
+packages/website build: dist/assets/freemarker2-Bgk2FjJe.js                  15.54 kB │ gzip:     3.97 kB
+packages/website build: dist/assets/solidity-BEEn4gHE.js                     15.99 kB │ gzip:     4.39 kB
+packages/website build: dist/assets/dist-BCUIquNT.js                         18.67 kB │ gzip:     7.10 kB
+packages/website build: dist/assets/tsMode-74lXnZ7g.js                       21.84 kB │ gzip:     6.15 kB
+packages/website build: dist/assets/lspLanguageFeatures-DEX1QChC.js          28.22 kB │ gzip:     7.17 kB
+packages/website build: dist/assets/crash-view-bY4LtJf7.js                   41.20 kB │ gzip:     3.56 kB
+packages/website build: dist/assets/ssg-yAPowJQR.js                          64.70 kB │ gzip:     5.15 kB
+packages/website build: dist/assets/counter-CyQMgWMz.js                      65.32 kB │ gzip:     3.92 kB
+packages/website build: dist/assets/ssr-Qy8HNnlZ.js                          87.10 kB │ gzip:     7.34 kB
+packages/website build: dist/assets/embedding-ZfgpNjx6.js                    95.12 kB │ gzip:     7.26 kB
+packages/website build: dist/assets/stopwatch-qOmMPCAi.js                   122.66 kB │ gzip:     7.34 kB
+packages/website build: dist/assets/counters-CFlfienQ.js                    122.79 kB │ gzip:     7.07 kB
+packages/website build: dist/assets/web-components-Dml9oJe_.js              131.56 kB │ gzip:     9.16 kB
+packages/website build: dist/assets/canvas-art-CuYDuE2H.js                  137.26 kB │ gzip:     9.17 kB
+packages/website build: dist/assets/managed-resource-layer-COLJ0siv.js      144.02 kB │ gzip:     9.53 kB
+packages/website build: dist/assets/weather-B9WYM4FT.js                     174.48 kB │ gzip:    11.74 kB
+packages/website build: dist/assets/view-transitions-BRfbBnYr.js            175.71 kB │ gzip:    13.85 kB
+packages/website build: dist/assets/interrupting-commands-DAyURQhg.js       178.23 kB │ gzip:    10.37 kB
+packages/website build: dist/assets/slow-warnings-DKXcFqSF.js               203.32 kB │ gzip:    13.21 kB
+packages/website build: dist/assets/form-ZM9Hn9yl.js                        206.00 kB │ gzip:    12.77 kB
+packages/website build: dist/assets/snake-DNi61vY6.js                       213.83 kB │ gzip:    13.00 kB
+packages/website build: dist/assets/websocket-chat-BS50tcHz.js              260.02 kB │ gzip:    15.59 kB
+packages/website build: dist/assets/personal-blog-CI5QTClR.js               266.13 kB │ gzip:    18.73 kB
+packages/website build: dist/assets/route-transitions-CngRdDW-.js           285.94 kB │ gzip:    18.81 kB
+packages/website build: dist/assets/todo-Cp3I6aG5.js                        309.73 kB │ gzip:    17.74 kB
+packages/website build: dist/assets/api-cache-query-DfI-JqZm.js             339.64 kB │ gzip:    20.57 kB
+packages/website build: dist/assets/query-sync-EhBut1Lx.js                  343.03 kB │ gzip:    22.48 kB
+packages/website build: dist/assets/api-cache-BW63G4u9.js                   355.11 kB │ gzip:    22.70 kB
+packages/website build: dist/assets/map-DPhadQUc.js                         359.07 kB │ gzip:    24.61 kB
+packages/website build: dist/assets/auth-JUyYx8rz.js                        387.13 kB │ gzip:    24.22 kB
+packages/website build: dist/assets/shopping-cart-CBIQi7to.js               401.49 kB │ gzip:    24.52 kB
+packages/website build: dist/assets/generative-art-C1IIxRLi.js              412.77 kB │ gzip:    27.68 kB
+packages/website build: dist/assets/routing-Cr1wInuJ.js                     446.89 kB │ gzip:    27.84 kB
+packages/website build: dist/assets/kanban-e-r1zVdB.js                      453.39 kB │ gzip:    27.19 kB
+packages/website build: dist/assets/state-machine-Bjb-FQtb.js               610.92 kB │ gzip:    38.74 kB
+packages/website build: dist/assets/_virtual_parsed-api-CrLKOhf8.js         758.33 kB │ gzip:   140.18 kB
+packages/website build: dist/assets/charting-Bxp4kowc.js                    786.72 kB │ gzip:    51.23 kB
+packages/website build: dist/assets/pixel-art-DmZmK-v5.js                   968.60 kB │ gzip:    55.62 kB
+packages/website build: dist/assets/vs-BOlYom8O.js                        1,267.41 kB │ gzip:   319.88 kB
+packages/website build: dist/assets/job-application-ao3T96Fx.js           1,469.38 kB │ gzip:    91.81 kB
+packages/website build: dist/assets/ui-showcase-BWjJ5JfJ.js               1,989.65 kB │ gzip:   118.61 kB
+packages/website build: dist/assets/editor.api-BsQzNbLv.js                2,653.84 kB │ gzip:   683.58 kB
+packages/website build: dist/assets/_virtual_api-highlights-C3rWxVlh.js   4,277.38 kB │ gzip:   224.15 kB
+packages/website build: dist/assets/index-CbcTKDui.js                    25,945.16 kB │ gzip: 4,056.53 kB
+packages/website build: ✓ built in 35.62s
+packages/website build: [plugin builtin:vite-reporter] 
+packages/website build: (!) Some chunks are larger than 500 kB after minification. Consider:
+packages/website build: - Using dynamic import() to code-split the application
+packages/website build: - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+packages/website build: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+packages/website build: [33m[PLUGIN_TIMINGS] [0mJavaScript callbacks ran for 32.8s of this 35.6s build (92%).
+packages/website build: The slowest callbacks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+packages/website build:   - plugin playground-files load (78%, 27.7s, 2704 calls)
+packages/website build:   - plugin playground-types load (76%, 27.0s, 2703 calls)
+packages/website build:   - plugin api-module-index load (73%, 25.9s, 2743 calls)
+packages/website build:   - plugin highlight-api-signatures load (72%, 25.6s, 2744 calls)
+packages/website build:   - plugin parsed-api load (61%, 21.6s, 2742 calls)
+packages/website build:   - plugin vite:css transform (41%, 14.7s, 99 calls)
+packages/website build:   - plugin css-snippets load (22%, 8.0s, 2745 calls)
+packages/website build:   - plugin foldkit-markdown transform (5%, 1.8s, 3219 calls)
+packages/website build:   - plugin landing-data load (4%, 1.4s, 2741 calls)
+packages/website build: These rows add up to more than the total. Callbacks can overlap, so the same time counts for more than one row.
+packages/website build: 4 callbacks are listed without a time. Their calls overlapped, so the time inside one call includes work from other calls. To find their cost, profile the build with `node --cpu-prof`:
+packages/website build:   - plugin vite:asset load (470 calls)
+packages/website build:   - plugin highlight-code transform (3219 calls)
+packages/website build:   - plugin highlight-example-sources load (2738 calls)
+packages/website build:   … and 1 more
+packages/website build: See https://rolldown.rs/reference/InputOptions.checks#bundlertimings for more details.
+packages/website build: Done
+Scope: 52 of 53 workspace projects
+comparisons/pixel-art-react typecheck$ tsc --noEmit
+packages/create-foldkit-app typecheck$ tsc -p tsconfig.json --noEmit
+packages/foldkit typecheck$ tsc -p tsconfig.json --noEmit
+packages/examples-e2e typecheck$ tsc --noEmit
+packages/examples-e2e typecheck: Done
+packages/oxlint-plugin-foldkit typecheck$ tsc --noEmit
+packages/create-foldkit-app typecheck: Done
+packages/typing-game/shared typecheck$ tsc --noEmit
+packages/oxlint-plugin-foldkit typecheck: Done
+packages/typing-game/shared typecheck: Done
+comparisons/pixel-art-react typecheck: Done
+packages/foldkit typecheck: Done
+packages/markdown typecheck$ tsc -p tsconfig.json --noEmit
+packages/typing-game/server typecheck$ tsc --noEmit
+packages/node typecheck$ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json
+packages/vite-plugin-foldkit typecheck$ tsc -b --noEmit && tsc -p tsconfig.test.json
+packages/markdown typecheck: Done
+packages/typing-game/server typecheck: Done
+packages/node typecheck: Done
+packages/vite-plugin-foldkit typecheck: Done
+internal/lustre-benchmark typecheck$ tsc --noEmit
+internal/performance-harness typecheck$ tsc --noEmit
+packages/devtools-mcp typecheck$ tsc -b --noEmit && tsc -p tsconfig.test.json
+packages/ui typecheck$ tsc -p tsconfig.json --noEmit
+internal/performance-harness typecheck: Done
+packages/devtools-mcp typecheck: Done
+packages/ui typecheck: Done
+internal/lustre-benchmark typecheck: Done
+internal/api-reference-generator typecheck$ tsc --noEmit
+packages/devtools typecheck$ tsc -p tsconfig.json --noEmit
+packages/devtools typecheck: Done
+internal/api-reference-generator typecheck: Done
+examples/api-cache typecheck$ tsc --noEmit
+examples/auth typecheck$ tsc --noEmit
+examples/canvas-art typecheck$ tsc --noEmit
+examples/api-cache-query typecheck$ tsc --noEmit
+examples/api-cache-query typecheck: Done
+examples/charting typecheck$ tsc --noEmit
+examples/canvas-art typecheck: Done
+examples/counter typecheck$ tsc --noEmit
+examples/api-cache typecheck: Done
+examples/counters typecheck$ tsc --noEmit
+examples/auth typecheck: Done
+examples/crash-view typecheck$ tsc --noEmit
+examples/counter typecheck: Done
+examples/embedding typecheck$ tsc --noEmit
+examples/charting typecheck: Done
+examples/form typecheck$ tsc --noEmit
+examples/counters typecheck: Done
+examples/generative-art typecheck$ tsc --noEmit
+examples/crash-view typecheck: Done
+examples/interrupting-commands typecheck$ tsc --noEmit
+examples/embedding typecheck: Done
+examples/job-application typecheck$ tsc --noEmit
+examples/form typecheck: Done
+examples/kanban typecheck$ tsc --noEmit
+examples/generative-art typecheck: Done
+examples/managed-resource-layer typecheck$ tsc --noEmit
+examples/interrupting-commands typecheck: Done
+examples/map typecheck$ tsc --noEmit
+examples/map typecheck: Done
+examples/personal-blog typecheck$ tsc --noEmit
+examples/managed-resource-layer typecheck: Done
+examples/pixel-art typecheck$ tsc --noEmit
+examples/kanban typecheck: Done
+examples/query-sync typecheck$ tsc --noEmit
+examples/job-application typecheck: Done
+examples/route-transitions typecheck$ tsc --noEmit
+examples/personal-blog typecheck: Done
+examples/query-sync typecheck: Done
+examples/routing typecheck$ tsc --noEmit
+examples/shopping-cart typecheck$ tsc --noEmit
+examples/route-transitions typecheck: Done
+examples/slow-warnings typecheck$ tsc --noEmit
+examples/pixel-art typecheck: Done
+examples/snake typecheck$ tsc --noEmit
+examples/slow-warnings typecheck: Done
+examples/ssg typecheck$ tsc --noEmit
+examples/routing typecheck: Done
+examples/ssr typecheck$ tsc --noEmit
+examples/shopping-cart typecheck: Done
+examples/state-machine typecheck$ tsc --noEmit
+examples/snake typecheck: Done
+examples/stopwatch typecheck$ tsc --noEmit
+examples/ssg typecheck: Done
+examples/todo typecheck$ tsc --noEmit
+examples/ssr typecheck: Done
+examples/ui-showcase typecheck$ tsc --noEmit
+examples/stopwatch typecheck: Done
+examples/view-transitions typecheck$ tsc --noEmit
+examples/state-machine typecheck: Done
+examples/weather typecheck$ tsc --noEmit
+examples/todo typecheck: Done
+examples/web-components typecheck$ tsc --noEmit
+examples/view-transitions typecheck: Done
+examples/websocket-chat typecheck$ tsc --noEmit
+examples/weather typecheck: Done
+packages/typing-game/client typecheck$ tsc --noEmit
+examples/web-components typecheck: Done
+packages/website pretypecheck$ node ../../internal/api-reference-generator/generate.mjs
+examples/websocket-chat typecheck: Done
+examples/ui-showcase typecheck: Done
+packages/typing-game/client typecheck: Done
+packages/website pretypecheck: [warning] KeyedQueryModel, defined in foldkit/src/experimental/query/keyedQuery.ts, is referenced by Experimental.Query.KeyedQuery.reset.__type but not included in the documentation
+packages/website pretypecheck: [warning] KeyedQueryMessage, defined in foldkit/src/experimental/query/keyedQuery.ts, is referenced by Experimental.Query.KeyedQuery.reset.__type but not included in the documentation
+packages/website pretypecheck: [warning] QueryModel, defined in foldkit/src/experimental/query/query.ts, is referenced by Experimental.Query.Query.loadIfMissing.__type but not included in the documentation
+packages/website pretypecheck: [warning] QueryMessage, defined in foldkit/src/experimental/query/query.ts, is referenced by Experimental.Query.Query.loadIfMissing.__type but not included in the documentation
+packages/website pretypecheck: [warning] KeyedArgs, defined in foldkit/src/experimental/query/internal.ts, is referenced by Experimental.Query.KeyedQuery.read.__type.args but not included in the documentation
+packages/website pretypecheck: [warning] Return, defined in foldkit/src/submodel/module.ts, is referenced by Submodel.eager.__type.enter.__type but not included in the documentation
+packages/website pretypecheck: [warning] EntryWithKeepAlive, defined in foldkit/src/subscription/subscription.ts, is referenced by Submodel.eager.__type.subscriptions.__type.__type.__index but not included in the documentation
+packages/website pretypecheck: [warning] The following symbols were marked as intentionally not exported, but were either not referenced in the documentation, or were exported:
+packages/website pretypecheck: 	makeKeyedQueryMessage
+packages/website pretypecheck: 	makeKeyedQueryModel
+packages/website pretypecheck: 	makeQueryMessage
+packages/website pretypecheck: 	makeQueryModel
+packages/website pretypecheck: [warning] The comment for Submodel.LoadError.make links to "BottomWithoutNew.makeOption" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.makeOption": "#" }} to the externalSymbolLinkMappings option
+packages/website pretypecheck: [warning] The comment for Submodel.LoadError.make links to "BottomWithoutNew.makeEffect" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.makeEffect": "#" }} to the externalSymbolLinkMappings option
+packages/website pretypecheck: [warning] The comment for Submodel.LoadError.makeOption links to "BottomWithoutNew.make" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.make": "#" }} to the externalSymbolLinkMappings option
+packages/website pretypecheck: [warning] The comment for Submodel.LoadError.makeOption links to "BottomWithoutNew.makeEffect" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.makeEffect": "#" }} to the externalSymbolLinkMappings option
+packages/website pretypecheck: [warning] The comment for Submodel.LoadError.makeEffect links to "BottomWithoutNew.make" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.make": "#" }} to the externalSymbolLinkMappings option
+packages/website pretypecheck: [warning] The comment for Submodel.LoadError.makeEffect links to "withConstructorDefault" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "withConstructorDefault": "#" }} to the externalSymbolLinkMappings option
+packages/website pretypecheck: [warning] The comment for Submodel.LoadError.makeEffect links to "BottomWithoutNew.make" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.make": "#" }} to the externalSymbolLinkMappings option
+packages/website pretypecheck: [warning] The comment for Submodel.LoadError.makeEffect links to "BottomWithoutNew.makeOption" which was resolved but is not included in the documentation. To fix this warning export it or add { "effect": { "BottomWithoutNew.makeOption": "#" }} to the externalSymbolLinkMappings option
+packages/website pretypecheck: [info] json generated at /workspace/foldkit/packages/website/src/generated/api.json
+packages/website pretypecheck: [warning] Found 0 errors and 16 warnings
+packages/website pretypecheck: [info] json generated at /workspace/foldkit/packages/website/src/generated/api-ui.json
+packages/website pretypecheck: Done
+packages/website typecheck$ tsc --noEmit
+packages/website typecheck: Done
+$ pnpm -r --filter './examples/*' --filter './packages/*' run --if-present test
+Scope: 45 of 53 workspace projects
+packages/create-foldkit-app test$ vitest run
+packages/foldkit test$ vitest run --coverage
+packages/oxlint-plugin-foldkit test$ pnpm run typecheck:real-oxlint-fixtures && vitest run
+packages/create-foldkit-app test:  RUN  v5.0.2 /workspace/foldkit/packages/create-foldkit-app
+packages/foldkit test:  RUN  v5.0.2 /workspace/foldkit/packages/foldkit
+packages/foldkit test:       Coverage enabled with v8
+packages/oxlint-plugin-foldkit test: $ node scripts/typecheck-real-oxlint-fixtures.mjs
+packages/oxlint-plugin-foldkit test:  RUN  v4.1.11 /workspace/foldkit/packages/oxlint-plugin-foldkit
+packages/create-foldkit-app test:  Test Files  2 passed (2)
+packages/create-foldkit-app test:       Tests  18 passed (18)
+packages/create-foldkit-app test:    Start at  22:20:40
+packages/create-foldkit-app test:    Duration  1.85s (import 77%, transform 17%, tests 5%, worker 1%)
+packages/create-foldkit-app test: Done
+packages/oxlint-plugin-foldkit test:  Test Files  40 passed (40)
+packages/oxlint-plugin-foldkit test:       Tests  515 passed (515)
+packages/oxlint-plugin-foldkit test:    Start at  22:20:42
+packages/oxlint-plugin-foldkit test:    Duration  51.24s (transform 1.61s, setup 0ms, import 16.59s, tests 26.31s, environment 6ms)
+packages/oxlint-plugin-foldkit test: Done
+packages/foldkit test:  Test Files  113 passed | 1 skipped (114)
+packages/foldkit test:       Tests  3043 passed | 1 skipped (3044)
+packages/foldkit test:    Start at  22:20:41
+packages/foldkit test:    Duration  182.15s (setup 33%, environment 30%, tests 21%, import 8%, transform 5%, worker 3%)
+packages/foldkit test: Environment  happy-dom was created 114 times · 45.28s total, 30% of tracked time
+packages/foldkit test:              create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+packages/foldkit test:              learn more: https://vitest.dev/guide/improving-performance#test-environments
+packages/foldkit test:  % Coverage report from v8
+packages/foldkit test: -------------------|---------|----------|---------|---------|-------------------
+packages/foldkit test: File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+packages/foldkit test: -------------------|---------|----------|---------|---------|-------------------
+packages/foldkit test: All files          |   90.29 |    84.24 |   87.67 |   90.65 |                   
+packages/foldkit test:  src               |   91.62 |    84.17 |   98.27 |    91.5 |                   
+packages/foldkit test:   ...edDomState.ts |      82 |    76.72 |     100 |   81.87 | ...68,274-275,306 
+packages/foldkit test:   domReflection.ts |   96.15 |    93.39 |     100 |   96.09 | 460-464,468       
+packages/foldkit test:   hydrate.ts       |   94.32 |    85.97 |   96.15 |   94.22 | ...97,918-921,987 
+packages/foldkit test:   ...eInnerHtml.ts |   86.66 |       75 |     100 |   86.66 | 11-13             
+packages/foldkit test:   ...ountModule.ts |   97.56 |       80 |     100 |   97.56 | 64                
+packages/foldkit test:   propsModule.ts   |   74.15 |       75 |     100 |   73.86 | ...85-186,192-196 
+packages/foldkit test:   tagName.ts       |     100 |       75 |     100 |     100 | 8                 
+packages/foldkit test:   vdom.ts          |    98.3 |    95.34 |     100 |   98.27 | 186               
+packages/foldkit test:  src/calendar      |   97.43 |    91.42 |   96.87 |    98.9 |                   
+packages/foldkit test:   calendarDate.ts  |     100 |    94.73 |     100 |     100 | 165               
+packages/foldkit test:   comparison.ts    |     100 |     92.3 |     100 |     100 | 140               
+packages/foldkit test:   info.ts          |   93.47 |    85.71 |     100 |     100 | 35,37-38,62       
+packages/foldkit test:   locale.ts        |   95.12 |      100 |    90.9 |   95.12 | 199,216           
+packages/foldkit test:  src/canvas        |   81.29 |    56.06 |   83.33 |   81.29 |                   
+packages/foldkit test:   paint.ts         |    84.7 |    64.28 |      90 |    84.7 | ...03,108,137-141 
+packages/foldkit test:   view.ts          |   63.88 |    41.66 |   66.66 |   63.88 | ...41,145,150-151 
+packages/foldkit test:  .../interruptible |     100 |       75 |     100 |     100 |                   
+packages/foldkit test:   interruptible.ts |     100 |       75 |     100 |     100 | 62                
+packages/foldkit test:  src/devTools      |   81.18 |    76.81 |   78.86 |   80.92 |                   
+packages/foldkit test:   ...aSummarize.ts |   83.33 |    68.33 |   90.19 |   82.99 | ...19,330-351,390 
+packages/foldkit test:   store.ts         |   94.08 |    94.02 |    92.3 |   93.98 | ...92,529,538-550 
+packages/foldkit test:   ...cketBridge.ts |   53.45 |    30.55 |      45 |   53.48 | ...91-696,714-717 
+packages/foldkit test:  src/dom           |   86.36 |    83.82 |   86.34 |   86.48 |                   
+packages/foldkit test:   dom.ts           |   81.27 |    79.86 |   77.04 |   81.13 | ...62-780,802-830 
+packages/foldkit test:   ...ntMovement.ts |    8.69 |        0 |       0 |    9.09 | 24-56             
+packages/foldkit test:   inert.ts         |   98.96 |    89.47 |     100 |   98.94 | 63                
+packages/foldkit test:   scrollLock.ts    |   62.79 |    34.61 |   42.85 |   62.79 | ...35-36,40-42,76 
+packages/foldkit test:   ...eyBindings.ts |   97.39 |    95.02 |     100 |   97.37 | ...07,532,717,726 
+packages/foldkit test:   ...rAnimation.ts |    12.5 |        0 |       0 |   14.28 | 20-29             
+packages/foldkit test:  ...rimental/query |    97.1 |      100 |   93.75 |   97.01 |                   
+packages/foldkit test:   keyedQuery.ts    |   97.18 |      100 |   92.85 |    97.1 | 286-291           
+packages/foldkit test:   query.ts         |   95.34 |      100 |    90.9 |   95.12 | 157-160           
+packages/foldkit test:  ...imental/server |    94.4 |     88.2 |    98.1 |   94.29 |                   
+packages/foldkit test:   fetch.ts         |   97.67 |    94.44 |     100 |   97.67 | 130               
+packages/foldkit test:   host.ts          |   93.69 |    93.65 |     100 |   93.63 | ...00,306,349,355 
+packages/foldkit test:   serialize.ts     |   94.78 |    87.41 |    97.5 |   94.73 | ...5,770,862,1024 
+packages/foldkit test:   server.ts        |   94.19 |    88.34 |   96.25 |    94.1 | ...1271,1275,1278 
+packages/foldkit test:   template.ts      |   93.61 |    85.38 |     100 |   93.37 | ...33,540,569,647 
+packages/foldkit test:  ...ieldValidation |   98.96 |    98.14 |   97.77 |   98.94 |                   
+packages/foldkit test:   ...Validation.ts |   98.38 |      100 |   96.55 |   98.33 | 236               
+packages/foldkit test:   rule.ts          |     100 |    96.29 |     100 |     100 | 13                
+packages/foldkit test:  src/file          |   90.62 |    55.55 |   85.71 |   90.16 |                   
+packages/foldkit test:   reader.ts        |    87.5 |    56.25 |   81.81 |    87.5 | 19,32-33,39       
+packages/foldkit test:   select.ts        |      92 |       50 |   85.71 |      92 | 34-35             
+packages/foldkit test:  src/html          |   87.26 |    82.33 |   85.28 |   88.86 |                   
+packages/foldkit test:   boundary.ts      |   88.44 |    74.72 |   96.96 |    88.2 | ...43-571,596,739 
+packages/foldkit test:   ...neTracking.ts |   97.05 |    83.33 |     100 |   97.05 | 23                
+packages/foldkit test:   index.ts         |   85.07 |    81.78 |   83.86 |   87.29 | ...5226,5229-5244 
+packages/foldkit test:   ...eSingleton.ts |   92.15 |    71.42 |     100 |   92.15 | 84,124,228,244    
+packages/foldkit test:   submodel.ts      |   97.56 |    89.18 |     100 |    97.5 | 212,240           
+packages/foldkit test:  src/mount         |      95 |      100 |   88.23 |   94.44 |                   
+packages/foldkit test:   index.ts         |      95 |      100 |   88.23 |   94.44 | 580-583           
+packages/foldkit test:  src/navigation    |   33.33 |      100 |       0 |   38.88 |                   
+packages/foldkit test:   index.ts         |      30 |      100 |       0 |   35.29 | ...21,25,29,34-35 
+packages/foldkit test:  src/port          |   84.48 |       60 |      72 |   83.92 |                   
+packages/foldkit test:   port.ts          |   84.48 |       60 |      72 |   83.92 | ...84,187,252,255 
+packages/foldkit test:  src/render        |   94.44 |      100 |   88.88 |     100 |                   
+packages/foldkit test:   render.ts        |    90.9 |      100 |   81.81 |     100 |                   
+packages/foldkit test:  src/route         |   93.29 |    90.16 |   92.59 |   93.22 |                   
+packages/foldkit test:   parser.ts        |   90.83 |    78.57 |    90.9 |   90.76 | ...36,520,671-694 
+packages/foldkit test:  src/runtime       |   91.89 |    83.54 |   88.39 |   91.97 |                   
+packages/foldkit test:   ...rListeners.ts |   60.71 |    86.95 |   23.07 |   61.81 | ...70,100,108-114 
+packages/foldkit test:   ...rScheduler.ts |      90 |       50 |      75 |   88.88 | 18                
+packages/foldkit test:   crashUI.ts       |   70.73 |    55.55 |      50 |   70.73 | 48,279,311-331    
+packages/foldkit test:   deepFreeze.ts    |   95.65 |    94.44 |     100 |   95.65 | 57                
+packages/foldkit test:   ...oolsConfig.ts |   94.44 |       85 |   95.23 |   94.44 | 100,153           
+packages/foldkit test:   ...ntegration.ts |   91.66 |    73.91 |   88.46 |   91.56 | ...24-325,332,343 
+packages/foldkit test:   ...ntMetadata.ts |   98.82 |    98.24 |     100 |   98.82 | 238               
+packages/foldkit test:   ...eIdScanner.ts |   45.45 |    33.33 |      60 |   45.45 | 15-39,76-77       
+packages/foldkit test:   ...tionFibers.ts |   90.32 |    91.66 |   71.42 |   90.32 | 63,89,100         
+packages/foldkit test:   hostConnector.ts |   95.34 |     62.5 |     100 |   95.18 | 161,165,252,264   
+packages/foldkit test:   ...ionHandoff.ts |   99.39 |     89.7 |     100 |   99.39 | 227               
+packages/foldkit test:   ...pplication.ts |   81.81 |    64.58 |      60 |   81.81 | 364-371,389-396   
+packages/foldkit test:   makeElement.ts   |      95 |    93.75 |     100 |   94.73 | 205               
+packages/foldkit test:   ...urceFibers.ts |   96.29 |    83.33 |   91.66 |   96.29 | 113               
+packages/foldkit test:   messageQueue.ts  |     100 |    96.87 |     100 |     100 | 83                
+packages/foldkit test:   ...tionBridge.ts |   69.56 |    16.66 |   57.14 |   68.18 | 19-20,40,46-51    
+packages/foldkit test:   renderer.ts      |   96.58 |    90.24 |   94.59 |   96.56 | ...14,658-659,789 
+packages/foldkit test:   ...ceProvider.ts |     100 |    66.66 |     100 |     100 | 218-227           
+packages/foldkit test:   runtime.ts       |   92.77 |    87.83 |    83.6 |   93.45 | ...43,628-633,910 
+packages/foldkit test:   ...eservation.ts |   95.23 |      100 |     100 |   95.23 | 52                
+packages/foldkit test:   slowPhase.ts     |   89.28 |      100 |      76 |   89.28 | ...47,251,258,261 
+packages/foldkit test:   start.ts         |   92.85 |    81.25 |     100 |   92.85 | 42,51,231         
+packages/foldkit test:   ...tionFibers.ts |   95.65 |      100 |    92.3 |   95.65 | 136               
+packages/foldkit test:  src/schema        |    93.4 |    97.67 |   83.72 |    93.4 |                   
+packages/foldkit test:   index.ts         |    93.4 |    97.67 |   83.72 |    93.4 | 60-63,65,69       
+packages/foldkit test:  src/snabbdom      |   85.73 |    78.35 |   90.24 |   86.83 |                   
+packages/foldkit test:   attributes.ts    |   95.83 |       90 |     100 |   97.82 | 59                
+packages/foldkit test:   class.ts         |   98.14 |    91.83 |     100 |     100 | 52,69,79,83       
+packages/foldkit test:   dataset.ts       |   86.95 |       70 |     100 |   90.47 | 28,39             
+packages/foldkit test:   ...tlisteners.ts |   84.61 |    82.85 |     100 |   86.84 | 27-30,80,104      
+packages/foldkit test:   h.ts             |   88.15 |    75.94 |     100 |   90.14 | ...35,171-172,180 
+packages/foldkit test:   htmldomapi.ts    |   68.75 |       50 |   94.44 |   68.75 | ...06-110,117-124 
+packages/foldkit test:   init.ts          |   90.16 |    82.23 |   92.59 |   90.36 | ...41,807,832,868 
+packages/foldkit test:   style.ts         |   55.12 |    63.76 |   58.33 |   56.94 | ...30-131,141-166 
+packages/foldkit test:   tovnode.ts       |   97.36 |    77.77 |     100 |   97.22 | 60                
+packages/foldkit test:  src/struct        |       0 |      100 |       0 |       0 |                   
+packages/foldkit test:   index.ts         |       0 |      100 |       0 |       0 | 36-43             
+packages/foldkit test:  src/submodel      |   84.31 |    76.81 |   72.91 |   84.15 |                   
+packages/foldkit test:   module.ts        |   81.39 |     74.6 |   69.76 |   81.17 | ...78,505-506,517 
+packages/foldkit test:  src/subscription  |   73.91 |      100 |   66.66 |   74.62 |                   
+packages/foldkit test:   ...ationFrame.ts |   10.52 |      100 |       0 |   11.11 | 20-39,68-76       
+packages/foldkit test:   subscription.ts  |      98 |      100 |      96 |   97.95 | 510               
+packages/foldkit test:  src/test          |   91.74 |    84.78 |   86.04 |   91.92 |                   
+packages/foldkit test:   internal.ts      |   96.19 |    91.46 |    97.5 |   96.08 | ...41,579,651,754 
+packages/foldkit test:   lazy.ts          |   95.74 |    93.75 |   72.22 |   95.74 | 26,57             
+packages/foldkit test:   matchers.ts      |      60 |    54.41 |   49.45 |      60 | ...65-368,393-396 
+packages/foldkit test:   query.ts         |   93.53 |    92.66 |   90.59 |   94.36 | ...1546,1550,1554 
+packages/foldkit test:   scene.ts         |   93.56 |    83.46 |   89.51 |   93.53 | ...2917,2929-2930 
+packages/foldkit test:   story.ts         |   96.25 |       85 |     100 |   96.15 | 357,382,418       
+packages/foldkit test:  src/update        |   95.45 |    89.79 |     100 |    95.4 |                   
+packages/foldkit test:   update.ts        |   95.45 |    89.79 |     100 |    95.4 | ...1866,1876,1910 
+packages/foldkit test:  src/url           |     100 |     87.5 |     100 |     100 |                   
+packages/foldkit test:   index.ts         |     100 |     87.5 |     100 |     100 | 76                
+packages/foldkit test: -------------------|---------|----------|---------|---------|-------------------
+packages/foldkit test: =============================== Coverage summary ===============================
+packages/foldkit test: Statements   : 90.29% ( 10164/11256 )
+packages/foldkit test: Branches     : 84.24% ( 4566/5420 )
+packages/foldkit test: Functions    : 87.67% ( 3359/3831 )
+packages/foldkit test: Lines        : 90.65% ( 9980/11009 )
+packages/foldkit test: ================================================================================
+packages/foldkit test: Done
+packages/node test$ vitest run
+packages/vite-plugin-foldkit test$ vitest run
+packages/markdown test$ vitest run
+packages/markdown test:  RUN  v4.1.11 /workspace/foldkit/packages/markdown
+packages/vite-plugin-foldkit test:  RUN  v4.1.11 /workspace/foldkit/packages/vite-plugin-foldkit
+packages/node test:  RUN  v4.1.11 /workspace/foldkit/packages/node
+packages/node test:  Test Files  1 passed (1)
+packages/node test:       Tests  32 passed (32)
+packages/node test:    Start at  22:23:44
+packages/node test:    Duration  4.59s (transform 1.02s, setup 0ms, import 2.18s, tests 2.13s, environment 0ms)
+packages/node test: Done
+packages/markdown test:  Test Files  3 passed (3)
+packages/markdown test:       Tests  58 passed (58)
+packages/markdown test:    Start at  22:23:44
+packages/markdown test:    Duration  5.27s (transform 637ms, setup 0ms, import 2.62s, tests 278ms, environment 1.56s)
+packages/markdown test: Done
+packages/vite-plugin-foldkit test:  Test Files  18 passed (18)
+packages/vite-plugin-foldkit test:       Tests  337 passed | 4 skipped (341)
+packages/vite-plugin-foldkit test:    Start at  22:23:44
+packages/vite-plugin-foldkit test:    Duration  112.75s (transform 10.33s, setup 0ms, import 21.02s, tests 87.36s, environment 334ms)
+packages/vite-plugin-foldkit test: Done
+packages/devtools-mcp test$ vitest run
+packages/ui test$ vitest run
+packages/devtools-mcp test:  RUN  v4.1.11 /workspace/foldkit/packages/devtools-mcp
+packages/ui test:  RUN  v5.0.2 /workspace/foldkit/packages/ui
+packages/devtools-mcp test:  Test Files  7 passed | 1 skipped (8)
+packages/devtools-mcp test:       Tests  97 passed | 5 skipped (102)
+packages/devtools-mcp test:    Start at  22:25:37
+packages/devtools-mcp test:    Duration  40.13s (transform 1.02s, setup 0ms, import 9.13s, tests 29.15s, environment 1ms)
+packages/devtools-mcp test: Done
+packages/ui test:  Test Files  57 passed (57)
+packages/ui test:       Tests  1256 passed (1256)
+packages/ui test:    Start at  22:25:37
+packages/ui test:    Duration  78.72s (environment 33%, setup 31%, tests 14%, import 13%, transform 9%, worker 1%)
+packages/ui test: Environment  happy-dom was created 57 times · 22.46s total, 33% of tracked time
+packages/ui test:              create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+packages/ui test:              learn more: https://vitest.dev/guide/improving-performance#test-environments
+packages/ui test: Done
+packages/devtools test$ vitest run
+packages/devtools test:  RUN  v4.1.11 /workspace/foldkit/packages/devtools
+packages/devtools test:  Test Files  2 passed (2)
+packages/devtools test:       Tests  6 passed (6)
+packages/devtools test:    Start at  22:26:57
+packages/devtools test:    Duration  5.24s (transform 1.54s, setup 0ms, import 2.71s, tests 1.85s, environment 331ms)
+packages/devtools test: Done
+examples/auth test$ vitest run
+examples/api-cache test$ vitest run
+examples/canvas-art test$ vitest run
+examples/api-cache-query test$ vitest run
+examples/api-cache-query test: (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+examples/api-cache-query test:   - `__dirname` (vitest.config.ts:7:27). Use `import.meta.dirname` instead
+examples/api-cache-query test:   - import "../vite.aliases" without a file extension (vitest.config.ts:3:32). Add the file extension
+examples/api-cache-query test: Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+examples/api-cache-query test:  RUN  v5.0.2 /workspace/foldkit/examples/api-cache-query
+examples/canvas-art test:  RUN  v5.0.2 /workspace/foldkit/examples/canvas-art
+examples/auth test:  RUN  v5.0.2 /workspace/foldkit/examples/auth
+examples/api-cache test:  RUN  v5.0.2 /workspace/foldkit/examples/api-cache
+examples/canvas-art test:  Test Files  2 passed (2)
+examples/canvas-art test:       Tests  10 passed (10)
+examples/canvas-art test:    Start at  22:27:03
+examples/canvas-art test:    Duration  8.05s (transform 52%, import 19%, environment 15%, setup 13%, tests 1%)
+examples/canvas-art test:   Transform  transforming modules took 3.89s · 52% of tracked time, re-done on every run
+examples/canvas-art test:              persist transforms across runs with fsModuleCache: true
+examples/canvas-art test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/canvas-art test: Done
+examples/charting test$ vitest run
+examples/api-cache-query test:  Test Files  2 passed (2)
+examples/api-cache-query test:       Tests  16 passed (16)
+examples/api-cache-query test:    Start at  22:27:03
+examples/api-cache-query test:    Duration  8.67s (transform 53%, import 18%, environment 15%, setup 11%, tests 2%)
+examples/api-cache-query test:   Transform  transforming modules took 4.34s · 53% of tracked time, re-done on every run
+examples/api-cache-query test:              persist transforms across runs with fsModuleCache: true
+examples/api-cache-query test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/api-cache-query test: Done
+examples/counter test$ vitest run
+examples/charting test:  RUN  v5.0.2 /workspace/foldkit/examples/charting
+examples/counter test:  RUN  v5.0.2 /workspace/foldkit/examples/counter
+examples/auth test:  Test Files  3 passed (3)
+examples/auth test:       Tests  13 passed (13)
+examples/auth test:    Start at  22:27:03
+examples/auth test:    Duration  9.72s (transform 48%, import 22%, setup 15%, environment 13%, tests 2%)
+examples/auth test:   Transform  transforming modules took 4.27s · 48% of tracked time, re-done on every run
+examples/auth test:              persist transforms across runs with fsModuleCache: true
+examples/auth test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/auth test: Done
+examples/counters test$ vitest run
+examples/counters test:  RUN  v5.0.2 /workspace/foldkit/examples/counters
+examples/api-cache test:  Test Files  3 passed (3)
+examples/api-cache test:       Tests  19 passed (19)
+examples/api-cache test:    Start at  22:27:03
+examples/api-cache test:    Duration  12.90s (transform 34%, tests 25%, environment 15%, import 13%, setup 12%)
+examples/api-cache test:   Transform  transforming modules took 4.09s · 34% of tracked time, re-done on every run
+examples/api-cache test:              persist transforms across runs with fsModuleCache: true
+examples/api-cache test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/api-cache test: Done
+examples/crash-view test$ vitest run
+examples/crash-view test:  RUN  v5.0.2 /workspace/foldkit/examples/crash-view
+examples/counter test:  Test Files  2 passed (2)
+examples/counter test:       Tests  10 passed (10)
+examples/counter test:    Start at  22:27:12
+examples/counter test:    Duration  6.75s (transform 46%, import 21%, environment 17%, setup 15%, tests 1%)
+examples/counter test:   Transform  transforming modules took 2.86s · 46% of tracked time, re-done on every run
+examples/counter test:              persist transforms across runs with fsModuleCache: true
+examples/counter test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/counter test: Done
+examples/embedding test$ vitest run
+examples/embedding test:  RUN  v5.0.2 /workspace/foldkit/examples/embedding
+examples/counters test:  Test Files  2 passed (2)
+examples/counters test:       Tests  11 passed (11)
+examples/counters test:    Start at  22:27:13
+examples/counters test:    Duration  6.96s (transform 46%, import 24%, setup 14%, environment 13%, tests 2%)
+examples/counters test:   Transform  transforming modules took 2.98s · 46% of tracked time, re-done on every run
+examples/counters test:              persist transforms across runs with fsModuleCache: true
+examples/counters test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/counters test: Done
+examples/form test$ vitest run
+examples/form test:  RUN  v5.0.2 /workspace/foldkit/examples/form
+examples/crash-view test:  Test Files  2 passed (2)
+examples/crash-view test:       Tests  2 passed (2)
+examples/crash-view test:    Start at  22:27:17
+examples/crash-view test:    Duration  7.83s (transform 54%, import 19%, environment 14%, setup 13%)
+examples/crash-view test:   Transform  transforming modules took 3.95s · 54% of tracked time, re-done on every run
+examples/crash-view test:              persist transforms across runs with fsModuleCache: true
+examples/crash-view test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/crash-view test: Done
+examples/generative-art test$ vitest run
+examples/generative-art test:  RUN  v5.0.2 /workspace/foldkit/examples/generative-art
+examples/embedding test:  Test Files  2 passed (2)
+examples/embedding test:       Tests  6 passed (6)
+examples/embedding test:    Start at  22:27:20
+examples/embedding test:    Duration  6.60s (transform 54%, import 18%, environment 15%, setup 13%)
+examples/embedding test:   Transform  transforming modules took 3.31s · 54% of tracked time, re-done on every run
+examples/embedding test:              persist transforms across runs with fsModuleCache: true
+examples/embedding test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/embedding test: Done
+examples/interrupting-commands test$ vitest run
+examples/interrupting-commands test:  RUN  v5.0.2 /workspace/foldkit/examples/interrupting-commands
+examples/form test:  Test Files  2 passed (2)
+examples/form test:       Tests  19 passed (19)
+examples/form test:    Start at  22:27:21
+examples/form test:    Duration  7.58s (transform 54%, import 21%, environment 13%, setup 12%, tests 1%)
+examples/form test:   Transform  transforming modules took 3.81s · 54% of tracked time, re-done on every run
+examples/form test:              persist transforms across runs with fsModuleCache: true
+examples/form test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/form test: Done
+examples/job-application test$ vitest run
+examples/job-application test:  RUN  v5.0.2 /workspace/foldkit/examples/job-application
+examples/charting test:  Test Files  3 passed (3)
+examples/charting test:       Tests  13 passed (13)
+examples/charting test:    Start at  22:27:12
+examples/charting test:    Duration  18.96s (transform 58%, import 25%, environment 8%, setup 7%, tests 1%)
+examples/charting test:      Import  845 modules were evaluated 2369 times · 4.65s total, 25% of tracked time
+examples/charting test:              ~2.99s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+examples/charting test:              learn more: https://vitest.dev/guide/improving-performance#test-isolation
+examples/charting test: Done
+examples/kanban test$ vitest run
+examples/kanban test:  RUN  v5.0.2 /workspace/foldkit/examples/kanban
+examples/generative-art test:  Test Files  2 passed (2)
+examples/generative-art test:       Tests  10 passed (10)
+examples/generative-art test:    Start at  22:27:25
+examples/generative-art test:    Duration  6.95s (transform 48%, import 19%, environment 16%, setup 15%, tests 2%)
+examples/generative-art test:   Transform  transforming modules took 3.14s · 48% of tracked time, re-done on every run
+examples/generative-art test:              persist transforms across runs with fsModuleCache: true
+examples/generative-art test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/generative-art test: Done
+examples/managed-resource-layer test$ vitest run
+examples/managed-resource-layer test:  RUN  v5.0.2 /workspace/foldkit/examples/managed-resource-layer
+examples/interrupting-commands test:  Test Files  2 passed (2)
+examples/interrupting-commands test:       Tests  11 passed (11)
+examples/interrupting-commands test:    Start at  22:27:28
+examples/interrupting-commands test:    Duration  6.11s (transform 39%, setup 20%, environment 19%, import 19%, tests 2%, worker 1%)
+examples/interrupting-commands test:   Transform  transforming modules took 2.21s · 39% of tracked time, re-done on every run
+examples/interrupting-commands test:              persist transforms across runs with fsModuleCache: true
+examples/interrupting-commands test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/interrupting-commands test: Done
+examples/map test$ vitest run
+examples/map test:  RUN  v5.0.2 /workspace/foldkit/examples/map
+examples/kanban test:  Test Files  2 passed (2)
+examples/kanban test:       Tests  22 passed (22)
+examples/kanban test:    Start at  22:27:31
+examples/kanban test:    Duration  7.20s (transform 51%, import 19%, setup 15%, environment 13%, tests 1%)
+examples/kanban test:   Transform  transforming modules took 3.44s · 51% of tracked time, re-done on every run
+examples/kanban test:              persist transforms across runs with fsModuleCache: true
+examples/kanban test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/kanban test: Done
+examples/personal-blog test$ vitest run
+examples/managed-resource-layer test:  Test Files  2 passed (2)
+examples/managed-resource-layer test:       Tests  13 passed (13)
+examples/managed-resource-layer test:    Start at  22:27:33
+examples/managed-resource-layer test:    Duration  7.02s (transform 58%, import 18%, environment 13%, setup 10%, tests 1%)
+examples/managed-resource-layer test:   Transform  transforming modules took 3.82s · 58% of tracked time, re-done on every run
+examples/managed-resource-layer test:              persist transforms across runs with fsModuleCache: true
+examples/managed-resource-layer test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/personal-blog test: (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+examples/personal-blog test:   - import "./src/island/islandAttributes" without a file extension (vitest.config.ts:5:34). Add the file extension
+examples/personal-blog test: Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+examples/managed-resource-layer test: Done
+examples/pixel-art test$ vitest run
+examples/personal-blog test:  RUN  v5.0.2 /workspace/foldkit/examples/personal-blog
+examples/pixel-art test:  RUN  v5.0.2 /workspace/foldkit/examples/pixel-art
+examples/map test:  Test Files  3 passed (3)
+examples/map test:       Tests  20 passed (20)
+examples/map test:    Start at  22:27:34
+examples/map test:    Duration  9.62s (transform 43%, import 23%, environment 16%, setup 16%, tests 1%)
+examples/map test:   Transform  transforming modules took 3.84s · 43% of tracked time, re-done on every run
+examples/map test:              persist transforms across runs with fsModuleCache: true
+examples/map test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/map test: Done
+examples/query-sync test$ vitest run
+examples/query-sync test:  RUN  v5.0.2 /workspace/foldkit/examples/query-sync
+examples/personal-blog test:  Test Files  2 passed (2)
+examples/personal-blog test:       Tests  15 passed (15)
+examples/personal-blog test:    Start at  22:27:40
+examples/personal-blog test:    Duration  7.63s (transform 48%, import 20%, environment 16%, setup 13%, tests 3%)
+examples/personal-blog test:   Transform  transforming modules took 3.45s · 48% of tracked time, re-done on every run
+examples/personal-blog test:              persist transforms across runs with fsModuleCache: true
+examples/personal-blog test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/personal-blog test: Done
+examples/route-transitions test$ vitest run
+examples/route-transitions test:  RUN  v5.0.2 /workspace/foldkit/examples/route-transitions
+examples/pixel-art test:  Test Files  2 passed (2)
+examples/pixel-art test:       Tests  38 passed (38)
+examples/pixel-art test:    Start at  22:27:41
+examples/pixel-art test:    Duration  7.94s (transform 55%, import 17%, environment 11%, setup 11%, tests 5%)
+examples/pixel-art test:   Transform  transforming modules took 4.11s · 55% of tracked time, re-done on every run
+examples/pixel-art test:              persist transforms across runs with fsModuleCache: true
+examples/pixel-art test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/pixel-art test: Done
+examples/routing test$ vitest run
+examples/routing test:  RUN  v5.0.2 /workspace/foldkit/examples/routing
+examples/query-sync test:  Test Files  2 passed (2)
+examples/query-sync test:       Tests  12 passed (12)
+examples/query-sync test:    Start at  22:27:45
+examples/query-sync test:    Duration  7.56s (transform 54%, import 20%, environment 12%, setup 11%, tests 3%)
+examples/query-sync test:   Transform  transforming modules took 3.77s · 54% of tracked time, re-done on every run
+examples/query-sync test:              persist transforms across runs with fsModuleCache: true
+examples/query-sync test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/query-sync test: Done
+examples/shopping-cart test$ vitest run
+examples/route-transitions test:  Test Files  1 passed (1)
+examples/route-transitions test:       Tests  10 passed (10)
+examples/route-transitions test:    Start at  22:27:48
+examples/route-transitions test:    Duration  4.17s (transform 56%, setup 15%, environment 15%, import 13%, tests 1%)
+examples/route-transitions test:   Transform  transforming modules took 2.16s · 56% of tracked time, re-done on every run
+examples/route-transitions test:              persist transforms across runs with fsModuleCache: true
+examples/route-transitions test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/route-transitions test: Done
+examples/slow-warnings test$ vitest run
+examples/shopping-cart test:  RUN  v5.0.2 /workspace/foldkit/examples/shopping-cart
+examples/slow-warnings test:  RUN  v5.0.2 /workspace/foldkit/examples/slow-warnings
+examples/slow-warnings test:  Test Files  3 passed (3)
+examples/slow-warnings test:       Tests  10 passed (10)
+examples/slow-warnings test:    Start at  22:27:53
+examples/slow-warnings test:    Duration  8.60s (transform 34%, environment 21%, import 20%, setup 18%, tests 6%)
+examples/slow-warnings test:   Transform  transforming modules took 2.69s · 34% of tracked time, re-done on every run
+examples/slow-warnings test:              persist transforms across runs with fsModuleCache: true
+examples/slow-warnings test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/slow-warnings test: Done
+examples/snake test$ vitest run
+examples/routing test:  Test Files  4 passed (4)
+examples/routing test:       Tests  30 passed (30)
+examples/routing test:    Start at  22:27:49
+examples/routing test:    Duration  13.14s (transform 33%, import 25%, environment 22%, setup 18%, tests 2%)
+examples/routing test:      Import  274 modules were evaluated 1031 times · 3.08s total, 25% of tracked time
+examples/routing test:              ~2.26s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+examples/routing test:              learn more: https://vitest.dev/guide/improving-performance#test-isolation
+examples/routing test: Done
+examples/ssr test$ vitest run
+examples/snake test:  RUN  v5.0.2 /workspace/foldkit/examples/snake
+examples/ssr test:  RUN  v5.0.2 /workspace/foldkit/examples/ssr
+examples/shopping-cart test:  Test Files  4 passed (4)
+examples/shopping-cart test:       Tests  27 passed (27)
+examples/shopping-cart test:    Start at  22:27:53
+examples/shopping-cart test:    Duration  11.88s (transform 41%, import 22%, setup 18%, environment 17%, tests 1%)
+examples/shopping-cart test:   Transform  transforming modules took 4.54s · 41% of tracked time, re-done on every run
+examples/shopping-cart test:              persist transforms across runs with fsModuleCache: true
+examples/shopping-cart test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/shopping-cart test: Done
+examples/state-machine test$ vitest run
+examples/state-machine test:  RUN  v5.0.2 /workspace/foldkit/examples/state-machine
+examples/job-application test:  Test Files  17 passed (17)
+examples/job-application test:       Tests  66 passed (66)
+examples/job-application test:    Start at  22:27:29
+examples/job-application test:    Duration  38.71s (import 31%, environment 23%, setup 23%, transform 19%, tests 4%, worker 1%)
+examples/job-application test:      Import  330 modules were evaluated 4462 times · 10.62s total, 31% of tracked time
+examples/job-application test:              ~9.83s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+examples/job-application test:              learn more: https://vitest.dev/guide/improving-performance#test-isolation
+examples/job-application test: Done
+examples/stopwatch test$ vitest run
+examples/ssr test:  Test Files  1 passed (1)
+examples/ssr test:       Tests  2 passed (2)
+examples/ssr test:    Start at  22:28:03
+examples/ssr test:    Duration  5.06s (transform 63%, import 16%, environment 10%, setup 10%, worker 1%)
+examples/ssr test:   Transform  transforming modules took 3.05s · 63% of tracked time, re-done on every run
+examples/ssr test:              persist transforms across runs with fsModuleCache: true
+examples/ssr test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/ssr test: Done
+examples/todo test$ vitest run
+examples/snake test:  Test Files  2 passed (2)
+examples/snake test:       Tests  16 passed (16)
+examples/snake test:    Start at  22:28:03
+examples/snake test:    Duration  5.99s (transform 41%, environment 22%, setup 19%, import 15%, tests 3%)
+examples/snake test:   Transform  transforming modules took 2.18s · 41% of tracked time, re-done on every run
+examples/snake test:              persist transforms across runs with fsModuleCache: true
+examples/snake test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/snake test: Done
+examples/ui-showcase test$ vitest run
+examples/stopwatch test:  RUN  v5.0.2 /workspace/foldkit/examples/stopwatch
+examples/todo test:  RUN  v5.0.2 /workspace/foldkit/examples/todo
+examples/ui-showcase test:  RUN  v5.0.2 /workspace/foldkit/examples/ui-showcase
+examples/state-machine test:  Test Files  2 passed (2)
+examples/state-machine test:       Tests  11 passed (11)
+examples/state-machine test:    Start at  22:28:06
+examples/state-machine test:    Duration  8.10s (transform 46%, import 20%, environment 16%, setup 14%, tests 4%)
+examples/state-machine test:   Transform  transforming modules took 3.48s · 46% of tracked time, re-done on every run
+examples/state-machine test:              persist transforms across runs with fsModuleCache: true
+examples/state-machine test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/state-machine test: Done
+examples/view-transitions test$ vitest run
+examples/view-transitions test:  RUN  v5.0.2 /workspace/foldkit/examples/view-transitions
+examples/todo test:  Test Files  2 passed (2)
+examples/todo test:       Tests  24 passed (24)
+examples/todo test:    Start at  22:28:09
+examples/todo test:    Duration  6.25s (transform 51%, import 21%, environment 14%, setup 13%, tests 2%)
+examples/todo test:   Transform  transforming modules took 2.99s · 51% of tracked time, re-done on every run
+examples/todo test:              persist transforms across runs with fsModuleCache: true
+examples/todo test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/todo test: Done
+examples/weather test$ vitest run
+examples/weather test:  RUN  v5.0.2 /workspace/foldkit/examples/weather
+examples/stopwatch test:  Test Files  2 passed (2)
+examples/stopwatch test:       Tests  13 passed (13)
+examples/stopwatch test:    Start at  22:28:09
+examples/stopwatch test:    Duration  7.65s (transform 48%, environment 18%, import 17%, setup 16%, tests 1%, worker 1%)
+examples/stopwatch test:   Transform  transforming modules took 3.37s · 48% of tracked time, re-done on every run
+examples/stopwatch test:              persist transforms across runs with fsModuleCache: true
+examples/stopwatch test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/stopwatch test: Done
+examples/web-components test$ vitest run
+examples/web-components test:  RUN  v5.0.2 /workspace/foldkit/examples/web-components
+examples/view-transitions test:  Test Files  1 passed (1)
+examples/view-transitions test:       Tests  10 passed (10)
+examples/view-transitions test:    Start at  22:28:14
+examples/view-transitions test:    Duration  3.68s (transform 58%, import 16%, setup 15%, environment 9%, tests 2%)
+examples/view-transitions test:   Transform  transforming modules took 2.01s · 58% of tracked time, re-done on every run
+examples/view-transitions test:              persist transforms across runs with fsModuleCache: true
+examples/view-transitions test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/ui-showcase test:  Test Files  2 passed (2)
+examples/ui-showcase test:       Tests  13 passed (13)
+examples/ui-showcase test:    Start at  22:28:09
+examples/ui-showcase test:    Duration  8.93s (transform 49%, import 20%, environment 15%, setup 13%, tests 4%)
+examples/ui-showcase test:   Transform  transforming modules took 4.07s · 49% of tracked time, re-done on every run
+examples/ui-showcase test:              persist transforms across runs with fsModuleCache: true
+examples/ui-showcase test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/view-transitions test: Done
+examples/websocket-chat test$ vitest run
+examples/ui-showcase test: Done
+packages/website test$ vitest run
+examples/websocket-chat test:  RUN  v5.0.2 /workspace/foldkit/examples/websocket-chat
+packages/website test: (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+packages/website test:   - import "./scripts/demoCodePlugin" without a file extension (vitest.config.ts:9:8). Add the file extension
+packages/website test:   - import "./src/markdown/islandAttributes" without a file extension (vitest.config.ts:10:34). Add the file extension
+packages/website test:   - import "./src/page/blog/frontmatter" without a file extension (vitest.config.ts:11:33). Add the file extension
+packages/website test: Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+packages/website test:  RUN  v4.1.11 /workspace/foldkit/packages/website
+examples/weather test:  Test Files  2 passed (2)
+examples/weather test:       Tests  11 passed (11)
+examples/weather test:    Start at  22:28:16
+examples/weather test:    Duration  7.45s (transform 53%, import 18%, environment 15%, setup 13%, tests 1%)
+examples/weather test:   Transform  transforming modules took 3.70s · 53% of tracked time, re-done on every run
+examples/weather test:              persist transforms across runs with fsModuleCache: true
+examples/weather test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/weather test: Done
+examples/web-components test:  Test Files  2 passed (2)
+examples/web-components test:       Tests  12 passed (12)
+examples/web-components test:    Start at  22:28:17
+examples/web-components test:    Duration  7.47s (transform 50%, import 20%, environment 15%, setup 14%, tests 1%)
+examples/web-components test:   Transform  transforming modules took 3.48s · 50% of tracked time, re-done on every run
+examples/web-components test:              persist transforms across runs with fsModuleCache: true
+examples/web-components test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/web-components test: Done
+examples/websocket-chat test:  Test Files  2 passed (2)
+examples/websocket-chat test:       Tests  20 passed (20)
+examples/websocket-chat test:    Start at  22:28:19
+examples/websocket-chat test:    Duration  6.63s (transform 51%, import 20%, setup 13%, environment 13%, tests 2%)
+examples/websocket-chat test:   Transform  transforming modules took 3.20s · 51% of tracked time, re-done on every run
+examples/websocket-chat test:              persist transforms across runs with fsModuleCache: true
+examples/websocket-chat test:              learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+examples/websocket-chat test: Done
+packages/website test:  Test Files  31 passed (31)
+packages/website test:       Tests  1313 passed (1313)
+packages/website test:    Start at  22:28:20
+packages/website test:    Duration  72.28s (transform 12.38s, setup 0ms, import 43.84s, tests 7.09s, environment 13.87s)
+packages/website test: Done
+
+==============================================================================
+WARNING: Skipping website e2e tests. Required playwright browsers are missing.
+==============================================================================
+
+Missing:
+  /home/agent/.cache/ms-playwright/chromium-1243
+  /home/agent/.cache/ms-playwright/ffmpeg-1011
+  /home/agent/.cache/ms-playwright/chromium_headless_shell-1243
+
+To install locally:
+  pnpm --filter website exec playwright install chromium
+
+CI installs browsers explicitly and runs the full suite on every PR.
+
+To https://github.com/phibkro/foldkit.git
+ * [new branch]        chore/sync-upstream-v170 -> chore/sync-upstream-v170
+ * [new branch]        feat/lazy-submodel-host-v170 -> feat/lazy-submodel-host-v170
+branch 'chore/sync-upstream-v170' set up to track 'origin/chore/sync-upstream-v170'.
+branch 'feat/lazy-submodel-host-v170' set up to track 'origin/feat/lazy-submodel-host-v170'.

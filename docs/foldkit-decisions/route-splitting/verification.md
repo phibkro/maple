@@ -17,11 +17,15 @@ The final focused suite provides the evidence for the last application changes. 
 
 The framework builds, core typecheck, plugin typecheck, targeted typed lint, and formatting passed. Real Vite tests cover generated catalog freshness, unsafe import diagnostics, emitted startup separation, production identities, transitive development edits, and configurable implementation filenames.
 
-All 3,043 core test cases passed across the recorded runs, with one existing skip. A complete final fork-pool run passed 3,042 cases and failed one hydration-containment assertion within its polling deadline. The whole 58-test hydration file then passed alone. An earlier complete run passed 2,999 cases but could not start the calendar worker; its 44 cases passed alone. These results do not establish a clean final full-suite invocation.
+The normal repository-wide pre-push gate at Foldkit `05d35a0ec32dd03264d5cb09cc8791aadf34a8f3` passed the complete core suite with coverage: 113 files, 3,043 tests, and one existing skipped file/test. It used one worker. The measured runtime source is unchanged from `1ef1c4f7`; subsequent changes retain typed decoding in one test and support labeled tuples in the website API renderer.
+
+Earlier complete attempts remain in the evidence. One passed 3,042 cases and failed a hydration-containment assertion within its polling deadline; the whole 58-test hydration file then passed alone. Another passed 2,999 cases but could not start the calendar worker; its 44 cases passed alone. The later clean pre-push run resolves the uncertainty about a complete core invocation.
 
 An exploratory thread-pool run hit existing embed timing assertions and was stopped. The configured fork-pool results above are the relevant core evidence. No framework source or assertions were changed to make these runs pass.
 
-The complete Vite plugin suite passed: 18 files, 337 tests, and four existing skips. It used one worker and 30-second runner/hook deadlines after existing build cases exceeded the default five-second deadline. Focused host/runtime tests also passed all 18 cases across four files. Full attempts and isolated rerun logs are in `raw/validation/`.
+The normal pre-push gate also passed the complete Vite plugin suite: 18 files, 337 tests, and four existing skips, with its standard test deadlines. An earlier standalone pass used one worker and 30-second runner/hook deadlines after build cases exceeded the default five-second deadline. Focused host/runtime tests also passed all 18 cases across four files. Full attempts and isolated rerun logs are in `raw/validation/`.
+
+The complete repository pre-push gate passed before both Foldkit branches were published. It includes formatting, strict lint, dependency/boundary checks, all workspace builds and typechecks, package/example tests, and the website's 1,313 tests. The repository's website-e2e wrapper skipped browser tests because its managed Playwright browsers were absent. This is not a claimed website browser-suite pass. The full gate and push log is [foldkit-pre-push.log](raw/validation/foldkit-pre-push.log).
 
 Mutation checks detect removal of each of these behaviors:
 
@@ -53,13 +57,13 @@ The benchmark tooling received a separate review. Its two findings were fixed: t
 
 Independent review approved the same exact integration commit. The source-admission finding was fixed and tested through the real root transition from Loading to Ready. The test verifies a source-refresh Command and prevents duplicate refresh when metadata is unchanged. The reviewer also checked infrastructure-settled behavior during loading and found no lost behavior.
 
-Foldkit received an independent exact-commit review of `1ef1c4f7aef25af7e24a09b27048238c2a27fa5d`. All findings were addressed before approval. No subsequent framework changes were made.
+Foldkit received an independent exact-commit review of `1ef1c4f7aef25af7e24a09b27048238c2a27fa5d`. All findings were addressed before approval. The later test-only commit `db9bf5c6` and website API-renderer fix `05d35a0e` also received independent exact-commit approval. The website regression tests failed before the fix and passed afterward; its full build, typecheck, and strict targeted lint passed. These follow-up commits do not change the measured runtime.
 
 Review summary: no remaining integration findings on either axis. Two benchmark tooling findings were fixed and approved. The dense timing claim was narrowed and a separate completed-filter check was added after spec review; both artifacts pass it. The configured tracker file `docs/agents/issue-tracker.md` is absent; `/setup-matt-pocock-skills` can configure future issue-linked reviews.
 
 ## Publication
 
-The local branches and PR text are prepared for review. GitHub API access is blocked by the environment proxy before authentication (`CONNECT` receives HTTP 403 from Envoy). A cloud configuration draft allows `api.github.com`, but that draft must be published before the rule applies. This result does not establish an invalid GitHub credential.
+All implementation branches are pushed: Maple `feat/automatic-route-splitting`, Foldkit `chore/sync-upstream-v170`, and Foldkit `feat/lazy-submodel-host-v170`. PR text is prepared, but no PR has been created. GitHub API access is blocked by the environment proxy before authentication (`CONNECT` receives HTTP 403 from Envoy). Actual draft-PR creation attempts return Forbidden. A cloud configuration draft allows `api.github.com`, but that draft must be published before the rule applies. This result does not establish an invalid GitHub credential.
 
 Foldkit's fork main is older than Maple's installed v0.170 packages. The local `chore/sync-upstream-v170` branch supplies that prerequisite. The framework feature branch is `feat/lazy-submodel-host-v170`; Maple's branch is `feat/automatic-route-splitting`. Publication must preserve the small feature diff against the v0.170 prerequisite.
 
