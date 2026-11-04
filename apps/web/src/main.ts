@@ -64,6 +64,7 @@ export const init: Runtime.RoutingApplicationInit<Model, Message, Flags, Resourc
 		tooltip: TooltipHost.init("tooltip"),
 		page: null,
 		pageInstances: 0,
+		viewLoads: {},
 		parkedPages: [],
 		onboarding: null,
 		clerkSnapshot: null,
