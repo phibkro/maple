@@ -50,6 +50,8 @@ export const Model = Schema.Struct({
 	page: Schema.NullOr(PageSlot),
 	/** Page instances built so far; the next build is stamped `pageInstances + 1`. */
 	pageInstances: Schema.Number,
+	/** Status of code-split view chunks (runtime modules remain outside the serializable Model). */
+	viewLoads: Schema.Record(Schema.String, Schema.Literals(["Loading", "Loaded", "Failed"])),
 	/** Pages left recently, newest first: going back revives one with its last data (`parkPages`). */
 	parkedPages: Schema.Array(PageSlot),
 	/** The open onboarding or auth-handoff screen (`page/onboarding`): outside the shell and `PageContext`. */
