@@ -168,6 +168,8 @@ export interface PageSpec<Tags extends RouteTag, Model, Message> {
 	/** Every integration status answered, after the page may have entered without them. */
 	readonly infraSurfacesSettled?: (model: Model, context: PageContext) => PageReturn<Model, Message>
 	readonly view: Submodel.View<Model, Message, PageViewInputs>
+	/** Optional code-split view loader, invoked by the root as a Command. */
+	readonly loadView?: () => Promise<void>
 	readonly subscriptions?: Subscription.Subscriptions<PageSubscriptionInput<Model>, Message, Resources>
 	/** `DashboardPage`'s `breadcrumbs`. */
 	readonly breadcrumbs: (model: Model) => ReadonlyArray<BreadcrumbEntry>
@@ -364,6 +366,7 @@ export const definePage = <
 
 	return {
 		id,
+		loadView: spec.loadView,
 		Slot,
 		Wrapped,
 		keyOf: (route: AppRoute): Option.Option<string> =>
