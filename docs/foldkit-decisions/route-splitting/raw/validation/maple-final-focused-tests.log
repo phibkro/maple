@@ -1,0 +1,14 @@
+$ vitest run --passWithNoTests src/page/lazy-page.test.ts src/page/revive.test.ts src/page/instance.scene.test.ts src/page/preload.test.ts src/page/dashboards/widget/widget-leave.scene.test.ts src/update.test.ts src/update.customer-grace.test.ts src/update.pending-task.test.ts src/view.lazy.test.ts src/view.scene.test.ts "--maxWorkers=2"
+
+ RUN  v5.1.0 /workspace/maple/apps/web
+
+
+ Test Files  10 passed (10)
+      Tests  144 passed (144)
+   Start at  19:45:55
+   Duration  46.50s (import 56%, transform 32%, tests 6%, setup 6%)
+
+     Import  2917 modules were evaluated 26092 times · 47.60s total, 56% of tracked time
+             ~18.49s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+

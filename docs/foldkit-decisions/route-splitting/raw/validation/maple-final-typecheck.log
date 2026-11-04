@@ -1,0 +1,1 @@
+$ tsrs --noEmit && tsrs --noEmit -p e2e/tsconfig.json

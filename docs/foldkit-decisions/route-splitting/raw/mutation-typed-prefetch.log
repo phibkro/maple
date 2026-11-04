@@ -1,0 +1,31 @@
+
+ RUN  v5.0.2 /workspace/foldkit/packages/foldkit
+
+ ❯ src/submodel/module.test.ts (10 tests | 1 failed | 9 skipped) 10ms
+   ❯ complete Submodel host (10)
+     × exposes speculative download failures through the typed Effect error channel 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/submodel/module.test.ts > complete Submodel host > exposes speculative download failures through the typed Effect error channel
+Error: offline
+ ❯ Object.load src/submodel/module.test.ts:294:34
+    292|     const host = lazy(Counter, {
+    293|       buildId,
+    294|       load: () => Promise.reject(new Error('offline')),
+       |                                  ^
+    295|     })
+    296|     const recovered = await Effect.runPromise(
+ ❯ src/submodel/module.ts:250:42
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 skipped (10)
+   Start at  18:27:44
+   Duration  2.80s (transform 46%, environment 28%, setup 22%, import 3%, worker 1%)
+
+undefined
+/workspace/foldkit/packages/foldkit:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run src/submodel/module.test.ts -t 'typed Effect error'

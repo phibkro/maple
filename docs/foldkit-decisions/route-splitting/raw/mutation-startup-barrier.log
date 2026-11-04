@@ -1,0 +1,40 @@
+
+ RUN  v5.0.2 /workspace/foldkit/packages/foldkit
+
+ ❯ src/runtime/prepareModel.test.ts (2 tests | 1 failed | 1 skipped) 1105ms
+   ❯ Model code preparation barrier (1)
+     × awaits preparation before rendering or selecting subscriptions 1101ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/runtime/prepareModel.test.ts > Model code preparation barrier > awaits preparation before rendering or selecting subscriptions
+AssertionError: expected [ 'render', 'subscriptions' ] to deeply equal [ 'prepare:restored child' ]
+
+- Expected
++ Received
+
+  [
+-   "prepare:restored child",
++   "render",
++   "subscriptions",
+  ]
+
+ ❯ src/runtime/prepareModel.test.ts:45:44
+     43|     )
+     44|     try {
+     45|       await vi.waitFor(() => expect(calls).toEqual(['prepare:restored …
+       |                                            ^
+     46|       release()
+     47|       await vi.waitFor(() => expect(calls).toContain('subscriptions'))
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  18:27:50
+   Duration  4.22s (transform 44%, tests 28%, environment 12%, setup 11%, import 5%)
+
+undefined
+/workspace/foldkit/packages/foldkit:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run src/runtime/prepareModel.test.ts -t 'awaits preparation'

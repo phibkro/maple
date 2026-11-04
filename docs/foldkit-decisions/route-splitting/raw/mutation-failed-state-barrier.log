@@ -1,0 +1,40 @@
+
+ RUN  v5.0.2 /workspace/foldkit/packages/foldkit
+
+ ❯ src/submodel/module.test.ts (10 tests | 1 failed | 9 skipped) 22ms
+   ❯ complete Submodel host (10)
+     × prepares only admitted state and resumes interrupted preparation through a Command 18ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/submodel/module.test.ts > complete Submodel host > prepares only admitted state and resumes interrupted preparation through a Command
+AssertionError: expected "vi.fn()" to not be called at all, but actually been called 1 times
+
+Received:
+
+  1st vi.fn() call:
+
+    Array []
+
+
+Number of calls: 1
+
+ ❯ src/submodel/module.test.ts:278:22
+    276|     await Effect.runPromise(host.prepare(pending.model))
+    277|     await Effect.runPromise(host.prepare(failed.model))
+    278|     expect(load).not.toHaveBeenCalled()
+       |                      ^
+    279|     expect(host.resume(failed.model)).toEqual({ model: failed.model })
+    280|     const resumed = host.resume(pending.model)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 skipped (10)
+   Start at  18:27:39
+   Duration  2.55s (setup 47%, transform 27%, environment 22%, import 3%, tests 1%, worker 1%)
+
+undefined
+/workspace/foldkit/packages/foldkit:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run src/submodel/module.test.ts -t 'prepares only admitted'

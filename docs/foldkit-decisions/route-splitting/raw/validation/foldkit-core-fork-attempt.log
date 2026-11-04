@@ -1,0 +1,165 @@
+$ vitest run --coverage --maxWorkers=2
+
+ RUN  v5.0.2 /workspace/foldkit/packages/foldkit
+      Coverage enabled with v8
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯⎯⎯ Unhandled Error ⎯⎯⎯⎯⎯⎯⎯
+Error: [vitest-pool]: Failed to start forks worker for test files /workspace/foldkit/packages/foldkit/src/calendar/calendarDate.test.ts.
+ ❯ ../../node_modules/.pnpm/vitest@5.0.2_@opentelemetry+api@1.9.0_@types+node@26.4.0_@vitest+coverage-v8@5.0.2_happ_00fa456f0f24db3f81965718d5717882/node_modules/vitest/dist/chunks/index.C-uw7tH9.js:11466:94
+ ❯ runNextTicks node:internal/process/task_queues:65:5
+ ❯ processTimers node:internal/timers:615:9
+ ❯ Pool.schedule ../../node_modules/.pnpm/vitest@5.0.2_@opentelemetry+api@1.9.0_@types+node@26.4.0_@vitest+coverage-v8@5.0.2_happ_00fa456f0f24db3f81965718d5717882/node_modules/vitest/dist/chunks/index.C-uw7tH9.js:11466:5
+
+Caused by: Error: [vitest-pool-runner]: Timeout waiting for worker to respond
+ ❯ Timeout.<anonymous> ../../node_modules/.pnpm/vitest@5.0.2_@opentelemetry+api@1.9.0_@types+node@26.4.0_@vitest+coverage-v8@5.0.2_happ_00fa456f0f24db3f81965718d5717882/node_modules/vitest/dist/chunks/index.C-uw7tH9.js:10965:58
+ ❯ listOnTimeout node:internal/timers:685:17
+ ❯ processTimers node:internal/timers:618:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  112 passed | 1 skipped (113)
+      Tests  2999 passed | 1 skipped (3000)
+     Errors  1 error
+   Start at  20:29:19
+   Duration  229.99s (setup 35%, environment 25%, transform 16%, tests 12%, import 6%, worker 6%)
+
+    Isolate  113 workers spawned · ~943ms startup each (spawn + environment, per file)
+             at least ~52.35s faster with isolate: false — reuses workers across files instead of one per file
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   90.26 |     84.2 |   87.65 |   90.61 |                   
+ src               |   91.62 |    84.17 |   98.27 |    91.5 |                   
+  ...edDomState.ts |      82 |    76.72 |     100 |   81.87 | ...68,274-275,306 
+  domReflection.ts |   96.15 |    93.39 |     100 |   96.09 | 460-464,468       
+  hydrate.ts       |   94.32 |    85.97 |   96.15 |   94.22 | ...97,918-921,987 
+  ...eInnerHtml.ts |   86.66 |       75 |     100 |   86.66 | 11-13             
+  ...ountModule.ts |   97.56 |       80 |     100 |   97.56 | 64                
+  propsModule.ts   |   74.15 |       75 |     100 |   73.86 | ...85-186,192-196 
+  tagName.ts       |     100 |       75 |     100 |     100 | 8                 
+  vdom.ts          |    98.3 |    95.34 |     100 |   98.27 | 186               
+ src/calendar      |   96.41 |       90 |   93.75 |    97.8 |                   
+  calendarDate.ts  |   94.28 |    89.47 |   83.33 |   94.11 | 187,232           
+  comparison.ts    |     100 |     92.3 |     100 |     100 | 140               
+  info.ts          |   93.47 |    85.71 |     100 |     100 | 35,37-38,62       
+  locale.ts        |   95.12 |      100 |    90.9 |   95.12 | 199,216           
+ src/canvas        |   81.29 |    56.06 |   83.33 |   81.29 |                   
+  paint.ts         |    84.7 |    64.28 |      90 |    84.7 | ...03,108,137-141 
+  view.ts          |   63.88 |    41.66 |   66.66 |   63.88 | ...41,145,150-151 
+ .../interruptible |     100 |       75 |     100 |     100 |                   
+  interruptible.ts |     100 |       75 |     100 |     100 | 62                
+ src/devTools      |   81.18 |    76.81 |   78.86 |   80.92 |                   
+  ...aSummarize.ts |   83.33 |    68.33 |   90.19 |   82.99 | ...19,330-351,390 
+  store.ts         |   94.08 |    94.02 |    92.3 |   93.98 | ...92,529,538-550 
+  ...cketBridge.ts |   53.45 |    30.55 |      45 |   53.48 | ...91-696,714-717 
+ src/dom           |   86.36 |    83.82 |   86.34 |   86.48 |                   
+  dom.ts           |   81.27 |    79.86 |   77.04 |   81.13 | ...62-780,802-830 
+  ...ntMovement.ts |    8.69 |        0 |       0 |    9.09 | 24-56             
+  inert.ts         |   98.96 |    89.47 |     100 |   98.94 | 63                
+  scrollLock.ts    |   62.79 |    34.61 |   42.85 |   62.79 | ...35-36,40-42,76 
+  ...eyBindings.ts |   97.39 |    95.02 |     100 |   97.37 | ...07,532,717,726 
+  ...rAnimation.ts |    12.5 |        0 |       0 |   14.28 | 20-29             
+ ...rimental/query |    97.1 |      100 |   93.75 |   97.01 |                   
+  keyedQuery.ts    |   97.18 |      100 |   92.85 |    97.1 | 286-291           
+  query.ts         |   95.34 |      100 |    90.9 |   95.12 | 157-160           
+ ...imental/server |    94.4 |     88.2 |    98.1 |   94.29 |                   
+  fetch.ts         |   97.67 |    94.44 |     100 |   97.67 | 130               
+  host.ts          |   93.69 |    93.65 |     100 |   93.63 | ...00,306,349,355 
+  serialize.ts     |   94.78 |    87.41 |    97.5 |   94.73 | ...5,770,862,1024 
+  server.ts        |   94.19 |    88.34 |   96.25 |    94.1 | ...1271,1275,1278 
+  template.ts      |   93.61 |    85.38 |     100 |   93.37 | ...33,540,569,647 
+ ...ieldValidation |   98.96 |    98.14 |   97.77 |   98.94 |                   
+  ...Validation.ts |   98.38 |      100 |   96.55 |   98.33 | 236               
+  rule.ts          |     100 |    96.29 |     100 |     100 | 13                
+ src/file          |   90.62 |    55.55 |   85.71 |   90.16 |                   
+  reader.ts        |    87.5 |    56.25 |   81.81 |    87.5 | 19,32-33,39       
+  select.ts        |      92 |       50 |   85.71 |      92 | 34-35             
+ src/html          |   87.26 |    82.33 |   85.28 |   88.86 |                   
+  boundary.ts      |   88.44 |    74.72 |   96.96 |    88.2 | ...43-571,596,739 
+  ...neTracking.ts |   97.05 |    83.33 |     100 |   97.05 | 23                
+  index.ts         |   85.07 |    81.78 |   83.86 |   87.29 | ...5226,5229-5244 
+  ...eSingleton.ts |   92.15 |    71.42 |     100 |   92.15 | 84,124,228,244    
+  submodel.ts      |   97.56 |    89.18 |     100 |    97.5 | 212,240           
+ src/mount         |      95 |      100 |   88.23 |   94.44 |                   
+  index.ts         |      95 |      100 |   88.23 |   94.44 | 580-583           
+ src/navigation    |   33.33 |      100 |       0 |   38.88 |                   
+  index.ts         |      30 |      100 |       0 |   35.29 | ...21,25,29,34-35 
+ src/port          |   84.48 |       60 |      72 |   83.92 |                   
+  port.ts          |   84.48 |       60 |      72 |   83.92 | ...84,187,252,255 
+ src/render        |   94.44 |      100 |   88.88 |     100 |                   
+  render.ts        |    90.9 |      100 |   81.81 |     100 |                   
+ src/route         |   93.29 |    90.16 |   92.59 |   93.22 |                   
+  parser.ts        |   90.83 |    78.57 |    90.9 |   90.76 | ...36,520,671-694 
+ src/runtime       |   91.75 |    83.38 |   88.64 |   91.83 |                   
+  ...rListeners.ts |   60.71 |    86.95 |   23.07 |   61.81 | ...70,100,108-114 
+  ...rScheduler.ts |      90 |       50 |      75 |   88.88 | 18                
+  crashUI.ts       |   70.73 |    55.55 |      50 |   70.73 | 48,279,311-331    
+  deepFreeze.ts    |   95.65 |    94.44 |     100 |   95.65 | 57                
+  ...oolsConfig.ts |   94.44 |       85 |   95.23 |   94.44 | 100,153           
+  ...ntegration.ts |   91.66 |    73.91 |   88.46 |   91.56 | ...24-325,332,343 
+  ...ntMetadata.ts |   98.82 |    98.24 |     100 |   98.82 | 238               
+  ...eIdScanner.ts |   45.45 |    33.33 |      60 |   45.45 | 15-39,76-77       
+  ...tionFibers.ts |   90.32 |    91.66 |   71.42 |   90.32 | 63,89,100         
+  hostConnector.ts |   95.34 |     62.5 |     100 |   95.18 | 161,165,252,264   
+  ...ionHandoff.ts |   99.39 |     89.7 |     100 |   99.39 | 227               
+  ...pplication.ts |   81.81 |    64.58 |      60 |   81.81 | 364-371,389-396   
+  makeElement.ts   |      95 |    93.75 |     100 |   94.73 | 205               
+  ...urceFibers.ts |   96.29 |    83.33 |   91.66 |   96.29 | 113               
+  messageQueue.ts  |   95.89 |    93.75 |     100 |   95.77 | 144-146           
+  ...tionBridge.ts |   69.56 |    16.66 |   57.14 |   68.18 | 19-20,40,46-51    
+  renderer.ts      |   96.58 |    90.24 |   94.59 |   96.56 | ...14,658-659,789 
+  ...ceProvider.ts |     100 |    66.66 |     100 |     100 | 218-227           
+  runtime.ts       |   92.77 |    87.83 |    83.6 |   93.45 | ...43,628-633,910 
+  ...eservation.ts |   95.23 |      100 |     100 |   95.23 | 52                
+  slowPhase.ts     |   91.07 |      100 |      80 |   91.07 | ...47,251,258,261 
+  start.ts         |   92.85 |    81.25 |     100 |   92.85 | 42,51,231         
+  ...tionFibers.ts |   95.65 |      100 |    92.3 |   95.65 | 136               
+ src/schema        |    93.4 |    97.67 |   83.72 |    93.4 |                   
+  index.ts         |    93.4 |    97.67 |   83.72 |    93.4 | 60-63,65,69       
+ src/snabbdom      |   85.73 |    78.35 |   90.24 |   86.83 |                   
+  attributes.ts    |   95.83 |       90 |     100 |   97.82 | 59                
+  class.ts         |   98.14 |    91.83 |     100 |     100 | 52,69,79,83       
+  dataset.ts       |   86.95 |       70 |     100 |   90.47 | 28,39             
+  ...tlisteners.ts |   84.61 |    82.85 |     100 |   86.84 | 27-30,80,104      
+  h.ts             |   88.15 |    75.94 |     100 |   90.14 | ...35,171-172,180 
+  htmldomapi.ts    |   68.75 |       50 |   94.44 |   68.75 | ...06-110,117-124 
+  init.ts          |   90.16 |    82.23 |   92.59 |   90.36 | ...41,807,832,868 
+  style.ts         |   55.12 |    63.76 |   58.33 |   56.94 | ...30-131,141-166 
+  tovnode.ts       |   97.36 |    77.77 |     100 |   97.22 | 60                
+ src/struct        |       0 |      100 |       0 |       0 |                   
+  index.ts         |       0 |      100 |       0 |       0 | 36-43             
+ src/submodel      |   84.31 |    76.81 |   72.91 |   84.15 |                   
+  module.ts        |   81.39 |     74.6 |   69.76 |   81.17 | ...78,505-506,517 
+ src/subscription  |   73.91 |      100 |   66.66 |   74.62 |                   
+  ...ationFrame.ts |   10.52 |      100 |       0 |   11.11 | 20-39,68-76       
+  subscription.ts  |      98 |      100 |      96 |   97.95 | 510               
+ src/test          |   91.74 |    84.78 |   86.04 |   91.92 |                   
+  internal.ts      |   96.19 |    91.46 |    97.5 |   96.08 | ...41,579,651,754 
+  lazy.ts          |   95.74 |    93.75 |   72.22 |   95.74 | 26,57             
+  matchers.ts      |      60 |    54.41 |   49.45 |      60 | ...65-368,393-396 
+  query.ts         |   93.53 |    92.66 |   90.59 |   94.36 | ...1546,1550,1554 
+  scene.ts         |   93.56 |    83.46 |   89.51 |   93.53 | ...2917,2929-2930 
+  story.ts         |   96.25 |       85 |     100 |   96.15 | 357,382,418       
+ src/update        |   95.45 |    89.79 |     100 |    95.4 |                   
+  update.ts        |   95.45 |    89.79 |     100 |    95.4 | ...1866,1876,1910 
+ src/url           |     100 |     87.5 |     100 |     100 |                   
+  index.ts         |     100 |     87.5 |     100 |     100 | 76                
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 90.26% ( 10160/11256 )
+Branches     : 84.2% ( 4564/5420 )
+Functions    : 87.65% ( 3358/3831 )
+Lines        : 90.61% ( 9976/11009 )
+================================================================================
+/workspace/foldkit/packages/foldkit:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] foldkit@0.170.0 test: `vitest run --coverage --maxWorkers=2`
+Exit status 1

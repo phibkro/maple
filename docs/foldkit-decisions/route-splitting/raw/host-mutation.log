@@ -1,0 +1,51 @@
+
+ RUN  v5.0.2 /workspace/foldkit/packages/foldkit
+
+ ❯ src/submodel/module.test.ts (8 tests | 1 failed | 7 skipped) 35ms
+   ❯ complete Submodel host (8)
+     × keeps enter pure and ignores A → B → A load completions from earlier instances 31ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/submodel/module.test.ts > complete Submodel host > keeps enter pure and ignores A → B → A load completions from earlier instances
+AssertionError: expected { _tag: 'Ready', instance: 3, …(4) } to be { _tag: 'Loading', instance: 3, …(4) } // Object.is equality
+
+- Expected
++ Received
+
+  {
+-   "_tag": "Loading",
++   "_tag": "Ready",
+    "attempt": 0,
+    "buildId": "test-build",
+    "input": {
+      "initial": 9,
+    },
+    "instance": 3,
+-   "previous": {
+-     "_id": "Option",
+-     "_tag": "None",
++   "model": {
++     "count": 9,
+    },
+  }
+
+ ❯ src/submodel/module.test.ts:149:61
+    147|     expect(load).not.toHaveBeenCalled()
+    148|     const oldCompletion = await Effect.runPromise(first.commands![0]!.…
+    149|     expect(host.update(current.model, oldCompletion).model).toBe(curre…
+       |                                                             ^
+    150|     const ready = await finish(host, current)
+    151|     expect(ready.model).toMatchObject({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  17:41:40
+   Duration  3.56s (environment 42%, transform 33%, setup 20%, import 3%, tests 1%, worker 1%)
+
+undefined
+/workspace/foldkit/packages/foldkit:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run src/submodel/module.test.ts -t 'earlier instances'

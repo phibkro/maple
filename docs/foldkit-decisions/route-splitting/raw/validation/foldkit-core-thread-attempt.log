@@ -1,0 +1,86 @@
+$ vitest run --coverage --maxWorkers=1 --pool=threads
+
+ RUN  v5.0.2 /workspace/foldkit/packages/foldkit
+      Coverage enabled with v8
+
+stderr | src/runtime/embed.test.ts > embed > renders the app and drives update through an inbound Port send
+[foldkit] No response from @foldkit/vite-plugin. Add it to your vite.config.ts for Model preservation across reloads:
+
+  import { foldkit } from '@foldkit/vite-plugin'
+
+  export default defineConfig({ plugins: [foldkit()] })
+
+Starting without Model preservation.
+[foldkit] Slow patch: 26.6ms (budget: 8ms), triggered by init. Key mapped lists by stable ids, split large views, or memoize stable subtrees with createLazy. Set slow.thresholdOverrides to change budgets or pass slow: false to disable warnings. {
+  _tag: 'Patch',
+  model: { count: 0, step: 1 },
+  message: { _id: 'Option', _tag: 'None' },
+  durationMs: 26.615656999998464,
+  thresholdMs: 8
+}
+
+stderr | src/runtime/embed.test.ts > embed > delivers init Command emissions to a listener subscribed right after embed
+[foldkit] No response from @foldkit/vite-plugin. Add it to your vite.config.ts for Model preservation across reloads:
+
+  import { foldkit } from '@foldkit/vite-plugin'
+
+  export default defineConfig({ plugins: [foldkit()] })
+
+Starting without Model preservation.
+[foldkit] Slow view: 340.7ms (budget: 16ms), triggered by init. Keep render-only work in the view path and memoize expensive subtrees with createLazy or createKeyedLazy. Set slow.thresholdOverrides to change budgets or pass slow: false to disable warnings. {
+  _tag: 'View',
+  model: { count: 0, step: 1 },
+  message: { _id: 'Option', _tag: 'None' },
+  durationMs: 340.728957000003,
+  thresholdMs: 16
+}
+[foldkit] Slow patch: 4295.2ms (budget: 8ms), triggered by init. Key mapped lists by stable ids, split large views, or memoize stable subtrees with createLazy. Set slow.thresholdOverrides to change budgets or pass slow: false to disable warnings. {
+  _tag: 'Patch',
+  model: { count: 0, step: 1 },
+  message: { _id: 'Option', _tag: 'None' },
+  durationMs: 4295.156274000001,
+  thresholdMs: 8
+}
+[foldkit] Slow update: 88.3ms (budget: 4ms), triggered by CompletedTrackHost. Inspect the triggering Message branch; move render-only derivations to memoized views and keep update focused on state transitions. Set slow.thresholdOverrides to change budgets or pass slow: false to disable warnings. {
+  _tag: 'Update',
+  previousModel: { count: 0, step: 1 },
+  nextModel: { count: 0, step: 1 },
+  message: { _tag: 'CompletedTrackHost' },
+  durationMs: 88.3265129999927,
+  thresholdMs: 4
+} { _tag: 'CompletedTrackHost' }
+
+stderr | src/runtime/embed.test.ts > embed > does not log when dispose interrupts a live embed
+[foldkit] No response from @foldkit/vite-plugin. Add it to your vite.config.ts for Model preservation across reloads:
+
+  import { foldkit } from '@foldkit/vite-plugin'
+
+  export default defineConfig({ plugins: [foldkit()] })
+
+Starting without Model preservation.
+[foldkit] Slow patch: 393.8ms (budget: 8ms), triggered by init. Key mapped lists by stable ids, split large views, or memoize stable subtrees with createLazy. Set slow.thresholdOverrides to change budgets or pass slow: false to disable warnings. {
+  _tag: 'Patch',
+  model: { count: 0, step: 1 },
+  message: { _id: 'Option', _tag: 'None' },
+  durationMs: 393.8471920000011,
+  thresholdMs: 8
+}
+
+stderr | src/runtime/embed.test.ts > embed > supports dispose immediately followed by a fresh embed of the same program
+[foldkit] No response from @foldkit/vite-plugin. Add it to your vite.config.ts for Model preservation across reloads:
+
+  import { foldkit } from '@foldkit/vite-plugin'
+
+  export default defineConfig({ plugins: [foldkit()] })
+
+Starting without Model preservation.
+
+ ❯ src/runtime/embed.test.ts (14 tests | 4 failed) 84407ms
+   ❯ embed (14)
+     × renders the app and drives update through an inbound Port send 10180ms
+     × delivers init Command emissions to a listener subscribed right after embed 56224ms
+     × does not log when dispose interrupts a live embed 5417ms
+     × supports dispose immediately followed by a fresh embed of the same program 3347ms
+/workspace/foldkit/packages/foldkit:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] foldkit@0.170.0 test: `vitest run --coverage --maxWorkers=1 --pool=threads`
+Exit status 143

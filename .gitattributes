@@ -1,0 +1,4 @@
+# Generated benchmark evidence keeps serializer and terminal whitespace.
+docs/foldkit-decisions/route-splitting/raw/** linguist-generated=true -whitespace
+docs/foldkit-decisions/route-splitting/*.svg linguist-generated=true -whitespace
+docs/foldkit-decisions/route-splitting/*.png linguist-generated=true

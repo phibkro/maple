@@ -1,0 +1,50 @@
+$ vitest run --passWithNoTests
+
+ RUN  v5.1.0 /workspace/maple/apps/web
+
+ ❯ src/page/security/telemetry/telemetry.scene.test.ts (16 tests | 1 failed) 11910ms
+   ❯ security telemetry tabs (16)
+     × a full signature list reads its totals as floors 9457ms
+ ❯ src/page/dashboards/list/list.scene.test.ts (12 tests | 1 failed) 10140ms
+   ❯ dashboards list (12)
+     × the header formats its counts and dates in the locale read with the clock 9050ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/page/dashboards/list/list.scene.test.ts > dashboards list > the header formats its counts and dates in the locale read with the clock
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/page/dashboards/list/list.scene.test.ts:78:2
+     76|  })
+     77|
+     78|  test("the header formats its counts and dates in the locale read with…
+       |  ^
+     79|   const many = Array.from({ length: 1200 }, (_, index) =>
+     80|    dashboard({ id: `dash_${index}`, widgetCount: 1, updatedAt: "2026-0…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/page/security/telemetry/telemetry.scene.test.ts > security telemetry tabs > a full signature list reads its totals as floors
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/page/security/telemetry/telemetry.scene.test.ts:174:2
+    172|  })
+    173|
+    174|  test("a full signature list reads its totals as floors", () => {
+       |  ^
+    175|   const data = exposureOf(NOW)
+    176|   const row = data.signatures[0]!
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 388 passed (390)
+      Tests  2 failed | 3434 passed (3436)
+   Start at  15:47:15
+   Duration  726.16s (import 48%, transform 25%, setup 17%, tests 10%)
+
+     Import  3320 modules were evaluated 186568 times · 955.11s total, 48% of tracked time
+             ~303.03s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+
+error: script "test" exited with code 1

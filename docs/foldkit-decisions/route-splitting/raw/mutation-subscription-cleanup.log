@@ -1,0 +1,37 @@
+
+ RUN  v5.0.2 /workspace/foldkit/packages/foldkit
+
+ ❯ src/runtime/dynamicSubscriptionFibers.test.ts (3 tests | 1 failed) 1562ms
+   ❯ dynamic Subscriptions in a real runtime (3)
+     × disposes the old page before activating another and starts a new instance on return 1197ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/runtime/dynamicSubscriptionFibers.test.ts > dynamic Subscriptions in a real runtime > disposes the old page before activating another and starts a new instance on return
+AssertionError: expected [] to have a length of 2 but got +0
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ src/runtime/dynamicSubscriptionFibers.test.ts:182:11
+    180|         expect(
+    181|           app.events.filter(event => event === 'stop:A:first:0'),
+    182|         ).toHaveLength(2),
+       |           ^
+    183|       )
+    184|     } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  18:27:56
+   Duration  5.11s (transform 36%, tests 32%, environment 12%, setup 12%, import 7%)
+
+undefined
+/workspace/foldkit/packages/foldkit:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run src/runtime/dynamicSubscriptionFibers.test.ts

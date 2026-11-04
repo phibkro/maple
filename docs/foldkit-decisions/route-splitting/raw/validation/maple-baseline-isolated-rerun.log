@@ -1,0 +1,10 @@
+$ vitest run --passWithNoTests src/page/security/telemetry/telemetry.scene.test.ts src/page/dashboards/list/list.scene.test.ts "--maxWorkers=1"
+
+ RUN  v5.1.0 /workspace/maple/apps/web
+
+
+ Test Files  2 passed (2)
+      Tests  28 passed (28)
+   Start at  16:00:15
+   Duration  12.29s (tests 52%, import 23%, transform 18%, setup 6%)
+

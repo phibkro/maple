@@ -1,0 +1,26 @@
+{
+	"browser": "155.0.8059.79",
+	"conditions": {
+		"viewport": [1440, 1000],
+		"locale": "en-US",
+		"timezone": "UTC",
+		"cpuRate": 1,
+		"fixedDate": "2026-11-04T12:00:10.000Z",
+		"clock": "Date only; native performance APIs and timers",
+		"latencyMs": 0,
+		"downloadBytesPerSecond": 1500000,
+		"uploadBytesPerSecond": 750000,
+		"compression": "gzip 9",
+		"fixtureDashboards": 500,
+		"fixtureSpans": 200,
+		"samples": 3,
+		"cache": "Fresh context per route/sample; module cache retained for client revisits. Request routing disables HTTP cache."
+	},
+	"runs": [],
+	"verification": [
+		"Native CDP document loader is unchanged across route clicks, Back and Forward",
+		"Direct links, search interaction, Back and Forward",
+		"Delayed implementation across A -> B -> A",
+		"Real route chunk abort, failure UI and successful Retry"
+	]
+}

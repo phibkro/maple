@@ -1,0 +1,31 @@
+{
+	"baselineMaple": "084ee139d0ad63e563820f547016fccbab4c3f43",
+	"integrationMaple": "484e997690ab3282819bdddc17786c4137257cef",
+	"framework": "1ef1c4f7aef25af7e24a09b27048238c2a27fa5d",
+	"frameworkBase": "a471adb24d750ab9e8d8312edad53ff6f26d961b",
+	"bunLockSha256": "bd346e14b29a46deeb280165d15c615bf9bc749a9b2761ee1aac579aebf3459e",
+	"cpuQuota": "400000 100000",
+	"platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+	"recordedAt": "2026-11-04 UTC",
+	"node": "24.22.1",
+	"bun": "1.4.4",
+	"vite": "8.3.5",
+	"playwright": "1.64.1",
+	"effect": "4.1.2",
+	"fixtures": {
+		"dashboards": 500,
+		"spans": 200
+	},
+	"harness": {
+		"benchmark-browser.mjs": "9d4ee27a055f72aea45b6e47ee14e06cffdd90bb5e0f6a3416ba6f852badac3c",
+		"fixtures.mjs": "3087db14d3fd9c8e9bae961af2e8a19da5b82e809a8b6b95af61b45e38b005c5",
+		"json.mjs": "b2411ea1803bba8eb9f443a075363819a009747eb1679a82212b6becc067ed84"
+	},
+	"clock": "Date only; native performance APIs and timers",
+	"instrumentation": "Default production telemetry and replay enabled; ingestion requests intercepted",
+	"memoryLimitBytes": 34359738368,
+	"sourceTrees": {
+		"framework": "8dafa2a847d2e7facb81021db97859d0814238b3",
+		"mapleIntegration": "3dff6c89ee8b4063e7bca287c43a9d371538454e"
+	}
+}

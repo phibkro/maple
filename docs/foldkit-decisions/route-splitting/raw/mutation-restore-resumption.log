@@ -1,0 +1,71 @@
+
+ RUN  v5.0.2 /workspace/foldkit/packages/foldkit
+
+stderr | src/runtime/prepareModel.test.ts > restored pending Submodel > resumes the serialized preparation Command in a fresh runtime
+[foldkit] Slow view: 25.0ms (budget: 16ms), triggered by init. Keep render-only work in the view path and memoize expensive subtrees with createLazy or createKeyedLazy. Set slow.thresholdOverrides to change budgets or pass slow: false to disable warnings. {
+  _tag: 'View',
+  model: {
+    _tag: 'Loading',
+    instance: 4,
+    attempt: 0,
+    buildId: 'same-build',
+    input: { initial: 7 },
+    previous: { _id: 'Option', _tag: 'None' }
+  },
+  message: { _id: 'Option', _tag: 'None' },
+  durationMs: 25.047421000000213,
+  thresholdMs: 16
+}
+[foldkit] Slow patch: 8.3ms (budget: 8ms), triggered by init. Key mapped lists by stable ids, split large views, or memoize stable subtrees with createLazy. Set slow.thresholdOverrides to change budgets or pass slow: false to disable warnings. {
+  _tag: 'Patch',
+  model: {
+    _tag: 'Loading',
+    instance: 4,
+    attempt: 0,
+    buildId: 'same-build',
+    input: { initial: 7 },
+    previous: { _id: 'Option', _tag: 'None' }
+  },
+  message: { _id: 'Option', _tag: 'None' },
+  durationMs: 8.251899000000776,
+  thresholdMs: 8
+}
+
+ ❯ src/runtime/prepareModel.test.ts (2 tests | 1 failed | 1 skipped) 1100ms
+   ❯ restored pending Submodel (1)
+     × resumes the serialized preparation Command in a fresh runtime 1097ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/runtime/prepareModel.test.ts > restored pending Submodel > resumes the serialized preparation Command in a fresh runtime
+AssertionError: expected undefined to be '7' // Object.is equality
+
+- Expected:
+"7"
+
++ Received:
+undefined
+
+ ❯ src/runtime/prepareModel.test.ts:124:11
+    122|         expect(
+    123|           document.querySelector('#resume-model-test button')?.textCon…
+    124|         ).toBe('7'),
+       |           ^
+    125|       )
+    126|       expect(init).not.toHaveBeenCalled()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  18:27:30
+   Duration  6.63s (transform 46%, setup 22%, tests 17%, environment 9%, import 5%)
+
+  Transform  transforming modules took 2.95s · 46% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+
+undefined
+/workspace/foldkit/packages/foldkit:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run src/runtime/prepareModel.test.ts -t 'resumes the serialized'

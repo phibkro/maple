@@ -1,0 +1,13 @@
+
+ RUN  v5.0.2 /workspace/foldkit/packages/foldkit
+
+
+ Test Files  4 passed (4)
+      Tests  18 passed (18)
+   Start at  18:28:07
+   Duration  5.64s (transform 37%, environment 30%, setup 18%, tests 8%, import 7%)
+
+Environment  happy-dom was created 4 times · 4.21s total, 30% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments
+

@@ -1,0 +1,50 @@
+[
+	{
+		"check": "browser-launch-failure-cleanup",
+		"exitCode": 1,
+		"expectedExitCode": 1,
+		"seconds": 2.4769415560003836
+	},
+	{
+		"check": "browser-output-failure-cleanup",
+		"exitCode": 1,
+		"expectedExitCode": 1,
+		"seconds": 4.873518469998089
+	},
+	{
+		"check": "overlay-negative-check",
+		"exitCode": 1,
+		"expectedExitCode": 1,
+		"seconds": 1.1666335670015542
+	},
+	{
+		"check": "generated-catalog-check",
+		"exitCode": 0,
+		"expectedExitCode": 0,
+		"seconds": 0.9971514989993011
+	},
+	{
+		"check": "analyze-bundle-tests",
+		"exitCode": 0,
+		"expectedExitCode": 0,
+		"seconds": 1.0590573709996534
+	},
+	{
+		"check": "ui-index-check",
+		"exitCode": 0,
+		"expectedExitCode": 0,
+		"seconds": 0.23298216500188573
+	},
+	{
+		"check": "ui-patterns-check",
+		"exitCode": 0,
+		"expectedExitCode": 0,
+		"seconds": 0.5554378009983338
+	},
+	{
+		"check": "maple-final-typed-lint",
+		"exitCode": 0,
+		"expectedExitCode": 0,
+		"seconds": 86.90350432999912
+	}
+]

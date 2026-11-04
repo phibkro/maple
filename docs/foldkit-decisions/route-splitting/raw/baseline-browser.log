@@ -1,0 +1,9 @@
+{"sample":0,"route":"light","readyMs":14754.400000000373,"cachedVisit":1313.5,"prefetchedVisit":5207}
+{"sample":0,"route":"dense","readyMs":26454.400000000373,"cachedVisit":13110,"prefetchedVisit":8370.900000000373}
+{"sample":0,"route":"heavy","readyMs":26948.599999999627,"cachedVisit":5248,"prefetchedVisit":13233.599999999627}
+{"sample":1,"route":"light","readyMs":22456.799999998882,"cachedVisit":1612.4000000003725,"prefetchedVisit":6422.0999999996275}
+{"sample":1,"route":"dense","readyMs":28059.199999999255,"cachedVisit":8018,"prefetchedVisit":1171.2000000011176}
+{"sample":1,"route":"heavy","readyMs":26813.400000000373,"cachedVisit":11810.300000000745,"prefetchedVisit":12390.599999999627}
+{"sample":2,"route":"light","readyMs":16759,"cachedVisit":1949,"prefetchedVisit":6523.299999998882}
+{"sample":2,"route":"dense","readyMs":33193.800000000745,"cachedVisit":6901,"prefetchedVisit":1203.5999999996275}
+{"sample":2,"route":"heavy","readyMs":27057.199999999255,"cachedVisit":5338.10000000149,"prefetchedVisit":12851.300000000745}

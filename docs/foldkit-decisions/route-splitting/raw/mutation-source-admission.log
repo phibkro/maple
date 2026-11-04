@@ -1,0 +1,33 @@
+$ vitest run --passWithNoTests src/update.test.ts -t "refreshes cached sources when a lazy platform page admits its source metadata" "--maxWorkers=1"
+
+ RUN  v5.1.0 /workspace/maple/apps/web
+
+ ❯ src/update.test.ts (14 tests | 1 failed | 13 skipped) 54ms
+   ❯ root navigation (6)
+     × refreshes cached sources when a lazy platform page admits its source metadata 50ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/update.test.ts > root navigation > refreshes cached sources when a lazy platform page admits its source metadata
+AssertionError: expected 'Success' to be 'Refreshing' // Object.is equality
+
+Expected: "Refreshing"
+Received: "Success"
+
+ ❯ src/update.test.ts:76:45
+     74|   const completion = Option.getOrThrow(Option.fromNullishOr(preparatio…
+     75|   const admitted = program.update(entered.model, Message.GotPageMessag…
+     76|   expect(admitted.model.shell.sources._tag).toBe("Refreshing")
+       |                                             ^
+     77|   expect(commandsOf(admitted).filter((command) => command.name === "Lo…
+     78|    { name: "LoadSources", args: { orgId, isRefresh: true } },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 13 skipped (14)
+   Start at  19:42:57
+   Duration  30.47s (transform 68%, import 30%, setup 2%)
+
+error: script "test" exited with code 1

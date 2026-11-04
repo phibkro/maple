@@ -1,0 +1,13 @@
+
+ RUN  v5.0.2 /workspace/foldkit/packages/foldkit
+
+
+ Test Files  1 passed (1)
+      Tests  44 passed (44)
+   Start at  20:34:16
+   Duration  68.11s (transform 67%, environment 28%, setup 4%)
+
+  Transform  transforming modules took 43.09s · 67% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

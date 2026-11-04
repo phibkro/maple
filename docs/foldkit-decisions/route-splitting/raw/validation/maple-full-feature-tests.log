@@ -1,0 +1,14 @@
+$ vitest run --passWithNoTests "--maxWorkers=2"
+
+ RUN  v5.1.0 /workspace/maple/apps/web
+
+
+ Test Files  391 passed (391)
+      Tests  3439 passed (3439)
+   Start at  17:37:56
+   Duration  890.52s (import 53%, setup 22%, transform 18%, tests 8%)
+
+     Import  3403 modules were evaluated 186673 times · 853.26s total, 53% of tracked time
+             ~412.15s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+

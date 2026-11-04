@@ -1,0 +1,10 @@
+$ vitest run --maxWorkers=1 --testTimeout=30000 --hookTimeout=30000
+
+ RUN  v4.1.11 /workspace/foldkit/packages/vite-plugin-foldkit
+
+
+ Test Files  18 passed (18)
+      Tests  337 passed | 4 skipped (341)
+   Start at  20:43:10
+   Duration  185.77s (transform 27.33s, setup 0ms, import 26.19s, tests 149.96s, environment 517ms)
+

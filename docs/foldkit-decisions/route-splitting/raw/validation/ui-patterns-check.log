@@ -1,0 +1,2 @@
+$ bun run ./scripts/ui-class-patterns.ts --check
+ui-class-patterns: OK (0 patterns)

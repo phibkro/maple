@@ -1,0 +1,552 @@
+{
+	"baseline": {
+		"entries": ["index.html", "src/boot.ts"],
+		"initialFileCount": 373,
+		"initialRawBytes": 10722884,
+		"largestInitialRaw": [
+			{
+				"file": "assets/index-MCslxLUA.js",
+				"bytes": 2802637
+			},
+			{
+				"file": "assets/resources-D8MJd6J-.js",
+				"bytes": 1683623
+			},
+			{
+				"file": "assets/icon-ikk881E2.js",
+				"bytes": 411599
+			},
+			{
+				"file": "assets/view-CWV-hc4N.js",
+				"bytes": 265182
+			},
+			{
+				"file": "assets/rules-view-rWD6rmNT.js",
+				"bytes": 258552
+			},
+			{
+				"file": "assets/view-gcp-setup-methods-zm6UJq3_.js",
+				"bytes": 162376
+			},
+			{
+				"file": "assets/create-org-view-CJGkiCsl.js",
+				"bytes": 155494
+			},
+			{
+				"file": "assets/Schema-BKy5Z-jF.js",
+				"bytes": 155088
+			},
+			{
+				"file": "assets/view-Bx_eGDV2.js",
+				"bytes": 151815
+			},
+			{
+				"file": "assets/view-grid-EaTimdf_.js",
+				"bytes": 148327
+			},
+			{
+				"file": "assets/shell-38_mTTHw.js",
+				"bytes": 147892
+			},
+			{
+				"file": "assets/view-tabs-DMdcsVHF.js",
+				"bytes": 129876
+			},
+			{
+				"file": "assets/view-Bo_cm5WM.js",
+				"bytes": 129808
+			},
+			{
+				"file": "assets/view-GkM3XMaL.js",
+				"bytes": 121577
+			},
+			{
+				"file": "assets/view-DAmMMulA.js",
+				"bytes": 105566
+			}
+		]
+	},
+	"after": {
+		"entries": ["index.html", "src/boot.ts"],
+		"initialFileCount": 348,
+		"initialRawBytes": 7068134,
+		"largestInitialRaw": [
+			{
+				"file": "assets/index-CkQKtSr1.js",
+				"bytes": 1225396
+			},
+			{
+				"file": "assets/api-clients-DmotljRF.js",
+				"bytes": 504823
+			},
+			{
+				"file": "assets/src-B7Z-M7Zh.js",
+				"bytes": 446487
+			},
+			{
+				"file": "assets/resources-Bdanqr9Z.js",
+				"bytes": 439061
+			},
+			{
+				"file": "assets/icon-5QShiyFo.js",
+				"bytes": 406812
+			},
+			{
+				"file": "assets/rules-view-C1HmZTp1.js",
+				"bytes": 258707
+			},
+			{
+				"file": "assets/view-gcp-setup-methods-BGaE31vu.js",
+				"bytes": 160017
+			},
+			{
+				"file": "assets/create-org-view-CR9BoVJO.js",
+				"bytes": 155620
+			},
+			{
+				"file": "assets/Schema-BKy5Z-jF.js",
+				"bytes": 155088
+			},
+			{
+				"file": "assets/shell-D_w9SlaR.js",
+				"bytes": 148396
+			},
+			{
+				"file": "assets/error-messages-BxqIbb-0.js",
+				"bytes": 118420
+			},
+			{
+				"file": "assets/flushable-D0jWOI8h-CsWqtMH8.js",
+				"bytes": 101258
+			},
+			{
+				"file": "assets/live-query-iYP4oodF.js",
+				"bytes": 100432
+			},
+			{
+				"file": "assets/canvas-DetrMQz_.js",
+				"bytes": 100234
+			},
+			{
+				"file": "assets/src-B-klY-Wr.js",
+				"bytes": 94890
+			}
+		],
+		"lazyModules": [
+			{
+				"contract": "./agent-sessions/list/page.contract.ts",
+				"implementation": "./agent-sessions/list/index.ts",
+				"chunks": ["assets/list-CJe1z6I4.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./agent-sessions/session/page.contract.ts",
+				"implementation": "./agent-sessions/session/index.ts",
+				"chunks": ["assets/session-CK_Zycf8.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./agent-sessions/tool/page.contract.ts",
+				"implementation": "./agent-sessions/tool/index.ts",
+				"chunks": ["assets/tool-COYoo29p.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./agent-sessions/tools/page.contract.ts",
+				"implementation": "./agent-sessions/tools/index.ts",
+				"chunks": ["assets/tools-Bw0mML1j.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./alerts/hub/page.contract.ts",
+				"implementation": "./alerts/hub/index.ts",
+				"chunks": ["assets/hub-DDsuH6uB.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./alerts/incident/page.contract.ts",
+				"implementation": "./alerts/incident/index.ts",
+				"chunks": ["assets/incident-DQ-r14-W.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./alerts/rule/page.contract.ts",
+				"implementation": "./alerts/rule/index.ts",
+				"chunks": ["assets/rule-BPscO-3M.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./alerts/uptime-form/page.contract.ts",
+				"implementation": "./alerts/uptime-form/index.ts",
+				"chunks": ["assets/uptime-form-C0VAmsGC.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./alerts/uptime-monitor/page.contract.ts",
+				"implementation": "./alerts/uptime-monitor/index.ts",
+				"chunks": ["assets/uptime-monitor-CGDIZ1fJ.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./analytics/page.contract.ts",
+				"implementation": "./analytics/index.ts",
+				"chunks": ["assets/analytics-BUiqwx96.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./anomalies/detail/page.contract.ts",
+				"implementation": "./anomalies/detail/index.ts",
+				"chunks": ["assets/detail-CBCSpfsc.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./anomalies/list/page.contract.ts",
+				"implementation": "./anomalies/list/index.ts",
+				"chunks": ["assets/list-Cju5CYmu.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./code-review/page.contract.ts",
+				"implementation": "./code-review/index.ts",
+				"chunks": ["assets/code-review-CrsyoX4I.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./dashboards/list/page.contract.ts",
+				"implementation": "./dashboards/list/index.ts",
+				"chunks": ["assets/list-ClitAsgu.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./dashboards/templates/page.contract.ts",
+				"implementation": "./dashboards/templates/index.ts",
+				"chunks": ["assets/templates-D6IcanP8.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./dashboards/view/page.contract.ts",
+				"implementation": "./dashboards/view/index.ts",
+				"chunks": ["assets/view-B8GjlbLM.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./dashboards/widget/page.contract.ts",
+				"implementation": "./dashboards/widget/index.ts",
+				"chunks": ["assets/widget-Dx2zTuRx.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./errors/hub/page.contract.ts",
+				"implementation": "./errors/hub/index.ts",
+				"chunks": ["assets/hub-C7ZU6IUr.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./errors/issue/page.contract.ts",
+				"implementation": "./errors/issue/index.ts",
+				"chunks": ["assets/issue-9I8U1ZS5.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra-integrations/aws/list/page.contract.ts",
+				"implementation": "./infra-integrations/aws/list/index.ts",
+				"chunks": ["assets/list-BI1mLAXN.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra-integrations/aws/resource/page.contract.ts",
+				"implementation": "./infra-integrations/aws/resource/index.ts",
+				"chunks": ["assets/resource-kHhExLZ1.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra-integrations/cloudflare/list/page.contract.ts",
+				"implementation": "./infra-integrations/cloudflare/list/index.ts",
+				"chunks": ["assets/list-D8kz8UDM.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra-integrations/cloudflare/worker/page.contract.ts",
+				"implementation": "./infra-integrations/cloudflare/worker/index.ts",
+				"chunks": ["assets/worker-pWnSKgQJ.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra-integrations/cloudflare/zone/page.contract.ts",
+				"implementation": "./infra-integrations/cloudflare/zone/index.ts",
+				"chunks": ["assets/zone-B4PVGvoP.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra-integrations/gcp/list/page.contract.ts",
+				"implementation": "./infra-integrations/gcp/list/index.ts",
+				"chunks": ["assets/list-2RtVie-t.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra-integrations/gcp/workload/page.contract.ts",
+				"implementation": "./infra-integrations/gcp/workload/index.ts",
+				"chunks": ["assets/workload-xrzP3ycw.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra-integrations/planetscale/db/page.contract.ts",
+				"implementation": "./infra-integrations/planetscale/db/index.ts",
+				"chunks": ["assets/db-CW-dP0yE.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra-integrations/planetscale/list/page.contract.ts",
+				"implementation": "./infra-integrations/planetscale/list/index.ts",
+				"chunks": ["assets/list-ZZF8pST0.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra-integrations/railway/list/page.contract.ts",
+				"implementation": "./infra-integrations/railway/list/index.ts",
+				"chunks": ["assets/list-B5jUwAvf.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra-integrations/railway/service/page.contract.ts",
+				"implementation": "./infra-integrations/railway/service/index.ts",
+				"chunks": ["assets/service-DANM6ovi.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra-integrations/supabase/list/page.contract.ts",
+				"implementation": "./infra-integrations/supabase/list/index.ts",
+				"chunks": ["assets/list-eflm9DJC.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra-integrations/supabase/project/page.contract.ts",
+				"implementation": "./infra-integrations/supabase/project/index.ts",
+				"chunks": ["assets/project-BXTyQ2J6.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra/containers/detail/page.contract.ts",
+				"implementation": "./infra/containers/detail/index.ts",
+				"chunks": ["assets/detail-BGZ54A5n.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra/containers/list/page.contract.ts",
+				"implementation": "./infra/containers/list/index.ts",
+				"chunks": ["assets/list-E632idCX.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra/hosts/detail/page.contract.ts",
+				"implementation": "./infra/hosts/detail/index.ts",
+				"chunks": ["assets/detail-BkLdHBWQ.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra/hosts/list/page.contract.ts",
+				"implementation": "./infra/hosts/list/index.ts",
+				"chunks": ["assets/list-BRQx9_kg.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra/kubernetes/node/page.contract.ts",
+				"implementation": "./infra/kubernetes/node/index.ts",
+				"chunks": ["assets/node-DwDBrrye.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra/kubernetes/nodes/page.contract.ts",
+				"implementation": "./infra/kubernetes/nodes/index.ts",
+				"chunks": ["assets/nodes-ypqZuZ9P.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra/kubernetes/pod/page.contract.ts",
+				"implementation": "./infra/kubernetes/pod/index.ts",
+				"chunks": ["assets/pod-DDUNSexS.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra/kubernetes/pods/page.contract.ts",
+				"implementation": "./infra/kubernetes/pods/index.ts",
+				"chunks": ["assets/pods-B09tfvkN.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra/kubernetes/service/page.contract.ts",
+				"implementation": "./infra/kubernetes/service/index.ts",
+				"chunks": ["assets/service-BtNTa9TN.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra/kubernetes/workload/page.contract.ts",
+				"implementation": "./infra/kubernetes/workload/index.ts",
+				"chunks": ["assets/workload-CwoyZk-0.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra/kubernetes/workloads/page.contract.ts",
+				"implementation": "./infra/kubernetes/workloads/index.ts",
+				"chunks": ["assets/workloads-xEJBkukt.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./infra/overview/page.contract.ts",
+				"implementation": "./infra/overview/index.ts",
+				"chunks": ["assets/overview-Ch4Xb-3t.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./investigations/detail/page.contract.ts",
+				"implementation": "./investigations/detail/index.ts",
+				"chunks": ["assets/detail-BJbEz2gs.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./investigations/list/page.contract.ts",
+				"implementation": "./investigations/list/index.ts",
+				"chunks": ["assets/list-x44tMLPH.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./logs/list/page.contract.ts",
+				"implementation": "./logs/list/index.ts",
+				"chunks": ["assets/list-YWybD1bp.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./logs/log/page.contract.ts",
+				"implementation": "./logs/log/index.ts",
+				"chunks": ["assets/log-g58lE1MD.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./mcp/hub/page.contract.ts",
+				"implementation": "./mcp/hub/index.ts",
+				"chunks": ["assets/hub-B1LyHZSj.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./metrics/browse/page.contract.ts",
+				"implementation": "./metrics/browse/index.ts",
+				"chunks": ["assets/browse-CCn-H1GZ.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./metrics/detail/page.contract.ts",
+				"implementation": "./metrics/detail/index.ts",
+				"chunks": ["assets/detail-C1QX8qiN.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./overview/page.contract.ts",
+				"implementation": "./overview/index.ts",
+				"chunks": ["assets/overview-Dn5ltq-I.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./recommendations/page.contract.ts",
+				"implementation": "./recommendations/index.ts",
+				"chunks": ["assets/recommendations-4pLe3Hqn.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./releases/detail/page.contract.ts",
+				"implementation": "./releases/detail/index.ts",
+				"chunks": ["assets/detail-B7pNOkH7.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./releases/list/page.contract.ts",
+				"implementation": "./releases/list/index.ts",
+				"chunks": ["assets/list-BI3zAM8Q.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./security/dependencies/page.contract.ts",
+				"implementation": "./security/dependencies/index.ts",
+				"chunks": ["assets/dependencies-C0uQYrtA.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./security/finding/page.contract.ts",
+				"implementation": "./security/finding/index.ts",
+				"chunks": ["assets/finding-DYkbtI9t.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./security/run/page.contract.ts",
+				"implementation": "./security/run/index.ts",
+				"chunks": ["assets/run-C_Y56pJA.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./security/tabs/page.contract.ts",
+				"implementation": "./security/tabs/index.ts",
+				"chunks": ["assets/tabs-BdnT8j18.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./security/telemetry/page.contract.ts",
+				"implementation": "./security/telemetry/index.ts",
+				"chunks": ["assets/telemetry-6pTNFgkA.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./service-map/page.contract.ts",
+				"implementation": "./service-map/index.ts",
+				"chunks": ["assets/service-map-CTz5wbA7.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./services/detail/page.contract.ts",
+				"implementation": "./services/detail/index.ts",
+				"chunks": ["assets/detail-vOfxrPth.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./settings/account/page.contract.ts",
+				"implementation": "./settings/account/index.ts",
+				"chunks": ["assets/account-F3WpFda4.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./settings/ingest-rule/page.contract.ts",
+				"implementation": "./settings/ingest-rule/index.ts",
+				"chunks": ["assets/ingest-rule-BCSOGtwF.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./share/page.contract.ts",
+				"implementation": "./share/index.ts",
+				"chunks": ["assets/share-B-e6o9Ow.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./sources/list/page.contract.ts",
+				"implementation": "./sources/list/index.ts",
+				"chunks": ["assets/list-V_9nQFXv.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./status-pages/builder/page.contract.ts",
+				"implementation": "./status-pages/builder/index.ts",
+				"chunks": ["assets/builder-C4WZzDkK.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./status-pages/editor/page.contract.ts",
+				"implementation": "./status-pages/editor/index.ts",
+				"chunks": ["assets/editor-Q4juERBX.js"],
+				"inStartup": false
+			},
+			{
+				"contract": "./status-pages/list/page.contract.ts",
+				"implementation": "./status-pages/list/index.ts",
+				"chunks": ["assets/list-Bkk4IeF6.js"],
+				"inStartup": false
+			}
+		]
+	}
+}

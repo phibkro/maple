@@ -6,7 +6,7 @@ Status: implemented locally. The benchmark report records measured results and p
 
 A complete Submodel contract separates eager schemas from lazy execution. The parent keeps synchronous pure updates and typed Messages. Commands prepare code before a matching completion admits child execution.
 
-Foldkit now supplies `Submodel.contract`, `Submodel.implement`, `Submodel.lazy`, and `Submodel.eager`. The runtime supplies `dynamicSubscriptions` and an initial `prepareModel` barrier. These APIs are additive.
+Foldkit now supplies `Submodel.contract`, `Submodel.implement`, `Submodel.lazy`, and `Submodel.eager`. The runtime supplies `dynamicSubscriptions`, an initial `prepareModel` barrier, and a `resumeModel` hook for interrupted preparation. These APIs are additive.
 
 The Vite generator discovers explicit `*.contract.ts` files and generates typed literal imports. The application creates its own catalog through `createProgram({ buildId })`. No mutable page registry exists at module scope.
 
@@ -71,6 +71,8 @@ Child Messages retain the instance and build identity. Old Command results canno
 The module cache belongs to one application and one build. Code functions stay outside the Model. Before restoration or fresh-host replay, the application prepares all active and parked modules.
 
 A cold synchronous read of `Ready` fails explicitly. The host never renders an empty substitute because code is unavailable. This establishes a preparation requirement for replay instead of a cache-dependent update branch.
+
+Restoration prepares admitted `Ready` modules before view or subscriptions run. It then recreates preparation Commands for `Loading` hosts through `resumeModel`. `Failed` hosts retain their failure UI without retrying implicitly. Interrupted data Commands inside an admitted child remain an application responsibility.
 
 Maple filters restored Models against the current build identity. Development edits rotate that identity and trigger a full reload. Models from an older identity fail decoding and initialize afresh.
 
@@ -138,6 +140,6 @@ The resulting API demonstrates that Submodel refactoring enables automatic split
 
 ## Reproduction and evidence
 
-See `apps/web/perf` for the bundle analyzer, browser fixtures, and browser harness. See the benchmark report for versions, commands, raw samples, graphs, and limitations.
+See [the benchmark procedure](../../apps/web/perf/README.md) for the bundle analyzer, browser fixtures, and browser harness. See [the benchmark report](route-splitting/report.md) for versions, commands, raw samples, graphs, and limitations.
 
 The baseline production build and typecheck passed. Its full web suite had two timeouts under contention. Both files passed alone with one worker. The report retains that distinction.

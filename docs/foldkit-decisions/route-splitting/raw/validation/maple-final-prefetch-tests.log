@@ -1,0 +1,10 @@
+$ vitest run --passWithNoTests src/page/lazy-page.test.ts "--maxWorkers=1"
+
+ RUN  v5.1.0 /workspace/maple/apps/web
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  19:49:23
+   Duration  3.89s (transform 44%, import 41%, setup 14%, tests 2%)
+

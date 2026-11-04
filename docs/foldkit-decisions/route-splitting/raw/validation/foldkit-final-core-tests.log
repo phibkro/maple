@@ -1,0 +1,44 @@
+$ vitest run --coverage --maxWorkers=1 --testTimeout=30000 --hookTimeout=30000
+
+ RUN  v5.0.2 /workspace/foldkit/packages/foldkit
+      Coverage enabled with v8
+
+ ❯ src/runtime/hydrateBoot.test.ts (58 tests | 1 failed) 4086ms
+   ❯ hydrating boot (58)
+     × contains the page when a JavaScript caller supplies null options 1534ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/runtime/hydrateBoot.test.ts > hydrating boot > contains the page when a JavaScript caller supplies null options
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ expectContained src/runtime/hydrateBoot.test.ts:745:49
+    743|       ':root > dialog[data-foldkit-refusal-shield]',
+    744|     )
+    745|     expect(document.body.hasAttribute('inert')).toBe(true)
+       |                                                 ^
+    746|     expect(document.body.getAttribute('aria-hidden')).toBe('true')
+    747|     expect(document.body.hasAttribute('data-foldkit-refused')).toBe(tr…
+ ❯ src/runtime/hydrateBoot.test.ts:782:32
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 112 passed | 1 skipped (114)
+      Tests  1 failed | 3042 passed | 1 skipped (3044)
+   Start at  20:59:29
+   Duration  198.31s (setup 34%, environment 30%, tests 21%, import 8%, transform 4%, worker 3%)
+
+Environment  happy-dom was created 114 times · 48.97s total, 30% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments
+
+/workspace/foldkit/packages/foldkit:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] foldkit@0.170.0 test: `vitest run --coverage --maxWorkers=1 --testTimeout=30000 --hookTimeout=30000`
+Exit status 1

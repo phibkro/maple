@@ -1,0 +1,12 @@
+$ vitest run --maxWorkers=1
+
+ RUN  v4.1.11 /workspace/foldkit/packages/vite-plugin-foldkit
+
+ ❯ test/build.test.ts (75 tests | 2 failed) 64770ms
+     × compiles one id into both bundles of a single build 5171ms
+     × uses the environment override in both bundles and prerendered pages 5026ms
+ ❯ test/ssr.test.ts (58 tests | 1 failed) 40779ms
+     × still renders a deep route that accepts anything 10973ms
+/workspace/foldkit/packages/vite-plugin-foldkit:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] @foldkit/vite-plugin@0.29.0 test: `vitest run --maxWorkers=1`
+Exit status 130
