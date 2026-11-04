@@ -364,6 +364,8 @@ export const definePage = <
 
 	return {
 		id,
+		routes: spec.routes,
+		capabilities: { dataPreload: spec.preload !== undefined },
 		Slot,
 		Wrapped,
 		keyOf: (route: AppRoute): Option.Option<string> =>

@@ -4,17 +4,14 @@ import { AsyncData } from "foldkit"
 import type { Html, HtmlBuilder } from "foldkit/html"
 import * as Chart from "@maple/views/charts/chart"
 import { panel, panelHeader } from "@maple/views/ui/panel"
-import { middleTruncate } from "@maple/views/ui/middle-truncate"
-import { formatValueWithUnit } from "@maple/views/lib/infra-chart-units"
 import { LINKED_CURSOR_STYLE, MountLinkedCursor } from "@maple/views/charts/linked-cursor"
 import {
 	INFRA_METRIC_CHART_HEIGHT,
-	type InfraSeriesInfo,
 	metricView as metricChartView,
 } from "@maple/views/charts/infra-metric-chart"
 import { chartError, chartLoading, chartPlotArea } from "@maple/views/ui/chart-state"
 import { attributeSection, metaRow, resourceAttributesCard } from "../../kit/resource-attributes"
-import { seriesLegend } from "../../../kit/series-legend"
+import { hostSeriesSummary } from "../../../kit/infra-series-summary"
 import { formatTimestampInTimezone } from "@maple/web-data/lib/timezone-format"
 import { type HostMetric, Message } from "./message"
 import type { HostSummary, Model } from "./model"
@@ -161,21 +158,3 @@ export const metricsPanel = (h: H, model: Model, timeZone: string): Html =>
 			Arr.map(METRIC_STRIPS, (strip) => metricStrip(h, model, strip, timeZone)),
 		),
 	])
-
-/** `HostSeriesSummary`: the right-aligned last-value strip. */
-export const hostSeriesSummary = (h: HtmlBuilder<Chart.Message>, info: InfraSeriesInfo): Html =>
-	seriesLegend(h, {
-		className: "px-3 py-2",
-		maxItems: 8,
-		items: Arr.map(info.series, (name) => {
-			const value = info.lastValues[name]
-			const label = info.labelFor(name)
-			return {
-				key: name,
-				label: middleTruncate(h, { text: label, tail: 10 }),
-				title: label,
-				color: info.colors.get(name),
-				value: value === undefined ? undefined : formatValueWithUnit(value, info.unit),
-			}
-		}),
-	})

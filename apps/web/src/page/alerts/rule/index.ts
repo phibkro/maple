@@ -1,7 +1,9 @@
+import { implementPage } from "../../lazy-page-contract"
+import { contract } from "./page.contract"
 import { Schema } from "effect"
 import { Subscription } from "foldkit"
 import type { Resources } from "../../../platform/resources"
-import { definePage, type PageSubscriptionInput } from "../../contract"
+import { type PageSubscriptionInput } from "../../contract"
 import { destinationRows, incidentRows, ruleRows, ruleStateRows } from "../shared/collections"
 import { Message } from "./message"
 import { Model } from "./model"
@@ -17,11 +19,13 @@ const subscriptions = Subscription.make<PageSubscriptionInput<Model>, Message, R
 	}),
 	incidents: entry(byOrg, {
 		modelToDependencies: ({ context }) => ({ orgId: context.orgId }),
-		dependenciesToStream: ({ orgId }) => incidentRows(orgId, (rows) => Message.UpdatedIncidents({ orgId, rows })),
+		dependenciesToStream: ({ orgId }) =>
+			incidentRows(orgId, (rows) => Message.UpdatedIncidents({ orgId, rows })),
 	}),
 	states: entry(byOrg, {
 		modelToDependencies: ({ context }) => ({ orgId: context.orgId }),
-		dependenciesToStream: ({ orgId }) => ruleStateRows(orgId, (rows) => Message.UpdatedRuleStates({ orgId, rows })),
+		dependenciesToStream: ({ orgId }) =>
+			ruleStateRows(orgId, (rows) => Message.UpdatedRuleStates({ orgId, rows })),
 	}),
 	destinations: entry(byOrg, {
 		modelToDependencies: ({ context }) => ({ orgId: context.orgId }),
@@ -31,17 +35,11 @@ const subscriptions = Subscription.make<PageSubscriptionInput<Model>, Message, R
 }))
 
 /** `/alerts/$ruleId`: one instance per rule; the tab and window are search. */
-export const page = definePage(
-	"AlertRule",
-	{ Model, Message },
-	{
-		routes: ["AlertRule"],
-		key: (route) => route.ruleId,
-		init,
-		update,
-		routeChanged,
-		view,
-		subscriptions,
-		breadcrumbs: breadcrumbsOf,
-	},
-)
+export const page = implementPage(contract, {
+	init,
+	update,
+	routeChanged,
+	view,
+	subscriptions,
+	breadcrumbs: breadcrumbsOf,
+})

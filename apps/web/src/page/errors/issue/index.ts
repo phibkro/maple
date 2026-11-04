@@ -1,6 +1,7 @@
+import { implementPage } from "../../lazy-page-contract"
+import { contract } from "./page.contract"
 import { AsyncData } from "foldkit"
-import { definePage } from "../../contract"
-import { Message } from "./message"
+
 import { Model } from "./model"
 import { subscriptions } from "./subscription"
 import { contextChanged, init, routeChanged, update } from "./update"
@@ -18,18 +19,12 @@ const lastCrumb = (model: Model): string =>
 	})
 
 /** `/errors/issues/$issueId`: one instance per issue; tab and window changes arrive as `routeChanged`. */
-export const page = definePage(
-	"ErrorIssue",
-	{ Model, Message },
-	{
-		routes: ["ErrorIssue"],
-		key: (route) => route.issueId,
-		init,
-		update,
-		routeChanged,
-		contextChanged,
-		view,
-		subscriptions,
-		breadcrumbs: (model) => [ERRORS_CRUMB, { label: lastCrumb(model) }],
-	},
-)
+export const page = implementPage(contract, {
+	init,
+	update,
+	routeChanged,
+	contextChanged,
+	view,
+	subscriptions,
+	breadcrumbs: (model) => [ERRORS_CRUMB, { label: lastCrumb(model) }],
+})

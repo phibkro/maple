@@ -1,7 +1,9 @@
+import { implementPage } from "../lazy-page-contract"
+import { contract } from "./page.contract"
 import { Option } from "effect"
 import { Submodel, Subscription } from "foldkit"
 import type { Resources } from "../../platform/resources"
-import { definePage, type PageSubscriptionInput, type PageViewInputs } from "../contract"
+import { type PageSubscriptionInput, type PageViewInputs } from "../contract"
 import { view as analyticsView } from "./analytics/view"
 import { view as ciView } from "./ci/view"
 import { view as issuesView } from "./issues/view"
@@ -79,25 +81,12 @@ const subscriptions = Subscription.lift(pullRequestsSubscriptions)<PageSubscript
  * org: a tab change keeps the instance, so what one tab read serves the next. Filters and windows
  * are search params; each tab's own update handles them.
  */
-export const page = definePage(
-	"CodeReview",
-	{ Model, Message },
-	{
-		routes: [
-			"CodeReview",
-			"CodeReviewPullRequests",
-			"CodeReviewCi",
-			"CodeReviewTeam",
-			"CodeReviewIssues",
-			"CodeReviewSettings",
-		],
-		key: () => "code-review",
-		init,
-		update,
-		routeChanged,
-		contextChanged,
-		view,
-		subscriptions,
-		breadcrumbs,
-	},
-)
+export const page = implementPage(contract, {
+	init,
+	update,
+	routeChanged,
+	contextChanged,
+	view,
+	subscriptions,
+	breadcrumbs,
+})

@@ -1,3 +1,4 @@
+import { valueClass } from "../../../kit/gcp-value-class"
 import { GCP_INFRA_SERVICES, type GcpInfraServiceId } from "@maple/domain/gcp-infra"
 import {
 	gcpQueryInsightsConsoleUrl,
@@ -25,7 +26,7 @@ import {
 	type GcpWorkloadRow,
 	type GcpWorkloadScope,
 } from "../../../../components/infra/gcp/list-model"
-import { formatGcpValue, GCP_INFRA_COLUMNS, type GcpColumn } from "../../../../components/infra/gcp/tabs"
+import { formatGcpValue, GCP_INFRA_COLUMNS } from "../../../../components/infra/gcp/tabs"
 import { BAR_VALUE_TONE } from "../../../../components/infra/severity-tokens"
 import { errorRateClass } from "@maple/ui/lib/error-rate"
 import {
@@ -645,14 +646,6 @@ export const serviceTableLoading = (h: H, service: GcpInfraServiceId): Html =>
 			...Arr.map(GCP_INFRA_COLUMNS[service], () => skeleton(h, cn("h-3", VALUE_WIDTH))),
 		]),
 	)
-
-export const valueClass = (spec: GcpColumn, value: number | undefined): string => {
-	if (value !== undefined && spec.format === "errorRate") return errorRateClass(value)
-	if (value !== undefined && spec.format === "percent" && utilizationLevel(value) !== "ok") {
-		return BAR_VALUE_TONE[utilizationLevel(value)]
-	}
-	return "text-foreground-soft"
-}
 
 /** `GcpServiceTable`: a service without a list of its own, its curated columns. */
 export const serviceTable = (

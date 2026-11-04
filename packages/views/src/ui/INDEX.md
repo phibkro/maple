@@ -183,16 +183,19 @@ existing copies onto it (see `apps/web/CLAUDE.md`).
 - `apps/web/src/page/kit/custom-range.ts` `readToday`, `parseTimeInput`, `addToRange`, `appliedRange` (stateful: Model, init, update): The custom range picker: a two-month range calendar and two time inputs in the selected zone's wall clock.
 - `apps/web/src/page/kit/dashboard-page.ts` `pageBody`, `filterRail`, `pageContent`, `pageHeader`, `pageScrollArea`, `dashboardPage`: The dashboard page below the shell's top bar: `PageLayout.Body` with its filter rail, content column, sticky header and scroll area.
 - `apps/web/src/page/kit/detail-header.ts` `detailEyebrow`, `detailTitle`, `detailTitleSkeleton`, `detailActions`: `DetailHeader`'s title side and `DetailHeaderSkeleton`.
+- `apps/web/src/page/kit/gcp-value-class.ts` `valueClass`: The value tone for a GCP metric column, shared by fleet and connection views.
 - `apps/web/src/page/kit/guided-setup.ts` `frameworkIconStrip`, `frameworkPicker`, `agentPromptButton`, `connectInstructions`: `FrameworkIconStrip`, `FrameworkPicker` and `ConnectInstructions`, with `PackageManagerCodeBlock`.
 - `apps/web/src/page/kit/infra-correlation/command.ts` `operationOf`: The four `*InfraTimeseries` reads the panel's charts make, through the read cache under the atom key (`requestKey(org, "<function>", { data })`), so a reopened panel reuses them.
 - `apps/web/src/page/kit/infra-correlation/update.ts` `chartIdOf`, `requestsOf` (stateful: Model, init, update): A chart's slot and chart id, `<kind>-<metric>` (the linked-cursor id).
 - `apps/web/src/page/kit/infra-correlation/view-charts.ts` `correlationCharts`: `renderCharts`: each group's charts, drawn as the detail charts.
 - `apps/web/src/page/kit/infra-correlation/view.ts` `view`: The panel; keyed by the record, so another record remounts it and reads its own window.
 - `apps/web/src/page/kit/infra-correlation/window.ts` `anchoredWindow`: `infraCorrelationWindow` for a parseable anchor: 15 minutes either side, covering the span, on snapped to a 15 s grid before the request is sent.
+- `apps/web/src/page/kit/infra-series-summary.ts` `hostSeriesSummary`: `HostSeriesSummary`: the right-aligned last-value strip.
 - `apps/web/src/page/kit/keyed-step.ts` `slotStep`, `chain`, `chainAll`: One request slot's step and the way steps compose: the Model threaded through, the Commands concatenated, the last OutMessage kept.
 - `apps/web/src/page/kit/list-toolbar.ts` `listToolbar`, `toolbarCount`, `toolbarStat`: `ListToolbar`: a list page's row of view tabs, then search, filters and the count readout.
 - `apps/web/src/page/kit/markdown.ts` `escapeDirectives`, `parseMarkdownTexts`: The one markdown parse every page uses (chat, agent sessions).
 - `apps/web/src/page/kit/message-response.ts` `glyph`, `messageResponse`: Lightweight markdown over Streamdown: laid out with Streamdown's element classes.
+- `apps/web/src/page/kit/metric-widget-shell.ts` `widgetShell`: A read-only widget shell in view mode with no widget actions: title, hoisted legend chips, headline value, content and footer.
 - `apps/web/src/page/kit/page-rail-sheet.ts` `pageRailSheet`: `PageLayout.FilterSidebar` / `RightSidebar` below `lg`: the page's rail in a side sheet (`<Sheet><SheetContent side>`) with an sr-only header.
 - `apps/web/src/page/kit/peek-keys.ts` `peekStepFor`: The list peeks' step keys: down/J forward, up/K back, except in a text field or with a modifier.
 - `apps/web/src/page/kit/pinned-namespace-notice.ts` `pinnedNamespaceNotice`: `PinnedNamespaceNotice`: replaces a rail's Namespace section while the org-global pin is on.

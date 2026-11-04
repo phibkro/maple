@@ -1,10 +1,13 @@
+import { createPreparedRegistry } from "../test/prepared-registry"
 import { OrgId } from "@maple/domain"
 import { Option, Schema, Array as Arr, String as Str } from "effect"
 import { describe, expect, test } from "vitest"
 import type { PageContext } from "./contract"
 import * as Preload from "./preload"
-import { pageIdentity, pageSlotId, preloadRoute } from "./registry"
+import { pageIdentity, pageSlotId } from "./registry"
 import { AppRoute } from "../route"
+
+const { preloadRoute } = await createPreparedRegistry()
 
 const orgId = Schema.decodeSync(OrgId)("org_acme")
 const context: PageContext = { orgId, pinnedNamespace: null, timeZone: "UTC" }

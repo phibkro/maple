@@ -1,5 +1,6 @@
 import path from "node:path"
-import { foldkit } from "@foldkit/vite-plugin"
+import { foldkit, foldkitSubmodels } from "@foldkit/vite-plugin"
+import { submodelCatalog } from "./submodel-catalog.config.ts"
 import tailwindcss from "@tailwindcss/vite"
 import { Schema, Record as Rec, String as Str } from "effect"
 import { defineConfig, loadEnv, type Plugin } from "vite"
@@ -130,10 +131,11 @@ export default defineConfig(({ mode, command }) => {
 
 	return {
 		envDir,
-		resolve: { tsconfigPaths: true },
+		resolve: { tsconfigPaths: true, dedupe: ["effect", "foldkit"] },
 		define,
 		plugins: [
 			tailwindcss(),
+			foldkitSubmodels(submodelCatalog),
 			// The DevTools MCP relay only exists on the dev server.
 			foldkit(command === "serve" ? {} : { devToolsMcpPort: false }),
 			// `/version.json`, which open tabs poll to offer a reload after a deploy (shell/version.ts).

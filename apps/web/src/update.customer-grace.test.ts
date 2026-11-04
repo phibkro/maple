@@ -17,7 +17,7 @@ import type { ClerkSnapshot } from "./platform/clerk"
 import { AppRoute } from "./route"
 import * as Shell from "./shell"
 import * as Toast from "@maple/views/ui/toast"
-import { planGateOf, update } from "./update"
+import { planGateOf, update } from "./test/root-program"
 import * as TooltipHost from "@maple/views/ui/tooltip-host"
 
 const orgId = Schema.decodeSync(OrgId)("org_acme")

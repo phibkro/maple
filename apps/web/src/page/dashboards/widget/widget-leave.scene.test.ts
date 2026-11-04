@@ -1,15 +1,18 @@
+import { createPreparedRegistry, readySlot } from "../../../test/prepared-registry"
 import { OrgId } from "@maple/domain"
 import { DashboardDocument } from "@maple/domain/http"
 import { Option, Schema, Array as Arr } from "effect"
 import { describe, expect, test } from "vitest"
 import { AppRoute } from "../../../route"
 import { PageOutMessage, type PageContext } from "../../contract"
-import { blockNavigation, type PageSlot } from "../../registry"
+import { type PageSlot } from "../../registry"
 import { SaveWidget } from "./command"
 import { Message } from "./message"
 import type { Model } from "./model"
 import { update } from "./page-update"
 import { init } from "./update"
+
+const { blockNavigation } = await createPreparedRegistry()
 
 // `useBlocker`: a link, Back or the breadcrumb away from unsaved edits asks first.
 
@@ -42,13 +45,19 @@ const opened = () =>
 		Message.UpdatedDashboard({ orgId, maybeDocument: Option.some(document) }),
 	])
 
-const slotOf = (model: Model): PageSlot => ({
-	_tag: "DashboardWidget",
-	key: "dash_leave/note",
-	orgId,
-	instance: 1,
-	model,
-})
+const slotOf = (model: Model): PageSlot =>
+	readySlot(
+		{
+			_tag: "DashboardWidget",
+			key: "dash_leave/note",
+			orgId,
+			instance: 1,
+			model,
+		},
+		AppRoute.DashboardWidget({ dashboardId: document.id, widgetId: "note", search: {} }),
+		context,
+	)
+
 const away = AppRoute.Services({ search: {} })
 const isHeld = (model: Model, route: AppRoute = away) =>
 	Option.isSome(blockNavigation(slotOf(model), route, "/services", context))
@@ -59,7 +68,10 @@ describe("leaving the widget editor", () => {
 		expect(isHeld(opened())).toBe(false)
 		expect(isHeld(edited)).toBe(true)
 		const held = Option.getOrThrow(blockNavigation(slotOf(edited), away, "/services", context))
-		const model = held.slot?.model
+		const model =
+			held.slot?._tag === "DashboardWidget" && held.slot.model._tag === "Ready"
+				? held.slot.model.model.model
+				: undefined
 		expect(model !== undefined && "leaveDialog" in model && model.leaveDialog.isOpen).toBe(true)
 	})
 

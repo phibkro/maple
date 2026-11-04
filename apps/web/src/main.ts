@@ -3,8 +3,9 @@ import { Effect, Option, Schema } from "effect"
 import type { Runtime } from "foldkit"
 import type { Url } from "foldkit/url"
 import { CheckSession, LoadClerk } from "./command"
-import type { Message } from "./message"
-import { ClerkPhase, type Model, Session } from "./model"
+import { Command } from "foldkit"
+import { Message } from "./message"
+import { ClerkPhase, Model, Session } from "./model"
 import { initCustomer, readKnownToRenderApp } from "./page/onboarding/plan-gate"
 import * as Preload from "./page/preload"
 import * as SignIn from "./page/sign-in"
@@ -15,13 +16,13 @@ import * as Toast from "@maple/views/ui/toast"
 import * as TooltipHost from "@maple/views/ui/tooltip-host"
 import { urlToAppRoute } from "./route"
 import * as Shell from "./shell"
-import { settle } from "./update"
+import { createUpdate } from "./update"
+import { createView } from "./view"
+import { createSubscriptions } from "./subscription"
+import { createPageRegistry } from "./page/registry"
 
 export { Message } from "./message"
 export { Model } from "./model"
-export { subscriptions } from "./subscription"
-export { update } from "./update"
-export { view } from "./view"
 
 // FLAGS
 
@@ -52,41 +53,72 @@ export const flags: Effect.Effect<Flags> = Effect.all({
 
 // INIT
 
-export const init: Runtime.RoutingApplicationInit<Model, Message, Flags, Resources> = (flags, url: Url) => {
-	const route = urlToAppRoute(url)
-	const base = {
-		route,
-		signIn: SignIn.init(),
-		shell: Shell.init(flags.shell),
-		toasts: Toast.init("toasts"),
-		toastActions: {},
-		toastRootActions: {},
-		tooltip: TooltipHost.init("tooltip"),
-		page: null,
-		pageInstances: 0,
-		parkedPages: [],
-		onboarding: null,
-		clerkSnapshot: null,
-		customer: initCustomer(),
-		knownToRenderApp: flags.knownToRenderApp,
-		preload: Preload.init(),
-		sessionTimeRange: null,
-		timeZone: flags.timeZone,
-	}
-
-	if (isClerkAuthEnabled) {
-		return {
-			model: { ...base, session: Session.Resolving(), clerk: ClerkPhase.Loading() },
-			commands: [LoadClerk()],
+export const createProgram = (options: { readonly buildId: string }) => {
+	const registry = createPageRegistry(options)
+	const updater = createUpdate(registry)
+	const { settle, update } = updater
+	const view = createView(registry, updater)
+	const { subscriptions, dynamicSubscriptions } = createSubscriptions(registry, updater)
+	const init: Runtime.RoutingApplicationInit<Model, Message, Flags, Resources> = (flags, url: Url) => {
+		const route = urlToAppRoute(url)
+		const base = {
+			route,
+			signIn: SignIn.init(),
+			shell: Shell.init(flags.shell),
+			toasts: Toast.init("toasts"),
+			toastActions: {},
+			toastRootActions: {},
+			tooltip: TooltipHost.init("tooltip"),
+			page: null,
+			pageInstances: 0,
+			parkedPages: [],
+			onboarding: null,
+			clerkSnapshot: null,
+			customer: initCustomer(),
+			knownToRenderApp: flags.knownToRenderApp,
+			preload: Preload.init(),
+			sessionTimeRange: null,
+			timeZone: flags.timeZone,
 		}
-	}
 
-	if (flags.hasStoredSession) {
-		return {
-			model: { ...base, session: Session.Resolving(), clerk: ClerkPhase.Unused() },
-			commands: [CheckSession()],
+		if (isClerkAuthEnabled) {
+			return {
+				model: { ...base, session: Session.Resolving(), clerk: ClerkPhase.Loading() },
+				commands: [LoadClerk()],
+			}
 		}
+
+		if (flags.hasStoredSession) {
+			return {
+				model: { ...base, session: Session.Resolving(), clerk: ClerkPhase.Unused() },
+				commands: [CheckSession()],
+			}
+		}
+
+		return settle({ ...base, session: Session.SignedOut(), clerk: ClerkPhase.Unused() })
 	}
 
-	return settle({ ...base, session: Session.SignedOut(), clerk: ClerkPhase.Unused() })
+	const ScopedModel = Model.pipe(
+		Schema.check(
+			Schema.makeFilter((model) =>
+				registry.isCompatible([...(model.page === null ? [] : [model.page]), ...model.parkedPages]),
+			),
+		),
+	)
+	return {
+		Model: ScopedModel,
+		init,
+		update,
+		view,
+		subscriptions,
+		dynamicSubscriptions,
+		registry,
+		updater,
+		resumeModel: (model: Model) =>
+			Command.mapMessages(registry.resumePage(model.page), (message) =>
+				Message.GotPageMessage({ message }),
+			),
+		prepareModel: (model: Model) =>
+			registry.preparePages([...(model.page === null ? [] : [model.page]), ...model.parkedPages]),
+	}
 }

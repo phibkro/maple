@@ -1,7 +1,9 @@
+import { implementPage } from "../../lazy-page-contract"
+import { contract } from "./page.contract"
 import { Clock, Duration, Effect, Schema, Stream } from "effect"
 import { Subscription } from "foldkit"
 import { pollTicks } from "../../../data/poll"
-import { definePage, type PageSubscriptionInput } from "../../contract"
+import { type PageSubscriptionInput } from "../../contract"
 import { isLive } from "../kit/format"
 import { runOf } from "./derive"
 import { Message, Model } from "./model"
@@ -32,16 +34,10 @@ export const subscriptions = Subscription.make<PageSubscriptionInput<Model>, Mes
 }))
 
 /** `/security/code/runs/$runId`: one instance per run. */
-export const page = definePage(
-	"SecurityRun",
-	{ Model, Message },
-	{
-		routes: ["SecurityRun"],
-		key: (route) => route.runId,
-		init,
-		update,
-		view,
-		subscriptions,
-		breadcrumbs: breadcrumbsOf,
-	},
-)
+export const page = implementPage(contract, {
+	init,
+	update,
+	view,
+	subscriptions,
+	breadcrumbs: breadcrumbsOf,
+})

@@ -3,7 +3,7 @@ import type { Html, HtmlBuilder } from "foldkit/html"
 import type { FixedMetricRow } from "@maple/views/charts/chart-spec"
 import { MountLinkedCursor } from "@maple/views/charts/linked-cursor"
 import { ResolveThemeColors } from "@maple/views/charts/theme-colors"
-import { CHART_TOKENS, metricsGridOf } from "../../page/services/detail/view-charts"
+import { CHART_TOKENS, metricsGridOf } from "../../page/services/kit/metrics-grid"
 import { isReady, Message, type Model } from "./chart-bench"
 
 // `/lab/bench/service-detail` and

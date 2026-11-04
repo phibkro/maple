@@ -20,8 +20,8 @@ import * as Toast from "@maple/views/ui/toast"
 import * as Dialog from "@maple/views/ui/dialog"
 import { MountSuggestions, MountWhereEditor } from "./page/traces/list/command"
 import { Message as TracesMessage } from "./page/traces/list/message"
-import { settle, update } from "./update"
-import { view } from "./view"
+import { settle, update } from "./test/root-program"
+import { view } from "./test/root-program"
 import * as TooltipHost from "@maple/views/ui/tooltip-host"
 
 const orgId = Schema.decodeSync(OrgId)("org_acme")

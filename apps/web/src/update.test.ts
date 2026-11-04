@@ -1,3 +1,5 @@
+import { contract as awsContract } from "./page/infra-integrations/aws/list/page.contract"
+import { preparationMessage } from "./test/prepared-registry"
 import { OrgId, UserId } from "@maple/domain"
 import { Option, Schema, Array as Arr, String as Str } from "effect"
 import { UrlRequest } from "foldkit/navigation"
@@ -10,16 +12,16 @@ import { Message } from "./message"
 import { ClerkPhase, type Model, Session } from "./model"
 import { initCustomer } from "./page/onboarding/plan-gate"
 import * as Preload from "./page/preload"
-import { enterRoute, pageIdentity } from "./page/registry"
+import { enterRoute, pageIdentity } from "./test/root-program"
 import { Message as ServicesMessage } from "./page/services/list/message"
 import * as SignIn from "./page/sign-in"
 import { AppRoute } from "./route"
 import * as Shell from "./shell"
-import { DashboardsData } from "./shell/model"
+import { DashboardsData, SourcesData } from "./shell/model"
 import * as Toast from "@maple/views/ui/toast"
 import type { ClerkSnapshot } from "./platform/clerk"
-import { subscriptions } from "./subscription"
-import { settle, update } from "./update"
+import { subscriptions } from "./test/root-program"
+import { program, settle, update } from "./test/root-program"
 import * as TooltipHost from "@maple/views/ui/tooltip-host"
 
 const orgId = Schema.decodeSync(OrgId)("org_acme")
@@ -53,6 +55,35 @@ const commandsOf = (result: {
 }) => Arr.map(result.commands ?? [], ({ name, args }) => ({ name, args }))
 
 describe("root navigation", () => {
+	test("refreshes cached sources when a lazy platform page admits its source metadata", () => {
+		const initial = base(AppRoute.InfraAws({ search: {} }))
+		const entered = program.updater.settle({
+			...initial,
+			shell: {
+				...initial.shell,
+				maybeOrgId: Option.some(orgId),
+				sources: SourcesData.Success({ data: [] }),
+			},
+		})
+		const slot = Option.getOrThrow(
+			Option.filter(Option.fromNullishOr(entered.model.page), Schema.is(awsContract.Slot)),
+		)
+		expect(slot._tag).toBe("InfraAws")
+		expect(slot.model._tag).toBe("Loading")
+		expect(commandsOf(entered).filter((command) => command.name === "LoadSources")).toEqual([])
+		const completion = Option.getOrThrow(Option.fromNullishOr(preparationMessage(slot)))
+		const admitted = program.update(entered.model, Message.GotPageMessage({ message: completion }))
+		expect(admitted.model.shell.sources._tag).toBe("Refreshing")
+		expect(commandsOf(admitted).filter((command) => command.name === "LoadSources")).toEqual([
+			{ name: "LoadSources", args: { orgId, isRefresh: true } },
+		])
+		const unchanged = program.update(
+			admitted.model,
+			Message.ChangedTimeZonePreference({ timeZone: "Europe/Oslo" }),
+		)
+		expect(commandsOf(unchanged).filter((command) => command.name === "LoadSources")).toEqual([])
+	})
+
 	test("a link navigation lands with the remembered window; Back/Forward is left as it is", () => {
 		const model = base(AppRoute.Logs({ search: {} }))
 		const clicked = update(

@@ -1,3 +1,4 @@
+import { createPreparedRegistry, childMessage } from "../test/prepared-registry"
 import { DashboardId, OrgId } from "@maple/domain"
 import { DashboardDocument } from "@maple/domain/http"
 import { Option, Result, Schema, Array as Arr } from "effect"
@@ -5,7 +6,9 @@ import { describe, expect, test } from "vitest"
 import { AppRoute } from "../route"
 import type { PageContext } from "./contract"
 import { Message } from "./dashboards/view/message"
-import { enterRoute, PageMessage, type PageSlot, updatePage } from "./registry"
+import { PageMessage, type PageSlot } from "./registry"
+
+const { enterRoute, updatePage } = await createPreparedRegistry()
 
 const orgId = Schema.decodeSync(OrgId)("org_acme")
 const otherOrgId = Schema.decodeSync(OrgId)("org_other")
@@ -37,13 +40,10 @@ const routeOf = (id: string, isEdit: boolean) =>
 		search: isEdit ? { mode: "edit" } : {},
 	})
 
-const stamp = (key: string, instance: number, message: Message, org: string = orgId): PageMessage => ({
-	_tag: "DashboardView",
-	key,
-	orgId: org,
-	instance,
-	message,
-})
+const stamp = (key: string, instance: number, message: Message, org: string = orgId): PageMessage =>
+	childMessage({ _tag: "DashboardView", key, instance, orgId: org }, message)
+const dashboardModel = (slot: PageSlot | null) =>
+	slot?._tag === "DashboardView" && slot.model._tag === "Ready" ? slot.model.model.model : null
 
 const send = (slot: PageSlot | null, message: PageMessage) => updatePage(slot, message, context)
 
@@ -101,7 +101,9 @@ describe("page instances", () => {
 			onB,
 			stamp("dash_a", 1, Message.CompletedWrite({ result: Result.fail("Write failed") })),
 		)
-		expect(late.slot?._tag === "DashboardView" ? late.slot.model.persistenceError : "missing").toBeNull()
+		expect(
+			dashboardModel(late.slot) === null ? "missing" : dashboardModel(late.slot)?.persistenceError,
+		).toBeNull()
 	})
 
 	test("a Message stamped for another org's instance of the same dashboard is dropped", () => {
@@ -118,6 +120,6 @@ describe("page instances", () => {
 		const failed = Message.CompletedWrite({ result: Result.fail("Write failed") })
 		expect(send(backOnA, stamp("dash_a", 1, failed)).slot).toBe(backOnA)
 		const current = send(backOnA, stamp("dash_a", 3, failed)).slot
-		expect(current?._tag === "DashboardView" ? current.model.persistenceError : null).not.toBeNull()
+		expect(dashboardModel(current)?.persistenceError ?? null).not.toBeNull()
 	})
 })

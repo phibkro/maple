@@ -3,12 +3,13 @@ import "./platform/oauth-return-boot"
 import "./styles.css"
 
 import { Runtime } from "foldkit"
+import submodelBuildId from "virtual:foldkit-submodels/build-id"
 import type { UrlRequest } from "foldkit/navigation"
 import type { Url } from "foldkit/url"
 import { trackAvatarImageLoads } from "@maple/views/ui/avatar-image"
 import { crashView } from "./crash/view"
 import { labEnabled, labPathOf, startLab } from "./lab/boot"
-import { Flags, flags, init, Message, Model, subscriptions, update, view } from "./main"
+import { Flags, flags, createProgram, Message } from "./main"
 import { ResourcesLive } from "./platform/resources"
 import { instrument } from "./platform/telemetry"
 
@@ -16,8 +17,12 @@ trackAvatarImageLoads()
 
 const container = document.getElementById("app") ?? document.body
 
-const startApplication = () =>
-	Runtime.run(
+const startApplication = () => {
+	const { Model, init, update, view, subscriptions, dynamicSubscriptions, prepareModel, resumeModel } =
+		createProgram({
+			buildId: submodelBuildId,
+		})
+	return Runtime.run(
 		Runtime.makeApplication(
 			instrument({
 				Model,
@@ -26,6 +31,9 @@ const startApplication = () =>
 				update,
 				view,
 				subscriptions,
+				dynamicSubscriptions,
+				prepareModel,
+				resumeModel,
 				resources: ResourcesLive,
 				container,
 				routing: {
@@ -40,6 +48,7 @@ const startApplication = () =>
 		),
 		{ flags },
 	)
+}
 
 // `/lab/<path>` boots that lab page's own program instead of the app (scenarios, benches).
 const labPath = labEnabled ? labPathOf(location.pathname) : undefined

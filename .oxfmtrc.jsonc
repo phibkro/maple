@@ -21,6 +21,8 @@
 	// CLAUDE.md (AGENTS.md links to it) has a bare `yield*` snippet that oxfmt parses
 	// outside a generator and rewrites to `yield *`, a multiplication.
 	"ignorePatterns": [
+		// Catalog generation compares this file byte for byte.
+		"apps/web/src/page/lazy-catalog.generated.ts",
 		".agents/**",
 		".codex/**",
 		".context/**",

@@ -1,7 +1,9 @@
+import { implementPage } from "../../lazy-page-contract"
+import { contract } from "./page.contract"
 import { isDialogOpen, isEditableTarget } from "@maple/ui/lib/keyboard"
 import { Clock, Duration, Effect, Option, Schema, Stream } from "effect"
 import { AsyncData, Dom, Subscription } from "foldkit"
-import { definePage, type PageSubscriptionInput } from "../../contract"
+import { type PageSubscriptionInput } from "../../contract"
 import { isLiveOf } from "./derive"
 import { Message } from "./message"
 import { Model } from "./model"
@@ -58,7 +60,9 @@ const subscriptions = Subscription.make<PageSubscriptionInput<Model>, Message>()
 				isLive
 					? pollTicks(LIVE_REFRESH_INTERVAL).pipe(
 							Stream.mapEffect(() =>
-								Effect.map(Clock.currentTimeMillis, (nowMs) => Message.TickedLiveRefresh({ nowMs })),
+								Effect.map(Clock.currentTimeMillis, (nowMs) =>
+									Message.TickedLiveRefresh({ nowMs }),
+								),
 							),
 						)
 					: Stream.empty,
@@ -67,16 +71,11 @@ const subscriptions = Subscription.make<PageSubscriptionInput<Model>, Message>()
 }))
 
 /** `/anomalies`: one instance; a search change arrives as `routeChanged`. */
-export const page = definePage(
-	"AnomaliesList",
-	{ Model, Message },
-	{
-		routes: ["Anomalies"],
-		init,
-		update,
-		routeChanged,
-		view,
-		subscriptions,
-		breadcrumbs: () => [{ label: "Anomalies", isPageHeading: true }],
-	},
-)
+export const page = implementPage(contract, {
+	init,
+	update,
+	routeChanged,
+	view,
+	subscriptions,
+	breadcrumbs: () => [{ label: "Anomalies", isPageHeading: true }],
+})

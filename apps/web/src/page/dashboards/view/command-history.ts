@@ -1,36 +1,16 @@
-import { DashboardDocument, DashboardId, DashboardVersionId } from "@maple/domain/http"
-import type { V2Dashboard } from "@maple/domain/http/v2"
+import { DashboardId, DashboardVersionId } from "@maple/domain/http"
 import { Effect, Schema, Array as Arr } from "effect"
 import { Command } from "foldkit"
 import { toLoadFailure } from "@maple/views/data/load-failure"
 import { MapleApiV2Client } from "../../../platform/api-clients"
 import { errorMessageOf } from "../kit/store"
+import { documentOf } from "../kit/document"
 import { Message } from "./message"
 
 // `useDashboardVersions`, `useDashboardVersionDetail` and `useRestoreDashboardVersion`.
 
 const decodeDashboardId = Schema.decodeUnknownEffect(DashboardId)
 const decodeVersionId = Schema.decodeUnknownEffect(DashboardVersionId)
-const decodeDocument = Schema.decodeUnknownEffect(DashboardDocument)
-
-/** A version's snapshot read as the board document the canvas renders. */
-export const documentOf = (snapshot: V2Dashboard) =>
-	decodeDocument({
-		id: snapshot.id,
-		name: snapshot.name,
-		...(snapshot.description === null ? undefined : { description: snapshot.description }),
-		tags: snapshot.tags,
-		timeRange: snapshot.timeRange,
-		widgets: snapshot.widgets,
-		sections: snapshot.sections,
-		variables: snapshot.variables,
-		...(snapshot.refreshIntervalSeconds === null
-			? undefined
-			: { refreshIntervalSeconds: snapshot.refreshIntervalSeconds }),
-		createdAt: snapshot.createdAt,
-		updatedAt: snapshot.updatedAt,
-	})
-
 export const FetchVersions = Command.define("FetchDashboardVersions", {
 	args: { dashboardId: Schema.String, generation: Schema.Number },
 	messages: [Message.CompletedFetchVersions],

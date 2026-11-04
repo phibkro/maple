@@ -1,6 +1,8 @@
+import { implementPage } from "../../lazy-page-contract"
+import { contract } from "./page.contract"
 import { Clock, Duration, Effect, Schema, Stream } from "effect"
 import { Subscription } from "foldkit"
-import { definePage, type PageSubscriptionInput } from "../../contract"
+import { type PageSubscriptionInput } from "../../contract"
 import { incidentOf } from "./derive"
 import { Message } from "./message"
 import { Model } from "./model"
@@ -14,13 +16,17 @@ const subscriptions = Subscription.make<PageSubscriptionInput<Model>, Message>()
 		{ isOpen: Schema.Boolean },
 		{
 			modelToDependencies: ({ model }) => ({
-				isOpen: incidentOf(model).pipe((incident) => incident._tag === "Some" && incident.value.status === "open"),
+				isOpen: incidentOf(model).pipe(
+					(incident) => incident._tag === "Some" && incident.value.status === "open",
+				),
 			}),
 			dependenciesToStream: ({ isOpen }) =>
 				isOpen
 					? pollTicks(Duration.seconds(15)).pipe(
 							Stream.mapEffect(() =>
-								Effect.map(Clock.currentTimeMillis, (nowMs) => Message.TickedLiveRefresh({ nowMs })),
+								Effect.map(Clock.currentTimeMillis, (nowMs) =>
+									Message.TickedLiveRefresh({ nowMs }),
+								),
 							),
 						)
 					: Stream.empty,
@@ -29,16 +35,10 @@ const subscriptions = Subscription.make<PageSubscriptionInput<Model>, Message>()
 }))
 
 /** `/anomalies/$incidentId`: one instance per incident. */
-export const page = definePage(
-	"Anomaly",
-	{ Model, Message },
-	{
-		routes: ["Anomaly"],
-		key: (route) => route.incidentId,
-		init,
-		update,
-		view,
-		subscriptions,
-		breadcrumbs: breadcrumbsOf,
-	},
-)
+export const page = implementPage(contract, {
+	init,
+	update,
+	view,
+	subscriptions,
+	breadcrumbs: breadcrumbsOf,
+})

@@ -20,7 +20,7 @@ import {
 import { awaitTxid, deleteDashboard, errorMessageOf, mutateDashboard, readDocument } from "../kit/store"
 import { readLocale } from "@maple/views/lib/locale"
 import type { V2Dashboard } from "@maple/domain/http/v2"
-import { documentOf } from "../view/command-history"
+import { documentOf } from "../kit/document"
 import { toListDashboard } from "./derive"
 import { Message } from "./message"
 

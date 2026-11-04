@@ -8,7 +8,7 @@ import {
 } from "@maple/views/charts/infra-metric-chart"
 import { chartError, chartLoading, chartPlotArea } from "@maple/views/ui/chart-state"
 import { panel } from "@maple/views/ui/panel"
-import { hostSeriesSummary } from "../../infra/hosts/detail/view-panels"
+import { hostSeriesSummary } from "../infra-series-summary"
 import { k8sChart } from "../../infra/kit/k8s-chart"
 import { Message, type Model } from "./model"
 import { chartIdOf } from "./update"

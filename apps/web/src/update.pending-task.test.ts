@@ -16,7 +16,7 @@ import type { ClerkSnapshot, PendingSessionTask } from "./platform/clerk"
 import { AppRoute } from "./route"
 import * as Shell from "./shell"
 import * as Toast from "@maple/views/ui/toast"
-import { update } from "./update"
+import { update } from "./test/root-program"
 import * as TooltipHost from "@maple/views/ui/tooltip-host"
 
 const orgId = Schema.decodeSync(OrgId)("org_acme")

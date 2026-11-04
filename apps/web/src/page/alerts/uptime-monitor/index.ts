@@ -1,7 +1,9 @@
+import { implementPage } from "../../lazy-page-contract"
+import { contract } from "./page.contract"
 import { Schema } from "effect"
 import { Subscription } from "foldkit"
 import type { Resources } from "../../../platform/resources"
-import { definePage, type PageSubscriptionInput } from "../../contract"
+import { type PageSubscriptionInput } from "../../contract"
 import { destinationRows, incidentRows } from "../shared/collections"
 import { Message } from "./message"
 import { Model } from "./model"
@@ -24,16 +26,10 @@ const subscriptions = Subscription.make<PageSubscriptionInput<Model>, Message, R
 }))
 
 /** `/alerts/uptime/$monitorId`: one instance per monitor. */
-export const page = definePage(
-	"AlertsUptimeMonitor",
-	{ Model, Message },
-	{
-		routes: ["AlertsUptimeMonitor"],
-		key: (route) => route.monitorId,
-		init,
-		update,
-		view,
-		subscriptions,
-		breadcrumbs: breadcrumbsOf,
-	},
-)
+export const page = implementPage(contract, {
+	init,
+	update,
+	view,
+	subscriptions,
+	breadcrumbs: breadcrumbsOf,
+})

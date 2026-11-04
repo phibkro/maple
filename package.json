@@ -9,6 +9,8 @@
 	],
 	"scripts": {
 		"build": "turbo build",
+		"submodels:generate": "node scripts/generate-submodels.mjs",
+		"submodels:check": "node scripts/generate-submodels.mjs --check",
 		"dev": "bun run ./scripts/dev.ts",
 		"dev:signin": "bun run ./scripts/dev-signin.ts",
 		"preview:signin": "bun run ./scripts/preview-signin.ts",

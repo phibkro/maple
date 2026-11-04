@@ -1,10 +1,11 @@
+import { createPreparedRegistry, childMessage, readySlot } from "../test/prepared-registry"
 import { OrgId } from "@maple/domain"
 import { Option, Result, Schema, Array as Arr, String as Str } from "effect"
 import { AsyncData } from "foldkit"
 import { describe, expect, test } from "vitest"
 import { AppRoute } from "../route"
 import type { PageContext } from "./contract"
-import { enterRoute, PageMessage, type PageSlot, parkPages, updatePage } from "./registry"
+import { PageMessage, type PageSlot } from "./registry"
 import { DEFAULT_QUICK_START_STATE } from "./onboarding/quick-start-state"
 import { IncidentsData, RulesData } from "./overview/model"
 import * as Setup from "./overview/setup-checklist-update"
@@ -12,6 +13,8 @@ import { Message as OverviewMessage } from "./overview/message"
 import { initWith, revive as reviveOverview } from "./overview/update"
 import { Message } from "./services/list/message"
 import type { ServiceRow } from "./services/list/model"
+
+const { enterRoute, parkPages, updatePage } = await createPreparedRegistry()
 
 const orgId = Schema.decodeSync(OrgId)("org_acme")
 const context: PageContext = { orgId, pinnedNamespace: null, timeZone: "UTC" }
@@ -37,21 +40,9 @@ const row: ServiceRow = {
 	spanCount: 100,
 }
 
-const stamp = (slot: PageSlot, message: Message): PageMessage => ({
-	_tag: "ServicesList",
-	key: slot.key,
-	orgId: slot.orgId,
-	instance: slot.instance,
-	message,
-})
-
-const stampOverview = (slot: PageSlot, message: OverviewMessage): PageMessage => ({
-	_tag: "Overview",
-	key: slot.key,
-	orgId: slot.orgId,
-	instance: slot.instance,
-	message,
-})
+const stamp = (slot: PageSlot, message: Message): PageMessage => childMessage(slot, message)
+const stampOverview = (slot: PageSlot, message: OverviewMessage): PageMessage =>
+	childMessage({ ...slot, _tag: "Overview" }, message)
 
 const send = (slot: PageSlot | null, message: Message): PageSlot | null =>
 	slot === null ? null : updatePage(slot, stamp(slot, message), context).slot
@@ -149,22 +140,27 @@ describe("reviving a page left earlier", () => {
 	test("an overview with a dismissed setup card is parked, though its card never read the keys", () => {
 		const entered = enterRoute(null, home, context, 1).slot
 		const overview =
-			entered?._tag === "Overview"
-				? {
-						...entered,
-						model: {
-							...entered.model,
-							incidents: IncidentsData.Success({ data: [] }),
-							rules: RulesData.Success({ data: [] }),
-							presence: AsyncData.Success({ data: {} }),
-							chartRuntime: { _tag: "Ready" as const },
-							setup: {
-								...Setup.init("maple-onboarding-v6-org_acme").model,
-								state: { ...DEFAULT_QUICK_START_STATE, checklistDismissed: true },
+			entered?._tag === "Overview" && entered.model._tag === "Ready"
+				? readySlot(
+						{
+							...entered.model.model,
+							model: {
+								...entered.model.model.model,
+								incidents: IncidentsData.Success({ data: [] }),
+								rules: RulesData.Success({ data: [] }),
+								presence: AsyncData.Success({ data: {} }),
+								chartRuntime: { _tag: "Ready" },
+								setup: {
+									...Setup.init("maple-onboarding-v6-org_acme").model,
+									state: { ...DEFAULT_QUICK_START_STATE, checklistDismissed: true },
+								},
 							},
 						},
-					}
+						home,
+						context,
+					)
 				: null
+
 		const away = enterRoute(overview, services, context, 2).slot
 		const parked = parkPages([], overview, away)
 		expect(Arr.map(parked, (slot) => slot._tag)).toEqual(["Overview"])

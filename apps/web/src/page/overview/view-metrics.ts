@@ -30,7 +30,7 @@ import { presenceOf } from "@maple/views/data/signal-presence"
 import { stableSlice } from "../kit/stable-slice"
 import { Message, type RetryTarget } from "./message"
 import type { Model, OverviewPoint } from "./model"
-import { widgetShell } from "./view-widget"
+import { widgetShell } from "../kit/metric-widget-shell"
 import { typography } from "@maple/views/ui/typography"
 import { chartFrameClass } from "@maple/views/ui/chart-frame"
 
