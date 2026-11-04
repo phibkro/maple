@@ -74,8 +74,16 @@ const renderPage = (
 	isMobile: boolean,
 	isBelowSm: boolean,
 	isBelowLg: boolean,
+  viewLoadStatus: Model["viewLoads"][string] | undefined,
 ): Html =>
-	viewPage(
+  viewLoadStatus === "Loading"
+    ? placeholderContent(h)
+    : viewLoadStatus === "Failed"
+      ? h.div(
+          [h.Class("p-8 text-sm text-foreground")],
+          ["Unable to load this page. Reload the application to try again."],
+        )
+      : viewPage(
 		h,
 		page,
 		{
@@ -115,6 +123,7 @@ const lazyPageView = (model: Model, h: HtmlBuilder<Message>, position: PagePosit
 				model.shell.isMobile,
 				model.shell.isBelowSm,
 				model.shell.isFilterCollapsed,
+        model.viewLoads[page._tag],
 			]),
 		),
 	)
