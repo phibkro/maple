@@ -212,6 +212,17 @@ const toTransition = (step: Option.Option<PageStep<PageSlot, PageMessage>>, fall
 
 const pageById = (id: string) => Array.findFirst(pages, (page) => page.id === id)
 
+/** Whether a route has a separately loaded view module. */
+export const hasLazyPageView = (id: string): boolean =>
+  Option.exists(pageById(id), (page) => page.loadView !== undefined)
+
+/** Called only by the root's Effect Command; never from update or view. */
+export const loadPageView = (id: string): Promise<void> =>
+  Option.match(pageById(id), {
+    onNone: () => Promise.reject(new Error(`Unknown page: ${id}`)),
+    onSome: (page) => page.loadView?.() ?? Promise.resolve(),
+  })
+
 /**
  * Route entry: keep the instance when its key and org are unchanged (it gets `routeChanged`),
  * otherwise revive a parked instance of the route's page or build it, as instance `nextInstance`.

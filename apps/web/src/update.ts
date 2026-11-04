@@ -1,7 +1,7 @@
 import { OrgId as OrgIdSchema, type OrgId } from "@maple/domain"
 import { isClerkAuthEnabled } from "./lib/services/common/auth-mode"
 import { validateInternalRedirect } from "@maple/ui/lib/sanitizers"
-import { Option, Schema, Struct, Array as Arr } from "effect"
+import { Effect, Option, Schema, Struct, Array as Arr } from "effect"
 import { AsyncData, Command, Update } from "foldkit"
 import { UrlRequest } from "foldkit/navigation"
 import { Transition } from "foldkit/route"
@@ -47,6 +47,8 @@ import {
 	settleInfraSurfaces,
 	blockNavigation,
 	enterRoute,
+	hasLazyPageView,
+	loadPageView,
 	parkPages,
 	isBarePageRoute,
 	PageMessage,
@@ -82,6 +84,20 @@ const encodeJson = Schema.encodeSync(Schema.fromJsonString(Schema.Unknown))
 
 type UpdateReturn = Update.Return<Model, Message, Resources>
 type Step = Update.Step<Model, Message, Resources>
+
+/** The only place an import is initiated: a Command, not a view or update. */
+const LoadPageView = Command.define("LoadPageView", {
+  args: { pageId: Schema.String },
+  messages: [Message.LoadedPageView, Message.FailedPageView],
+  execute: ({ pageId }) =>
+    Effect.tryPromise({
+      try: () => loadPageView(pageId),
+      catch: (cause) => cause,
+    }).pipe(
+      Effect.as(Message.LoadedPageView({ pageId })),
+      Effect.catchAll(() => Effect.succeed(Message.FailedPageView({ pageId }))),
+    ),
+})
 
 // CHILDREN
 
@@ -395,9 +411,16 @@ const actOnPageOut = (model: Model, outMessage: Option.Option<PageOutMessage>) =
 const writePage =
 	(transition: PageTransition): Step =>
 	(model) => {
+    const pageToLoad =
+      transition.slot !== null &&
+      hasLazyPageView(transition.slot._tag) &&
+      model.viewLoads[transition.slot._tag] === undefined
+        ? transition.slot._tag
+        : null
 		// The page kept its slot and asked for nothing: same Model, so the frame is skipped.
 		if (
 			transition.slot === model.page &&
+			pageToLoad === null &&
 			model.preload.holder === pageIdentity(transition.slot) &&
 			transition.commands.length === 0 &&
 			Option.isNone(transition.outMessage)
@@ -415,6 +438,8 @@ const writePage =
 				page: () => transition.slot,
 				parkedPages: (parked) => parkPages(parked, followed.model.page, transition.slot),
 				pageInstances: (built) => Math.max(built, transition.slot?.instance ?? 0),
+        viewLoads: (loads) =>
+          pageToLoad === null ? loads : { ...loads, [pageToLoad]: "Loading" as const },
 				preload: () => held.model,
 			}),
 			commands: [
@@ -427,6 +452,7 @@ const writePage =
 				),
 				...followed.outCommands,
 				...followed.toastCommands,
+        ...(pageToLoad === null ? [] : [LoadPageView({ pageId: pageToLoad })]),
 			],
 		}
 	}
@@ -1086,6 +1112,20 @@ const foldMessage = (model: Model, message: Message) =>
 		CompletedReconnectOrgCollections: () => ({ model }),
 		CompletedRestoreDashboardWidgets: () => ({ model }),
 		GotPageMessage: ({ message }) => toPage(model, message),
+    LoadedPageView: ({ pageId }) => ({
+      model: model.viewLoads[pageId] !== "Loading"
+        ? model
+        : modifyFields(model, {
+            viewLoads: (loads) => ({ ...loads, [pageId]: "Loaded" as const }),
+          }),
+    }),
+    FailedPageView: ({ pageId }) => ({
+      model: model.viewLoads[pageId] !== "Loading"
+        ? model
+        : modifyFields(model, {
+            viewLoads: (loads) => ({ ...loads, [pageId]: "Failed" as const }),
+          }),
+    }),
 		GotOnboardingMessage: ({ message }) => updateOnboarding(model, message),
 		IntendedLink: ({ href, isImmediate }) =>
 			Option.match(Preload.intended(model.preload, href), {

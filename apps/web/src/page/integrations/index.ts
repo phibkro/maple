@@ -4,9 +4,11 @@ import { Message } from "./message"
 import { Model } from "./model"
 import { subscriptions } from "./subscription"
 import { contextChanged, init, routeChanged, update } from "./update"
-import { view } from "./view"
+import { lazyPageView } from "../lazy-view"
 
 /** `/integrations`: the hub, or one integration's page (`?integration=`). One instance for both. */
+const { view, loadView } = lazyPageView<Model, Message>(() => import("./view"))
+
 export const page = definePage(
 	"Integrations",
 	{ Model, Message },
@@ -17,6 +19,7 @@ export const page = definePage(
 		routeChanged,
 		contextChanged,
 		view,
+		loadView,
 		subscriptions,
 		breadcrumbs: (model) => {
 			const integration = integrationOfSearch(model.search.integration)

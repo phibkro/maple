@@ -46,6 +46,9 @@ export const Message = defineMessageUnion({
 	GotToastMessage: { message: Toast.Message },
 	GotTooltipMessage: { message: TooltipHost.Message },
 	GotPageMessage: { message: PageMessage },
+	/** Async module imports complete through Commands, never during a synchronous update. */
+	LoadedPageView: { pageId: Schema.String },
+	FailedPageView: { pageId: Schema.String },
 	GotOnboardingMessage: { message: Onboarding.Message },
 	/** Link intent (`page/preload.ts`): hovered, focused or touched; left or blurred. */
 	IntendedLink: { href: Schema.String, isImmediate: Schema.Boolean },
