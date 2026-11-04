@@ -3,9 +3,11 @@ import { Message } from "./message"
 import { Model } from "./model"
 import { contextChanged, init, preload, routeChanged, update } from "./update"
 import { subscriptions } from "./subscription"
-import { view } from "./view"
+import { lazyPageView } from "../../lazy-view"
 
 /** `/traces`: the trace list. One instance per org; search changes arrive as `routeChanged`. */
+const { view, loadView } = lazyPageView<Model, Message>(() => import("./view"))
+
 export const page = definePage(
 	"TracesList",
 	{ Model, Message },
@@ -17,6 +19,7 @@ export const page = definePage(
 		routeChanged,
 		contextChanged,
 		view,
+		loadView,
 		subscriptions,
 		breadcrumbs: () => [{ label: "Traces", isPageHeading: true }],
 	},
